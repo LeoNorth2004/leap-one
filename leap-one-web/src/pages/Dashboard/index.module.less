@@ -4,57 +4,388 @@
   .statCard {
     border-radius: var(--radius-lg);
     transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    animation: fadeInUp 0.4s ease-out forwards;
+    opacity: 0;
 
     :global(.ant-statistic-title) {
-      font-size: 14px;
+      font-size: 13px;
       color: var(--text-secondary);
+      margin-bottom: 4px;
     }
   }
 
-  .statIcon {
-    display: inline-flex;
+  .statCardInner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .statIconWrapper {
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform var(--transition-fast);
+  }
+
+  .statCard:hover .statIconWrapper {
+    transform: scale(1.05);
+  }
+
+  .statIcon {
+    font-size: 24px;
     color: #fff;
-    font-size: 20px;
-    margin-right: 10px;
+  }
+
+  .statContent {
+    flex: 1;
   }
 
   .trend {
-    margin-top: 8px;
+    margin-top: 6px;
     font-size: 13px;
+    display: flex;
+    align-items: center;
   }
 
-  /* 动态时间线卡片 */
+  .trendUp {
+    color: #52c41a;
+    font-weight: 500;
+  }
+
+  .trendDown {
+    color: #ff4d4f;
+    font-weight: 500;
+  }
+
+  .progressCard {
+    border-radius: var(--radius-lg);
+    animation: fadeInUp 0.4s ease-out 0.4s forwards;
+    opacity: 0;
+  }
+
+  .progressHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .progressTitle {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .progressContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+
+  .progressRing {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+  }
+
+  .progressSvg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  .progressBg {
+    transition: stroke var(--transition-normal);
+  }
+
+  [data-theme='dark'] .progressBg {
+    stroke: #303030;
+  }
+
+  .progressCircle {
+    transition: stroke-dasharray var(--transition-slow);
+    animation: progressDraw 1s ease-out forwards;
+  }
+
+  @keyframes progressDraw {
+    from {
+      stroke-dasharray: 0 251;
+    }
+  }
+
+  .progressText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .progressValue {
+    display: block;
+    font-size: 28px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #1677ff, #13c2c2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .progressLabel {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .progressStats {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .progressStatItem {
+    text-align: center;
+  }
+
+  .progressStatValue {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .progressStatLabel {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .progressStatDivider {
+    width: 1px;
+    height: 40px;
+    background: var(--border-color);
+  }
+
+  .chartCard {
+    border-radius: var(--radius-lg);
+    animation: fadeInUp 0.4s ease-out 0.5s forwards;
+    opacity: 0;
+  }
+
+  .chartHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .chartTitle {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .chartContent {
+    padding-top: 8px;
+  }
+
+  .weekChart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 120px;
+    gap: 8px;
+  }
+
+  .chartBarItem {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .chartBarWrapper {
+    flex: 1;
+    width: 100%;
+    max-width: 40px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .chartBar {
+    width: 24px;
+    border-radius: 12px 12px 0 0;
+    transition: height var(--transition-slow);
+    animation: barGrow 0.6s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes barGrow {
+    from {
+      height: 0 !important;
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .chartBarLabel {
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  .chartLegend {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 16px;
+  }
+
+  .legendItem {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .legendDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
   .activityCard,
   .todoCard,
   .calendarCard,
   .quickCard {
     border-radius: var(--radius-lg);
-    min-height: 360px;
+    animation: fadeInUp 0.4s ease-out 0.6s forwards;
+    opacity: 0;
   }
 
-  /* 待办列表 */
+  .activityCard {
+    min-height: 380px;
+  }
+
+  .todoCard {
+    min-height: 380px;
+  }
+
+  .calendarCard {
+    min-height: 380px;
+  }
+
+  .quickCard {
+    min-height: 380px;
+  }
+
+  .viewAllBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    border: none;
+    background: transparent;
+    color: var(--primary-color);
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+
+    &:hover {
+      background: rgba(22, 119, 255, 0.08);
+      transform: translateX(4px);
+    }
+  }
+
+  .timeline {
+    :global(.ant-timeline-item) {
+      padding-bottom: 16px;
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
+
+    :global(.ant-timeline-item-head) {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border-width: 3px;
+      border-style: solid;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+    }
+
+    :global(.ant-timeline-item-tail) {
+      width: 2px;
+      background: var(--border-color);
+    }
+  }
+
+  .timelineContent {
+    animation: fadeInLeft 0.3s ease-out forwards;
+    opacity: 0;
+  }
+
+  .timelineMeta {
+    margin-bottom: 4px;
+  }
+
+  .timelineText {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .timelineTarget {
+    color: var(--primary-color);
+    font-weight: 500;
+  }
+
   .todoItem {
-    padding: 10px 0 !important;
-    border-bottom: 1px solid var(--border-color);
+    padding: 12px 0 !important;
+    border-bottom: 1px solid var(--border-light);
+    transition: background-color var(--transition-fast);
 
     &:last-child {
       border-bottom: none;
     }
 
     &:hover {
-      background-color: rgba(22, 119, 255, 0.02);
+      background-color: rgba(22, 119, 255, 0.03);
       border-radius: var(--radius-md);
     }
+  }
+
+  .statusIcon {
+    font-size: 16px;
+    flex-shrink: 0;
   }
 
   .todoTitle {
     font-weight: 500;
     font-size: 14px;
+    color: var(--text-primary);
 
     &:hover {
       color: var(--primary-color);
@@ -68,7 +399,11 @@
     flex-wrap: wrap;
   }
 
-  /* 日历 */
+  .calendar {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
   .calendarCell {
     display: flex;
     flex-direction: column;
@@ -83,7 +418,6 @@
     font-size: 11px;
   }
 
-  /* 快捷入口网格 */
   .quickGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -94,14 +428,18 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 14px;
-    border-radius: var(--radius-md);
+    padding: 16px;
+    border-radius: var(--radius-lg);
     cursor: pointer;
-    transition: background-color var(--transition-fast), transform var(--transition-fast);
+    transition: all var(--transition-fast);
+    animation: fadeInScale 0.3s ease-out forwards;
+    opacity: 0;
+    background: var(--bg-hover);
 
     &:hover {
-      background-color: rgba(22, 119, 255, 0.04);
-      transform: translateY(-1px);
+      background: rgba(22, 119, 255, 0.06);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
     }
 
     &:active {
@@ -113,34 +451,62 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-md);
-    background-color: rgba(22, 119, 255, 0.08);
-    color: var(--primary-color);
-    font-size: 18px;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-lg);
+    font-size: 20px;
     flex-shrink: 0;
+    transition: transform var(--transition-fast);
+  }
+
+  .quickItem:hover .quickIcon {
+    transform: scale(1.1);
   }
 
   .quickTitle {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 14px;
     color: var(--text-primary);
   }
 
   .quickDesc {
     font-size: 12px;
-    color: var(--text-hint);
+    color: var(--text-secondary);
     margin-top: 2px;
   }
 
-  /* 响应式调整 */
+  .quickPlus {
+    margin-left: auto;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+  }
+
+  .quickItem:hover .quickPlus {
+    opacity: 1;
+  }
+
   @media (max-width: 992px) {
     .activityCard,
     .todoCard,
     .calendarCard,
     .quickCard {
       min-height: auto;
+    }
+
+    .progressContent {
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .weekChart {
+      height: 100px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .quickGrid {
+      grid-template-columns: 1fr;
     }
   }
 }

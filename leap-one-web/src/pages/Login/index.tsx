@@ -54,6 +54,13 @@ export default function LoginPage() {
       {/* 背景装饰 */}
       <div className={styles.loginBg} />
 
+      {/* 粒子效果 */}
+      <div className={styles.loginParticles}>
+        {[...Array(8)].map((_, i) => (
+          <span key={i} className={styles.particle} />
+        ))}
+      </div>
+
       {/* 主卡片容器 */}
       <div className={styles.loginContainer}>
         {/* ── 左侧品牌展示区 ──────────────────────────────── */}

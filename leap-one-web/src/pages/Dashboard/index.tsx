@@ -11,7 +11,7 @@
  * - Empty 占位（无数据时）
  */
 
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Row,
@@ -39,26 +39,28 @@ import {
   ClockCircleOutlined,
   CheckCircleOutlined,
   WarningOutlined,
+  PlusOutlined,
+  RocketOutlined,
+  AimOutlined,
+  BarChartOutlined,
 } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import PageHeader from '@/components/Common/PageHeader';
-import { PRIORITY_MAP, TASK_STATUS_MAP } from '@/utils/constants';
+import { PRIORITY_MAP } from '@/utils/constants';
 import type { TodoItem, CalendarEvent, ActivityItem } from '@/types/common';
 import styles from './index.module.less';
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
-// ─── Mock 数据函数（替换为真实 API 即可）────────────────────
-
-/** 获取统计数据 */
 async function fetchDashboardStats(): Promise<{
   taskCount: number;
   requirementCount: number;
   bugCount: number;
   issueCount: number;
+  completedTaskCount: number;
+  totalTaskCount: number;
+  sprintProgress: number;
 }> {
-  // TODO: 替换为真实 API 调用
-  // return get<DashboardStats>('/dashboard/stats');
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
@@ -66,14 +68,15 @@ async function fetchDashboardStats(): Promise<{
         requirementCount: 5,
         bugCount: 3,
         issueCount: 7,
+        completedTaskCount: 28,
+        totalTaskCount: 40,
+        sprintProgress: 70,
       });
     }, 600);
   });
 }
 
-/** 获取最近动态 */
 async function fetchRecentActivities(): Promise<ActivityItem[]> {
-  // TODO: 替换为真实 API 调用
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
@@ -87,9 +90,7 @@ async function fetchRecentActivities(): Promise<ActivityItem[]> {
   });
 }
 
-/** 获取待办事项 Top 5 */
 async function fetchTodoItems(): Promise<TodoItem[]> {
-  // TODO: 替换为真实 API 调用
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
@@ -103,28 +104,23 @@ async function fetchTodoItems(): Promise<TodoItem[]> {
   });
 }
 
-/** 获取日历日程 */
 async function fetchCalendarEvents(): Promise<CalendarEvent[]> {
-  // TODO: 替换为真实 API 调用
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
-        { id: 1, title: 'Sprint 迭代评审会', date: '2026-06-09', type: 'meeting', color: '#1677ff' },
-        { id: 2, title: 'V1.2 版本发布', date: '2026-06-12', type: 'deadline', color: '#ff4d4f' },
-        { id: 3, title: '需求评审会议', date: '2026-06-10', type: 'review', color: '#faad14' },
-        { id: 4, title: '技术方案讨论', date: '2026-06-11', type: 'meeting', color: '#1677ff' },
-        { id: 5, title: '代码审查截止', date: '2026-06-13', type: 'deadline', color: '#ff4d4f' },
+        { id: 1, title: 'Sprint 迭代评审会', date: dayjs().add(1, 'day').format('YYYY-MM-DD'), type: 'meeting', color: '#1677ff' },
+        { id: 2, title: 'V1.2 版本发布', date: dayjs().add(4, 'day').format('YYYY-MM-DD'), type: 'deadline', color: '#ff4d4f' },
+        { id: 3, title: '需求评审会议', date: dayjs().add(2, 'day').format('YYYY-MM-DD'), type: 'review', color: '#faad14' },
+        { id: 4, title: '技术方案讨论', date: dayjs().add(3, 'day').format('YYYY-MM-DD'), type: 'meeting', color: '#1677ff' },
+        { id: 5, title: '代码审查截止', date: dayjs().add(5, 'day').format('YYYY-MM-DD'), type: 'deadline', color: '#ff4d4f' },
       ]);
     }, 300);
   });
 }
 
-// ─── 组件 ──────────────────────────────────────────────────────
-
 export default function Dashboard() {
   const navigate = useNavigate();
 
-  // TanStack Query 数据获取
   const { data: statsData, isLoading: statsLoading } = useQuery({
     queryKey: ['dashboard-stats'],
     queryFn: fetchDashboardStats,
@@ -149,7 +145,6 @@ export default function Dashboard() {
     staleTime: 10 * 60 * 1000,
   });
 
-  // ─── 统计卡片配置 ────────────────────────────────────────────
   const statCards = useMemo(
     () =>
       statsData
@@ -159,65 +154,74 @@ export default function Dashboard() {
               value: statsData.taskCount,
               icon: <CarryOutOutlined />,
               color: '#1677ff',
+              gradient: 'linear-gradient(135deg, #1677ff 0%, #4096ff 100%)',
               trend: 8,
               suffix: '个',
+              delay: 0,
             },
             {
               title: '我的需求',
               value: statsData.requirementCount,
               icon: <FileTextOutlined />,
               color: '#13c2c2',
+              gradient: 'linear-gradient(135deg, #13c2c2 0%, #36cfc9 100%)',
               trend: -2,
               suffix: '个',
+              delay: 0.1,
             },
             {
               title: '待修复 Bug',
               value: statsData.bugCount,
               icon: <BugOutlined />,
               color: '#ff4d4f',
+              gradient: 'linear-gradient(135deg, #ff4d4f 0%, #ff7875 100%)',
               trend: 1,
               suffix: '个',
+              delay: 0.2,
             },
             {
               title: '我的工单',
               value: statsData.issueCount,
               icon: <CustomerServiceOutlined />,
               color: '#faad14',
+              gradient: 'linear-gradient(135deg, #faad14 0%, #ffc53d 100%)',
               trend: 3,
               suffix: '个',
+              delay: 0.3,
             },
           ]
         : [],
     [statsData]
   );
 
-  // ─── 动态时间线项 ────────────────────────────────────────────
   const timelineItems = useMemo(
     () =>
-      activities?.map((item) => ({
+      activities?.map((item, index) => ({
         color: item.targetType === 'bug'
-          ? 'red'
+          ? '#ff4d4f'
           : item.targetType === 'requirement'
-            ? 'blue'
+            ? '#1677ff'
             : item.targetType === 'task'
-              ? 'green'
-              : 'orange',
+              ? '#52c41a'
+              : '#faad14',
         children: (
-          <div>
-            <Text type="secondary" style={{ fontSize: 12 }}>
-              {item.timestamp}
-            </Text>
-            <br />
-            <Text>
-              {item.user} {item.action} {item.target}
-            </Text>
+          <div className={styles.timelineContent} style={{ animationDelay: `${index * 0.1}s` }}>
+            <div className={styles.timelineMeta}>
+              <Text type="secondary" style={{ fontSize: 12 }}>
+                {item.timestamp}
+              </Text>
+            </div>
+            <div className={styles.timelineText}>
+              <Text strong>{item.user}</Text>
+              <Text type="secondary" style={{ margin: '0 4px' }}>{item.action}</Text>
+              <Text className={styles.timelineTarget}>{item.target}</Text>
+            </div>
           </div>
         ),
       })) ?? [],
     [activities]
   );
 
-  // ─── 日历单元格渲染 ──────────────────────────────────────────
   const cellRender = useCallback(
     (date: Dayjs) => {
       const dateStr = date.format('YYYY-MM-DD');
@@ -251,37 +255,33 @@ export default function Dashboard() {
     [calendarEvents]
   );
 
-  // ─── 待办优先级图标 ──────────────────────────────────────────
   const getPriorityTag = (priority: string) => {
     const info = PRIORITY_MAP[priority];
     return info ? <Tag color={info.color}>{info.label}</Tag> : null;
   };
 
-  /** 获取待办状态图标 */
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'doing':
       case 'active':
-        return <ClockCircleOutlined style={{ color: '#1677ff' }} />;
+        return <ClockCircleOutlined className={styles.statusIcon} style={{ color: '#1677ff' }} />;
       case 'done':
       case 'resolved':
-        return <CheckCircleOutlined style={{ color: '#52c41a' }} />;
+        return <CheckCircleOutlined className={styles.statusIcon} style={{ color: '#52c41a' }} />;
       case 'wait':
-        return <WarningOutlined style={{ color: '#faad14' }} />;
+        return <WarningOutlined className={styles.statusIcon} style={{ color: '#faad14' }} />;
       default:
-        return <ClockCircleOutlined style={{ color: '#86909c' }} />;
+        return <ClockCircleOutlined className={styles.statusIcon} style={{ color: '#86909c' }} />;
     }
   };
 
-  // ─── 快捷操作入口 ────────────────────────────────────────────
   const quickActions = [
-    { title: '创建任务', desc: '新建一个任务', icon: <CarryOutOutlined />, path: '/task/list' },
-    { title: '提交 Bug', desc: '报告一个问题', icon: <BugOutlined />, path: '/quality/bug' },
-    { title: '创建工单', desc: '提交服务请求', icon: <CustomerServiceOutlined />, path: '/issue/list' },
-    { title: '写文档', desc: '编辑项目文档', icon: <FileTextOutlined />, path: '/document/list' },
+    { title: '创建任务', desc: '新建一个任务', icon: <CarryOutOutlined />, path: '/task/list', color: '#1677ff' },
+    { title: '提交 Bug', desc: '报告一个问题', icon: <BugOutlined />, path: '/quality/bug', color: '#ff4d4f' },
+    { title: '创建工单', desc: '提交服务请求', icon: <CustomerServiceOutlined />, path: '/issue/list', color: '#faad14' },
+    { title: '写文档', desc: '编辑项目文档', icon: <FileTextOutlined />, path: '/document/list', color: '#13c2c2' },
   ];
 
-  // 全局加载状态
   if (statsLoading && !statsData) {
     return (
       <div className={styles.dashboard}>
@@ -303,65 +303,179 @@ export default function Dashboard() {
         })}`}
       />
 
-      {/* ═══ 统计卡片区域 ═══ */}
       <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
         {statCards.map((stat) => (
           <Col xs={24} sm={12} lg={6} key={stat.title}>
-            <Card className={`${styles.statCard} card-hover`}>
-              <Statistic
-                title={stat.title}
-                value={stat.value}
-                suffix={stat.suffix}
-                prefix={
-                  <span className={styles.statIcon} style={{ backgroundColor: stat.color }}>
-                    {stat.icon}
-                  </span>
-                }
-                valueStyle={{ fontSize: 28, fontWeight: 700 }}
-              />
-              <div className={styles.trend}>
-                {stat.trend > 0 ? (
-                  <span style={{ color: '#52c41a' }}>
-                    <ArrowUpOutlined /> +{Math.abs(stat.trend)}
-                  </span>
-                ) : (
-                  <span style={{ color: '#ff4d4f' }}>
-                    <ArrowDownOutlined /> {stat.trend}
-                  </span>
-                )}
-                <Text type="secondary" style={{ marginLeft: 8 }}>
-                  较昨日
-                </Text>
+            <Card
+              className={`${styles.statCard} card-hover`}
+              style={{ animationDelay: `${stat.delay}s` }}
+              bordered={false}
+            >
+              <div className={styles.statCardInner}>
+                <div className={styles.statIconWrapper} style={{ background: stat.gradient }}>
+                  <span className={styles.statIcon}>{stat.icon}</span>
+                </div>
+                <div className={styles.statContent}>
+                  <Statistic
+                    title={stat.title}
+                    value={stat.value}
+                    suffix={stat.suffix}
+                    valueStyle={{ fontSize: 28, fontWeight: 700, color: stat.color }}
+                  />
+                  <div className={styles.trend}>
+                    {stat.trend > 0 ? (
+                      <span className={styles.trendUp}>
+                        <ArrowUpOutlined /> +{Math.abs(stat.trend)}
+                      </span>
+                    ) : (
+                      <span className={styles.trendDown}>
+                        <ArrowDownOutlined /> {stat.trend}
+                      </span>
+                    )}
+                    <Text type="secondary" style={{ marginLeft: 8, fontSize: 12 }}>
+                      较昨日
+                    </Text>
+                  </div>
+                </div>
               </div>
             </Card>
           </Col>
         ))}
       </Row>
 
-      {/* ═══ 主要内容区：动态 + 待办 + 快捷入口 + 日历 ═══ */}
+      {statsData && (
+        <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
+          <Col xs={24} lg={8}>
+            <Card className={`${styles.progressCard} card-hover`} bordered={false}>
+              <div className={styles.progressHeader}>
+                <AimOutlined style={{ color: '#1677ff', fontSize: 20 }} />
+                <span className={styles.progressTitle}>迭代进度</span>
+              </div>
+              <div className={styles.progressContent}>
+                <div className={styles.progressRing}>
+                  <svg className={styles.progressSvg} viewBox="0 0 100 100">
+                    <circle
+                      className={styles.progressBg}
+                      cx="50"
+                      cy="50"
+                      r="40"
+                      fill="none"
+                      stroke="#e5e6eb"
+                      strokeWidth="8"
+                    />
+                    <circle
+                      className={styles.progressCircle}
+                      cx="50"
+                      cy="50"
+                      r="40"
+                      fill="none"
+                      stroke="url(#progressGradient)"
+                      strokeWidth="8"
+                      strokeLinecap="round"
+                      strokeDasharray={`${statsData.sprintProgress * 2.51} 251`}
+                      transform="rotate(-90 50 50)"
+                    />
+                    <defs>
+                      <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#1677ff" />
+                        <stop offset="100%" stopColor="#13c2c2" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div className={styles.progressText}>
+                    <span className={styles.progressValue}>{statsData.sprintProgress}%</span>
+                    <span className={styles.progressLabel}>完成</span>
+                  </div>
+                </div>
+                <div className={styles.progressStats}>
+                  <div className={styles.progressStatItem}>
+                    <span className={styles.progressStatValue}>{statsData.completedTaskCount}</span>
+                    <span className={styles.progressStatLabel}>已完成</span>
+                  </div>
+                  <div className={styles.progressStatDivider} />
+                  <div className={styles.progressStatItem}>
+                    <span className={styles.progressStatValue}>{statsData.totalTaskCount}</span>
+                    <span className={styles.progressStatLabel}>总任务</span>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </Col>
+          <Col xs={24} lg={16}>
+            <Card className={`${styles.chartCard} card-hover`} bordered={false}>
+              <div className={styles.chartHeader}>
+                <BarChartOutlined style={{ color: '#13c2c2', fontSize: 20 }} />
+                <span className={styles.chartTitle}>本周工作趋势</span>
+              </div>
+              <div className={styles.chartContent}>
+                <div className={styles.weekChart}>
+                  {['周一', '周二', '周三', '周四', '周五', '周六', '周日'].map((day, idx) => {
+                    const heights = [60, 80, 45, 90, 70, 30, 55];
+                    return (
+                      <div key={day} className={styles.chartBarItem}>
+                        <div className={styles.chartBarWrapper}>
+                          <div
+                            className={styles.chartBar}
+                            style={{
+                              height: `${heights[idx]}%`,
+                              background: `linear-gradient(180deg, #1677ff 0%, #13c2c2 100%)`,
+                              animationDelay: `${idx * 0.1}s`,
+                            }}
+                          />
+                        </div>
+                        <span className={styles.chartBarLabel}>{day}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className={styles.chartLegend}>
+                  <span className={styles.legendItem}>
+                    <span className={styles.legendDot} style={{ background: '#1677ff' }} />
+                    任务完成
+                  </span>
+                  <span className={styles.legendItem}>
+                    <span className={styles.legendDot} style={{ background: '#13c2c2' }} />
+                    需求处理
+                  </span>
+                </div>
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      )}
+
       <Row gutter={[16, 16]}>
-        {/* 最近动态时间线 */}
         <Col xs={24} lg={12}>
           <Card
             title="最近动态"
             className={`${styles.activityCard} card-hover`}
             loading={activitiesLoading}
+            bordered={false}
+            extra={
+              <button className={styles.viewAllBtn} onClick={() => navigate('/activity')}>
+                查看全部 <RocketOutlined style={{ fontSize: 12 }} />
+              </button>
+            }
           >
             {timelineItems.length > 0 ? (
-              <Timeline items={timelineItems} />
+              <Timeline items={timelineItems} className={styles.timeline} />
             ) : (
               <Empty description="暂无动态" image={Empty.PRESENTED_IMAGE_SIMPLE} />
             )}
           </Card>
         </Col>
 
-        {/* 待办事项 Top 5 */}
         <Col xs={24} lg={12}>
           <Card
             title="我的待办"
             className={`${styles.todoCard} card-hover`}
             loading={todosLoading}
-            extra={<a onClick={() => navigate('/task/list')}>查看全部</a>}
+            bordered={false}
+            extra={
+              <button className={styles.viewAllBtn} onClick={() => navigate('/task/list')}>
+                查看全部 <RocketOutlined style={{ fontSize: 12 }} />
+              </button>
+            }
           >
             {todoList && todoList.length > 0 ? (
               <List
@@ -389,7 +503,7 @@ export default function Dashboard() {
                       description={
                         <span className={styles.todoMeta}>
                           {todo.projectName && (
-                            <Tag>{todo.projectName}</Tag>
+                            <Tag color="#1677ff">{todo.projectName}</Tag>
                           )}
                           {todo.dueDate && (
                             <Text type="secondary" style={{ fontSize: 12 }}>
@@ -408,26 +522,25 @@ export default function Dashboard() {
           </Card>
         </Col>
 
-        {/* 日历视图 */}
         <Col xs={24} lg={12}>
           <Card
             title="日程安排"
             className={`${styles.calendarCard} card-hover`}
             loading={calendarLoading}
+            bordered={false}
           >
             <Calendar
               fullscreen={false}
               cellRender={(date) => cellRender(date as unknown as Dayjs)}
-              style={{ borderRadius: 8 }}
+              className={styles.calendar}
             />
           </Card>
         </Col>
 
-        {/* 快捷入口 */}
         <Col xs={24} lg={12}>
-          <Card title="快捷入口" className={`${styles.quickCard} card-hover`}>
+          <Card title="快捷入口" className={`${styles.quickCard} card-hover`} bordered={false}>
             <div className={styles.quickGrid}>
-              {quickActions.map((action) => (
+              {quickActions.map((action, index) => (
                 <div
                   key={action.title}
                   className={styles.quickItem}
@@ -435,12 +548,16 @@ export default function Dashboard() {
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => e.key === 'Enter' && navigate(action.path)}
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <span className={styles.quickIcon}>{action.icon}</span>
+                  <span className={styles.quickIcon} style={{ background: `${action.color}15`, color: action.color }}>
+                    {action.icon}
+                  </span>
                   <div>
                     <div className={styles.quickTitle}>{action.title}</div>
                     <div className={styles.quickDesc}>{action.desc}</div>
                   </div>
+                  <PlusOutlined className={styles.quickPlus} style={{ color: action.color }} />
                 </div>
               ))}
             </div>

@@ -9,7 +9,7 @@
 
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Layout, Dropdown, Avatar, Badge, Input, Switch, Tooltip } from 'antd';
+import { Layout, Dropdown, Avatar, Input, Switch, Tooltip } from 'antd';
 import type { MenuProps } from 'antd';
 import {
   BellOutlined,
@@ -21,6 +21,7 @@ import {
   SunOutlined,
   MoonOutlined,
   SearchOutlined,
+  DownOutlined,
 } from '@ant-design/icons';
 import BreadcrumbNav from './BreadcrumbNav';
 import { useAuth } from '@/hooks/useAuth';
@@ -37,9 +38,8 @@ export default function HeaderBar() {
   const sidebarCollapsed = useAppStore((state) => state.sidebarCollapsed);
   const { isDark, toggleTheme } = useTheme();
   const [searchValue, setSearchValue] = useState('');
-  const [notifCount] = useState(3); // TODO: 从通知 API 获取未读数
+  const [notifCount] = useState(3);
 
-  /** 用户下拉菜单项 */
   const userMenuItems: MenuProps['items'] = [
     {
       key: 'profile',
@@ -63,7 +63,6 @@ export default function HeaderBar() {
     },
   ];
 
-  /** 全局搜索处理 */
   const handleSearch = useCallback(
     (value: string) => {
       if (value.trim()) {
@@ -73,7 +72,6 @@ export default function HeaderBar() {
     [navigate]
   );
 
-  /** 回车搜索 */
   const handleSearchPress = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
@@ -85,34 +83,29 @@ export default function HeaderBar() {
 
   return (
     <Header className={styles.headerBar}>
-      {/* ── 左侧区域 ──────────────────────────────────────── */}
       <div className={styles.headerLeft}>
-        {/* 折叠 / 展开侧边栏按钮 */}
         <Tooltip title={sidebarCollapsed ? '展开菜单' : '收起菜单'}>
           <span className={styles.collapseBtn} onClick={toggleSidebar}>
             {sidebarCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           </span>
         </Tooltip>
 
-        {/* 面包屑导航 */}
         <BreadcrumbNav />
       </div>
 
-      {/* ── 右侧区域 ──────────────────────────────────────── */}
       <div className={styles.headerRight}>
-        {/* 全局搜索框 */}
-        <Input
-          placeholder="全局搜索..."
-          prefix={<SearchOutlined style={{ color: '#86909c' }} />}
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          onKeyDown={handleSearchPress}
-          allowClear
-          style={{ width: 200 }}
-          className={styles.searchInput}
-        />
+        <div className={styles.searchWrapper}>
+          <Input
+            placeholder="全局搜索..."
+            prefix={<SearchOutlined style={{ color: '#86909c' }} />}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            onKeyDown={handleSearchPress}
+            allowClear
+            className={styles.searchInput}
+          />
+        </div>
 
-        {/* 主题切换开关 */}
         <Tooltip title={isDark ? '切换亮色模式' : '切换暗色模式'}>
           <Switch
             checkedChildren={<MoonOutlined />}
@@ -124,29 +117,34 @@ export default function HeaderBar() {
           />
         </Tooltip>
 
-        {/* 通知铃铛（带未读数红点） */}
+        <div className={styles.divider} />
+
         <Tooltip title="通知中心">
-          <Badge count={notifCount} size="small" offset={[-2, 2]}>
-            <BellOutlined
-              className={styles.headerIcon}
-              onClick={() => navigate('/notification')}
-            />
-          </Badge>
+          <span className={styles.headerIcon} onClick={() => navigate('/notification')}>
+            <BellOutlined />
+            {notifCount > 0 && (
+              <span className={styles.notificationBadge}>
+                {notifCount > 99 ? '99+' : notifCount}
+              </span>
+            )}
+          </span>
         </Tooltip>
 
-        {/* 用户头像 + 下拉菜单 */}
         <Dropdown menu={{ items: userMenuItems }} placement="bottomRight" arrow>
           <div className={styles.userArea}>
             <Avatar
               src={user?.avatar}
               icon={!user?.avatar ? <UserOutlined /> : undefined}
               size={32}
-              style={{ flexShrink: 0 }}
+              className={styles.userAvatar}
             />
             {!sidebarCollapsed && (
-              <span className={styles.userName}>
-                {user?.realName ?? '用户'}
-              </span>
+              <>
+                <span className={styles.userName}>
+                  {user?.realName ?? '用户'}
+                </span>
+                <DownOutlined style={{ fontSize: 12, color: '#86909c' }} />
+              </>
             )}
           </div>
         </Dropdown>

@@ -3,6 +3,8 @@
 .mainLayout {
   min-height: 100vh;
   display: flex;
+  background: var(--bg-color);
+  transition: background-color var(--transition-normal);
 }
 
 .rightLayout {
@@ -10,19 +12,40 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  min-width: 0;
 }
 
 .contentArea {
-  margin: 16px;
-  padding: 24px;
-  background: var(--bg-color);
-  border-radius: var(--radius-lg);
+  margin: 20px;
+  padding: 28px;
+  background: var(--bg-white);
+  border-radius: var(--radius-xl);
   overflow-y: auto;
   flex: 1;
-  transition: background-color var(--transition-normal);
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+}
 
-  /* 暗色模式微调 */
-  [data-theme='dark'] & {
-    background: var(--bg-color);
-  }
+[data-theme='dark'] .contentArea {
+  background: var(--bg-elevated);
+  border-color: var(--border-color);
+  box-shadow: var(--shadow-md);
+}
+
+.contentArea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.contentArea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.contentArea::-webkit-scrollbar-thumb {
+  background: var(--text-hint);
+  border-radius: 3px;
+}
+
+.contentArea::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
 }

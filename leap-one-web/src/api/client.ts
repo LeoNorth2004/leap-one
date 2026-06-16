@@ -218,4 +218,5 @@ export function del<T = unknown>(
 
 // ─── 导出 ─────────────────────────────────────────────────────────
 
+export { client as apiClient };
 export default client;
