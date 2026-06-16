@@ -15,14 +15,14 @@ type Config struct {
 	Redis    RedisConfig    `mapstructure:"redis"`
 }
 
-// ServerConfig HTTP服务器配�?type ServerConfig struct {
+// ServerConfig HTTP服务器配�?type ServerConfig struct {
 	Host         string        `mapstructure:"host"`
 	Port         int           `mapstructure:"port"`
 	ReadTimeout  time.Duration `mapstructure:"read_timeout"`
 	WriteTimeout time.Duration `mapstructure:"write_timeout"`
 }
 
-// DatabaseConfig 数据库配�?type DatabaseConfig struct {
+// DatabaseConfig 数据库配�?type DatabaseConfig struct {
 	Host            string        `mapstructure:"host"`
 	Port            int           `mapstructure:"port"`
 	User            string        `mapstructure:"user"`
@@ -42,7 +42,7 @@ type RedisConfig struct {
 	DB       int    `mapstructure:"db"`
 }
 
-// DSN 构建PostgreSQL连接字符�?func (d *DatabaseConfig) DSN() string {
+// DSN 构建PostgreSQL连接字符�?func (d *DatabaseConfig) DSN() string {
 	return fmt.Sprintf(
 		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
 		d.Host, d.Port, d.User, d.Password, d.DBName, d.SSLMode,
@@ -84,7 +84,7 @@ func Load(configPath string) (*Config, error) {
 	return &cfg, nil
 }
 
-// setDefaults 设置默认配置�?func setDefaults(v *viper.Viper) {
+// setDefaults 设置默认配置�?func setDefaults(v *viper.Viper) {
 	v.SetDefault("server.host", "0.0.0.0")
 	v.SetDefault("server.port", 8010)
 	v.SetDefault("server.read_timeout", 30*time.Second)

@@ -43,7 +43,7 @@ func (s *AIService) CreateConversationUseCase(ctx context.Context, userID uuid.U
 		Title:  title,
 		Model:  model,
 	}
-	if conv.Title == "" { conv.Title = "新对�? }
+	if conv.Title == "" { conv.Title = "新对�? }
 	if conv.Model == "" { conv.Model = "gpt-4" }
 
 	if err := s.convRepo.Create(ctx, conv); err != nil {
@@ -53,7 +53,7 @@ func (s *AIService) CreateConversationUseCase(ctx context.Context, userID uuid.U
 	return conv, nil
 }
 
-// SendMessageUseCase 发送消息用例（含AI回复生成�?func (s *AIService) SendMessageUseCase(ctx context.Context, conversationID uuid.UUID, content string) (*entity.AIMessage, error) {
+// SendMessageUseCase 发送消息用例（含AI回复生成�?func (s *AIService) SendMessageUseCase(ctx context.Context, conversationID uuid.UUID, content string) (*entity.AIMessage, error) {
 	// 保存用户消息
 	userMsg := &entity.AIMessage{ConversationID: conversationID, Role: "user", Content: content}
 	if err := s.msgRepo.Create(ctx, userMsg); err != nil {
@@ -64,7 +64,7 @@ func (s *AIService) CreateConversationUseCase(ctx context.Context, userID uuid.U
 	aiCfg, _ := s.cfgRepo.GetActive(ctx)
 
 	// TODO: 实际调用AI API生成回复，此处为模拟
-	replyContent := "感谢您的提问。我是Leap One AI助手�?
+	replyContent := "感谢您的提问。我是Leap One AI助手�?
 	model := "gpt-4"
 	if aiCfg != nil { model = aiCfg.Model }
 

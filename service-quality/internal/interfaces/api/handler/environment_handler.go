@@ -26,7 +26,7 @@ func NewEnvironmentHandler(envRepo repository.EnvironmentRepository, logger *zap
 	}
 }
 
-// CreateEnvironment 创建环境（POST /api/v1/environments�?func (h *EnvironmentHandler) CreateEnvironment(c *gin.Context) {
+// CreateEnvironment 创建环境（POST /api/v1/environments�?func (h *EnvironmentHandler) CreateEnvironment(c *gin.Context) {
 	var req dto.CreateEnvironmentRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "请求参数错误: " + err.Error()})
@@ -64,7 +64,7 @@ func NewEnvironmentHandler(envRepo repository.EnvironmentRepository, logger *zap
 	})
 }
 
-// ListEnvironments 环境列表（GET /api/v1/environments�?func (h *EnvironmentHandler) ListEnvironments(c *gin.Context) {
+// ListEnvironments 环境列表（GET /api/v1/environments�?func (h *EnvironmentHandler) ListEnvironments(c *gin.Context) {
 	includeInactive := c.DefaultQuery("include_inactive", "false") == "true"
 
 	ctx := c.Request.Context()
@@ -94,7 +94,7 @@ func NewEnvironmentHandler(envRepo repository.EnvironmentRepository, logger *zap
 	c.JSON(http.StatusOK, dto.EnvironmentListResponse{List: list})
 }
 
-// GetEnvironment 环境详情（GET /api/v1/environments/:id�?func (h *EnvironmentHandler) GetEnvironment(c *gin.Context) {
+// GetEnvironment 环境详情（GET /api/v1/environments/:id�?func (h *EnvironmentHandler) GetEnvironment(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "无效的环境ID格式"})
@@ -104,7 +104,7 @@ func NewEnvironmentHandler(envRepo repository.EnvironmentRepository, logger *zap
 	ctx := c.Request.Context()
 	env, err := h.envRepo.GetByID(ctx, id)
 	if err != nil || env == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "测试环境不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "测试环境不存�?})
 		return
 	}
 
@@ -122,7 +122,7 @@ func NewEnvironmentHandler(envRepo repository.EnvironmentRepository, logger *zap
 	})
 }
 
-// UpdateEnvironment 更新环境（PUT /api/v1/environments/:id�?func (h *EnvironmentHandler) UpdateEnvironment(c *gin.Context) {
+// UpdateEnvironment 更新环境（PUT /api/v1/environments/:id�?func (h *EnvironmentHandler) UpdateEnvironment(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "无效的环境ID格式"})
@@ -138,7 +138,7 @@ func NewEnvironmentHandler(envRepo repository.EnvironmentRepository, logger *zap
 	ctx := c.Request.Context()
 	env, err := h.envRepo.GetByID(ctx, id)
 	if err != nil || env == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "测试环境不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "测试环境不存�?})
 		return
 	}
 
@@ -173,7 +173,7 @@ func NewEnvironmentHandler(envRepo repository.EnvironmentRepository, logger *zap
 	c.JSON(http.StatusOK, gin.H{"message": "测试环境更新成功"})
 }
 
-// DeleteEnvironment 删除环境（DELETE /api/v1/environments/:id�?func (h *EnvironmentHandler) DeleteEnvironment(c *gin.Context) {
+// DeleteEnvironment 删除环境（DELETE /api/v1/environments/:id�?func (h *EnvironmentHandler) DeleteEnvironment(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "无效的环境ID格式"})
@@ -183,7 +183,7 @@ func NewEnvironmentHandler(envRepo repository.EnvironmentRepository, logger *zap
 	ctx := c.Request.Context()
 	env, getErr := h.envRepo.GetByID(ctx, id)
 	if getErr != nil || env == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "测试环境不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "测试环境不存�?})
 		return
 	}
 

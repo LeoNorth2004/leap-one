@@ -49,7 +49,7 @@ func (r *BugRepositoryImpl) Update(ctx context.Context, bug *entity.Bug) error {
 	return r.db.WithContext(ctx).Save(bug).Error
 }
 
-// Delete 删除Bug（软删除�?func (r *BugRepositoryImpl) Delete(ctx context.Context, id uuid.UUID) error {
+// Delete 删除Bug（软删除�?func (r *BugRepositoryImpl) Delete(ctx context.Context, id uuid.UUID) error {
 	return r.db.WithContext(ctx).Delete(&entity.Bug{}, "id = ?", id).Error
 }
 
@@ -79,7 +79,7 @@ func (r *BugRepositoryImpl) List(ctx context.Context, page, pageSize int, filter
 	return bugs, total, nil
 }
 
-// ListMyBugs 查询"我的Bug"（我提报�?+ 我负责的�?func (r *BugRepositoryImpl) ListMyBugs(ctx context.Context, userID uuid.UUID, page, pageSize int) ([]*entity.Bug, int64, error) {
+// ListMyBugs 查询"我的Bug"（我提报�?+ 我负责的�?func (r *BugRepositoryImpl) ListMyBugs(ctx context.Context, userID uuid.UUID, page, pageSize int) ([]*entity.Bug, int64, error) {
 	var bugs []*entity.Bug
 	var total int64
 
@@ -103,7 +103,7 @@ func (r *BugRepositoryImpl) List(ctx context.Context, page, pageSize int, filter
 	return bugs, total, nil
 }
 
-// ConfirmBug 确认Bug（new �?confirmed�?func (r *BugRepositoryImpl) ConfirmBug(ctx context.Context, id uuid.UUID, confirmedBy uuid.UUID) error {
+// ConfirmBug 确认Bug（new �?confirmed�?func (r *BugRepositoryImpl) ConfirmBug(ctx context.Context, id uuid.UUID, confirmedBy uuid.UUID) error {
 	now := time.Now()
 	return r.db.WithContext(ctx).
 		Model(&entity.Bug{}).
@@ -115,7 +115,7 @@ func (r *BugRepositoryImpl) List(ctx context.Context, page, pageSize int, filter
 		}).Error
 }
 
-// ResolveBug 解决Bug（in_progress �?resolved�?func (r *BugRepositoryImpl) ResolveBug(ctx context.Context, id uuid.UUID, resolution string, resolvedBy uuid.UUID) error {
+// ResolveBug 解决Bug（in_progress �?resolved�?func (r *BugRepositoryImpl) ResolveBug(ctx context.Context, id uuid.UUID, resolution string, resolvedBy uuid.UUID) error {
 	now := time.Now()
 	return r.db.WithContext(ctx).
 		Model(&entity.Bug{}).
@@ -128,7 +128,7 @@ func (r *BugRepositoryImpl) List(ctx context.Context, page, pageSize int, filter
 		}).Error
 }
 
-// CloseBug 关闭Bug（resolved �?closed�?func (r *BugRepositoryImpl) CloseBug(ctx context.Context, id uuid.UUID, closedBy uuid.UUID) error {
+// CloseBug 关闭Bug（resolved �?closed�?func (r *BugRepositoryImpl) CloseBug(ctx context.Context, id uuid.UUID, closedBy uuid.UUID) error {
 	now := time.Now()
 	return r.db.WithContext(ctx).
 		Model(&entity.Bug{}).
@@ -222,7 +222,7 @@ func (r *BugRepositoryImpl) GetStatistics(ctx context.Context, productID, projec
 	// 总数统计
 	baseQuery.Count(&stats.TotalCount)
 
-	// 各状态数量统�?	statuses := []struct {
+	// 各状态数量统�?	statuses := []struct {
 		Field *int64
 		Value string
 	}{
@@ -244,7 +244,7 @@ func (r *BugRepositoryImpl) GetStatistics(ctx context.Context, productID, projec
 		q.Where("status = ?", s.Value).Count(s.Field)
 	}
 
-	// 按严重程度分�?	var severityStats []struct {
+	// 按严重程度分�?	var severityStats []struct {
 		Severity int
 		Count    int64
 	}
@@ -277,7 +277,7 @@ func (r *BugRepositoryImpl) GetStatistics(ctx context.Context, productID, projec
 		stats.ByPriority[p.Priority] = p.Count
 	}
 
-	// 按类型分�?	var typeStats []struct {
+	// 按类型分�?	var typeStats []struct {
 		BugType string
 		Count   int64
 	}
@@ -296,7 +296,7 @@ func (r *BugRepositoryImpl) GetStatistics(ctx context.Context, productID, projec
 	return stats, nil
 }
 
-// applyBugFilter 应用Bug高级筛选条件到查询构建�?func (r *BugRepositoryImpl) applyBugFilter(query *gorm.DB, filter *repository.BugFilter) *gorm.DB {
+// applyBugFilter 应用Bug高级筛选条件到查询构建�?func (r *BugRepositoryImpl) applyBugFilter(query *gorm.DB, filter *repository.BugFilter) *gorm.DB {
 	if filter == nil {
 		return query
 	}

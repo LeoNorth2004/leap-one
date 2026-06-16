@@ -43,7 +43,7 @@ func (s *BoardService) List(ownerID uuid.UUID, boardType string) ([]*entity.Kanb
 	return s.boardRepo.List(ownerID, boardType)
 }
 
-// ColumnService 列管理服�?
+// ColumnService 列管理服�?
 type ColumnService struct {
 	repo     repository.ColumnRepository
 	cardRepo repository.CardRepository
@@ -123,7 +123,7 @@ func (s *CardService) Move(cardID, toColumnID, movedBy uuid.UUID) error {
 	if col.WIPLimit != nil && *col.WIPLimit > 0 {
 		existingCards, _ := s.repo.ListByColumnID(toColumnID)
 		if len(existingCards) >= *col.WIPLimit {
-			return fmt.Errorf("列[%s]已达WIP限制(%d)，无法移动卡�?, col.Name, *col.WIPLimit)
+			return fmt.Errorf("列[%s]已达WIP限制(%d)，无法移动卡�?, col.Name, *col.WIPLimit)
 		}
 	}
 	return s.repo.Move(cardID, toColumnID, movedBy)
@@ -161,7 +161,7 @@ func (s *StatisticsService) GetBoardStats(boardID uuid.UUID) (map[string]interfa
 	cards, _ := s.cardRepo.ListByBoardID(boardID)
 	columns, _ := s.columnRepo.ListByBoardID(boardID)
 
-	// 按列统计卡片�?
+	// 按列统计卡片�?
 	cardCountByCol := make(map[uuid.UUID]int)
 	for _, c := range cards {
 		cardCountByCol[c.ColumnID]++
@@ -173,7 +173,7 @@ func (s *StatisticsService) GetBoardStats(boardID uuid.UUID) (map[string]interfa
 		priorityCount[c.Priority]++
 	}
 
-	// 按类型统�?
+	// 按类型统�?
 	typeCount := make(map[string]int)
 	for _, c := range cards {
 		typeCount[c.CardType]++

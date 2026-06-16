@@ -13,7 +13,7 @@ type CreateReviewRequest struct {
 	Participants []ReviewParticipantRequest `json:"participants"`
 }
 
-// ReviewParticipantRequest 评审参与者请�?
+// ReviewParticipantRequest 评审参与者请�?
 type ReviewParticipantRequest struct {
 	UserID  uuid.UUID `json:"user_id" binding:"required"`
 	Opinion string    `json:"opinion"` // approve/oppose/abstain
@@ -34,7 +34,7 @@ type ReviewResponse struct {
 	Participants  []ParticipantResponse `json:"participants,omitempty"`
 }
 
-// ParticipantResponse 参与者响�?
+// ParticipantResponse 参与者响�?
 type ParticipantResponse struct {
 	ID      uuid.UUID `json:"id"`
 	UserID  uuid.UUID `json:"user_id"`

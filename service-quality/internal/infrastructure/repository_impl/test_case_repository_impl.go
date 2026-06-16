@@ -43,7 +43,7 @@ func (r *TestCaseRepositoryImpl) Update(ctx context.Context, testCase *entity.Te
 	return r.db.WithContext(ctx).Save(testCase).Error
 }
 
-// Delete 删除测试用例（软删除�?
+// Delete 删除测试用例（软删除�?
 func (r *TestCaseRepositoryImpl) Delete(ctx context.Context, id uuid.UUID) error {
 	return r.db.WithContext(ctx).Delete(&entity.TestCase{}, "id = ?", id).Error
 }
@@ -55,7 +55,7 @@ func (r *TestCaseRepositoryImpl) List(ctx context.Context, page, pageSize int, f
 
 	query := r.db.WithContext(ctx).Model(&entity.TestCase{})
 
-	// 应用筛选条�?
+	// 应用筛选条�?
 	query = r.applyTestCaseFilter(query, filter)
 
 	// 查询总数
@@ -100,13 +100,13 @@ func (r *TestCaseRepositoryImpl) Review(ctx context.Context, id uuid.UUID, revie
 		}).Error
 }
 
-// applyTestCaseFilter 应用测试用例筛选条件到查询构建�?
+// applyTestCaseFilter 应用测试用例筛选条件到查询构建�?
 func (r *TestCaseRepositoryImpl) applyTestCaseFilter(query *gorm.DB, filter *repository.TestCaseFilter) *gorm.DB {
 	if filter == nil {
 		return query
 	}
 
-	// 关键词搜索：匹配标题和模�?
+	// 关键词搜索：匹配标题和模�?
 	if filter.Keyword != "" {
 		searchPattern := "%" + filter.Keyword + "%"
 		query = query.Where("title LIKE ? OR module LIKE ?", searchPattern, searchPattern)

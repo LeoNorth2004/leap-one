@@ -14,7 +14,7 @@ type TestEnvironment struct {
 	URL         string         `gorm:"type:varchar(500)" json:"url"`           // 环境访问地址
 	Type        string         `gorm:"size:30;default:'dev'" json:"type"`      // dev/test/staging/prod
 	OS          string         `gorm:"type:varchar(100)" json:"os"`            // 操作系统
-	Browser     string         `gorm:"type:varchar(100)" json:"browser"`       // 默认浏览�?
+	Browser     string         `gorm:"type:varchar(100)" json:"browser"`       // 默认浏览�?
 	Description string         `gorm:"type:text" json:"description"`           // 环境描述
 	IsActive    bool           `gorm:"default:true" json:"is_active"`          // 是否启用
 	CreatedAt   time.Time      `json:"created_at"`
@@ -22,7 +22,7 @@ type TestEnvironment struct {
 	DeletedAt   gorm.DeletedAt `gorm:"index" json:"-"`
 }
 
-// TableName 指定数据库表�?
+// TableName 指定数据库表�?
 func (TestEnvironment) TableName() string {
 	return "test_environments"
 }

@@ -8,7 +8,7 @@ import (
 	"leap-one/service-requirement/internal/domain/repository"
 )
 
-// RequirementService 需求应用服�?
+// RequirementService 需求应用服�?
 type RequirementService struct {
 	reqRepo       repository.RequirementRepository
 	relationRepo  repository.RequirementRelationRepository
@@ -16,7 +16,7 @@ type RequirementService struct {
 	logger        *zap.Logger
 }
 
-// NewRequirementService 创建需求服务实�?
+// NewRequirementService 创建需求服务实�?
 func NewRequirementService(
 	reqRepo repository.RequirementRepository,
 	relationRepo repository.RequirementRelationRepository,
@@ -31,16 +31,16 @@ func NewRequirementService(
 	}
 }
 
-// CreateRequirement 创建需�?
+// CreateRequirement 创建需�?
 func (s *RequirementService) CreateRequirement(req *entity.Requirement) (*entity.Requirement, error) {
-	// 自动生成需求编�?
+	// 自动生成需求编�?
 	code, err := s.reqRepo.GenerateCode()
 	if err != nil {
 		return nil, err
 	}
 	req.Code = code
 
-	// 设置默认�?
+	// 设置默认�?
 	if req.Type == "" {
 		req.Type = "story"
 	}
@@ -60,7 +60,7 @@ func (s *RequirementService) CreateRequirement(req *entity.Requirement) (*entity
 		req.Stage = "requirement"
 	}
 
-	// 根据父需求设置层�?
+	// 根据父需求设置层�?
 	if req.ParentID != nil {
 		parent, err := s.reqRepo.GetByID(*req.ParentID)
 		if err != nil {
@@ -70,21 +70,21 @@ func (s *RequirementService) CreateRequirement(req *entity.Requirement) (*entity
 	}
 
 	if err := s.reqRepo.Create(req); err != nil {
-		s.logger.Error("创建需求失�?, zap.Error(err), zap.String("title", req.Title))
+		s.logger.Error("创建需求失�?, zap.Error(err), zap.String("title", req.Title))
 		return nil, err
 	}
 
 	// 记录变更日志
-	_ = s.recordChangeLog(req.ID, "create", "", "", "创建需�?, uuid.Nil)
+	_ = s.recordChangeLog(req.ID, "create", "", "", "创建需�?, uuid.Nil)
 	return req, nil
 }
 
-// GetRequirement 获取需求详�?
+// GetRequirement 获取需求详�?
 func (s *RequirementService) GetRequirement(id uuid.UUID) (*entity.Requirement, error) {
 	return s.reqRepo.GetByID(id)
 }
 
-// UpdateRequirement 更新需�?
+// UpdateRequirement 更新需�?
 func (s *RequirementService) UpdateRequirement(id uuid.UUID, updates map[string]interface{}) (*entity.Requirement, error) {
 	req, err := s.reqRepo.GetByID(id)
 	if err != nil {
@@ -135,12 +135,12 @@ func (s *RequirementService) UpdateRequirement(id uuid.UUID, updates map[string]
 	return req, nil
 }
 
-// DeleteRequirement 删除需�?
+// DeleteRequirement 删除需�?
 func (s *RequirementService) DeleteRequirement(id uuid.UUID) error {
 	return s.reqRepo.Delete(id)
 }
 
-// ListRequirements 查询需求列�?
+// ListRequirements 查询需求列�?
 func (s *RequirementService) ListRequirements(params *repository.RequirementListParams) ([]*entity.Requirement, int64, error) {
 	return s.reqRepo.List(params)
 }
@@ -150,7 +150,7 @@ func (s *RequirementService) GetRequirementTree(productID uuid.UUID) ([]*entity.
 	return s.reqRepo.GetTree(productID)
 }
 
-// UpdateStatus 更新需求状�?
+// UpdateStatus 更新需求状�?
 func (s *RequirementService) UpdateStatus(id uuid.UUID, status string) error {
 	return s.reqRepo.UpdateStatus(id, status)
 }

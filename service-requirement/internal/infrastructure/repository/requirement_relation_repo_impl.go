@@ -8,11 +8,11 @@ import (
 	"leap-one/service-requirement/internal/domain/repository"
 )
 
-// requirementRelationRepository 需求关联仓储实�?type requirementRelationRepository struct {
+// requirementRelationRepository 需求关联仓储实�?type requirementRelationRepository struct {
 	db *gorm.DB
 }
 
-// NewRequirementRelationRepository 创建需求关联仓储实�?func NewRequirementRelationRepository(db *gorm.DB) repository.RequirementRelationRepository {
+// NewRequirementRelationRepository 创建需求关联仓储实�?func NewRequirementRelationRepository(db *gorm.DB) repository.RequirementRelationRepository {
 	return &requirementRelationRepository{db: db}
 }
 

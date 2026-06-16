@@ -36,11 +36,11 @@ func (s *ReviewService) SubmitReview(requirementID uuid.UUID, title string, meet
 		return nil, err
 	}
 
-	// 添加参与�?	for _, p := range participants {
+	// 添加参与�?	for _, p := range participants {
 		p.ID = uuid.New()
 		p.ReviewID = review.ID
 		if err := s.reviewRepo.AddParticipant(&p); err != nil {
-			s.logger.Error("添加评审参与者失�?, zap.Error(err))
+			s.logger.Error("添加评审参与者失�?, zap.Error(err))
 		}
 	}
 

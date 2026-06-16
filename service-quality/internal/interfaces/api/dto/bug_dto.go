@@ -10,7 +10,7 @@ type CreateBugRequest struct {
 	Description   string     `json:"description"`                                                                                // 详细描述
 	Steps         string     `json:"steps"`                                                                                      // 复现步骤
 	Severity      int        `json:"severity" binding:"min=1,max=4"`                                                             // 严重程度 1-4
-	Priority      int        `json:"priority" binding:"min=1,max=5"`                                                             // 优先�?1-5
+	Priority      int        `json:"priority" binding:"min=1,max=5"`                                                             // 优先�?1-5
 	Type          string     `json:"type" binding:"omitempty,oneof=code_bug design_bug data_bug config security performance ui"` // Bug类型
 	ProductID     *uuid.UUID `json:"product_id"`                                                                                 // 产品ID
 	ProjectID     *uuid.UUID `json:"project_id"`                                                                                 // 项目ID
@@ -23,8 +23,8 @@ type CreateBugRequest struct {
 	FixedVersion  string     `json:"fixed_version" binding:"max=100"`                                                            // 修复版本
 	Environment   string     `json:"environment" binding:"max=200"`                                                              // 环境信息
 	OS            string     `json:"os" binding:"max=100"`                                                                       // 操作系统
-	Browser       string     `json:"browser" binding:"max=100"`                                                                  // 浏览�?
-	Reproductive  bool       `json:"reproductive"`                                                                               // 是否可复�?
+	Browser       string     `json:"browser" binding:"max=100"`                                                                  // 浏览�?
+	Reproductive  bool       `json:"reproductive"`                                                                               // 是否可复�?
 	Deadline      string     `json:"deadline"`                                                                                   // 解决期限
 	Tags          string     `json:"tags"`                                                                                       // 标签
 }
@@ -53,7 +53,7 @@ type ResolveBugRequest struct {
 	Resolution string `json:"resolution" binding:"required,oneof=fixed wont_fix duplicate by_design workaround postponed"` // 解决方案
 }
 
-// BugInfo Bug简要信�?
+// BugInfo Bug简要信�?
 type BugInfo struct {
 	ID           string  `json:"id"`
 	Title        string  `json:"title"`
@@ -136,7 +136,7 @@ type BugListResponse struct {
 // AddBugCommentRequest 添加Bug评论请求
 type AddBugCommentRequest struct {
 	Content  string     `json:"content" binding:"required"` // 评论内容
-	ParentID *uuid.UUID `json:"parent_id"`                  // 父评论ID（回复时使用�?
+	ParentID *uuid.UUID `json:"parent_id"`                  // 父评论ID（回复时使用�?
 }
 
 // UploadAttachmentRequest 上传附件请求

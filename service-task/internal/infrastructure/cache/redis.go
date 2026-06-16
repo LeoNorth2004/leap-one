@@ -17,7 +17,7 @@ const (
 	DefaultTTL     = 15 * time.Minute
 )
 
-// RedisClient Redis缓存客户端封�?
+// RedisClient Redis缓存客户端封装
 type RedisClient struct {
 	client *redis.Client
 	logger *zap.Logger

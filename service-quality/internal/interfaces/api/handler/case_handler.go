@@ -27,7 +27,7 @@ func NewCaseHandler(caseRepo repository.TestCaseRepository, logger *zap.Logger) 
 	}
 }
 
-// CreateCase 创建用例（POST /api/v1/test-cases�?
+// CreateCase 创建用例（POST /api/v1/test-cases�?
 func (h *CaseHandler) CreateCase(c *gin.Context) {
 	var req dto.CreateTestCaseRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -77,7 +77,7 @@ func (h *CaseHandler) CreateCase(c *gin.Context) {
 	})
 }
 
-// ListCases 用例列表（分�?筛选）（GET /api/v1/test-cases�?
+// ListCases 用例列表（分�?筛选）（GET /api/v1/test-cases�?
 func (h *CaseHandler) ListCases(c *gin.Context) {
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	size, _ := strconv.Atoi(c.DefaultQuery("size", "20"))
@@ -131,7 +131,7 @@ func (h *CaseHandler) ListCases(c *gin.Context) {
 	})
 }
 
-// GetCase 用例详情（GET /api/v1/test-cases/:id�?
+// GetCase 用例详情（GET /api/v1/test-cases/:id�?
 func (h *CaseHandler) GetCase(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -142,7 +142,7 @@ func (h *CaseHandler) GetCase(c *gin.Context) {
 	ctx := c.Request.Context()
 	tc, err := h.caseRepo.GetByID(ctx, id)
 	if err != nil || tc == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "测试用例不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "测试用例不存�?})
 		return
 	}
 
@@ -150,7 +150,7 @@ func (h *CaseHandler) GetCase(c *gin.Context) {
 	c.JSON(http.StatusOK, resp)
 }
 
-// UpdateCase 更新用例（PUT /api/v1/test-cases/:id�?
+// UpdateCase 更新用例（PUT /api/v1/test-cases/:id�?
 func (h *CaseHandler) UpdateCase(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -167,7 +167,7 @@ func (h *CaseHandler) UpdateCase(c *gin.Context) {
 	ctx := c.Request.Context()
 	tc, err := h.caseRepo.GetByID(ctx, id)
 	if err != nil || tc == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "测试用例不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "测试用例不存�?})
 		return
 	}
 
@@ -183,7 +183,7 @@ func (h *CaseHandler) UpdateCase(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "测试用例更新成功"})
 }
 
-// DeleteCase 删除用例（DELETE /api/v1/test-cases/:id�?
+// DeleteCase 删除用例（DELETE /api/v1/test-cases/:id�?
 func (h *CaseHandler) DeleteCase(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -195,7 +195,7 @@ func (h *CaseHandler) DeleteCase(c *gin.Context) {
 
 	tc, getErr := h.caseRepo.GetByID(ctx, id)
 	if getErr != nil || tc == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "测试用例不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "测试用例不存�?})
 		return
 	}
 
@@ -209,7 +209,7 @@ func (h *CaseHandler) DeleteCase(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "测试用例删除成功"})
 }
 
-// ImportCases 导入用例（POST /api/v1/test-cases/import�?
+// ImportCases 导入用例（POST /api/v1/test-cases/import�?
 func (h *CaseHandler) ImportCases(c *gin.Context) {
 	var req dto.ImportTestCasesRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -260,7 +260,7 @@ func (h *CaseHandler) ImportCases(c *gin.Context) {
 	})
 }
 
-// ReviewCase 评审用例（POST /api/v1/test-cases/:id/review�?
+// ReviewCase 评审用例（POST /api/v1/test-cases/:id/review�?
 func (h *CaseHandler) ReviewCase(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -277,7 +277,7 @@ func (h *CaseHandler) ReviewCase(c *gin.Context) {
 	ctx := c.Request.Context()
 	tc, err := h.caseRepo.GetByID(ctx, id)
 	if err != nil || tc == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "测试用例不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "测试用例不存�?})
 		return
 	}
 
@@ -290,7 +290,7 @@ func (h *CaseHandler) ReviewCase(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "用例评审完成"})
 }
 
-// buildTestCaseInfo 构建用例简要信�?
+// buildTestCaseInfo 构建用例简要信�?
 func buildTestCaseInfo(tc *entity.TestCase) dto.TestCaseInfo {
 	info := dto.TestCaseInfo{
 		ID:         tc.ID.String(),
@@ -341,7 +341,7 @@ func buildTestCaseDetail(tc *entity.TestCase) dto.TestCaseDetailResponse {
 	return detail
 }
 
-// applyTestCaseUpdate 应用更新字段到用例实�?
+// applyTestCaseUpdate 应用更新字段到用例实�?
 func applyTestCaseUpdate(tc *entity.TestCase, req *dto.UpdateTestCaseRequest) {
 	if req.Title != nil {
 		tc.Title = *req.Title

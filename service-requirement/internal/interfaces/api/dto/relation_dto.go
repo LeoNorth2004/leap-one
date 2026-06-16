@@ -20,7 +20,7 @@ type RelationResponse struct {
 	RelationType  string    `json:"relation_type"`
 }
 
-// UpdateStatusRequest 更新状态请�?
+// UpdateStatusRequest 更新状态请�?
 type UpdateStatusRequest struct {
 	Status string `json:"status" binding:"required"`
 }

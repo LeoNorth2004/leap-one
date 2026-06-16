@@ -32,13 +32,13 @@ func (h *StatsHandler) ProjectProgress(c *gin.Context) {
 			"avg_duration_days": 45.5,
 		},
 		Data: []dto.StatDataPoint{
-			{Date: "Q1", Value: 85.0, Label: "完成�?},
-			{Date: "Q2", Value: 72.0, Label: "完成�?},
+			{Date: "Q1", Value: 85.0, Label: "完成�?},
+			{Date: "Q2", Value: 72.0, Label: "完成�?},
 		},
 	})
 }
 
-// Workload 人员工作量统�?(GET /api/v1/stats/workload)
+// Workload 人员工作量统�?(GET /api/v1/stats/workload)
 func (h *StatsHandler) Workload(c *gin.Context) {
 	c.JSON(http.StatusOK, dto.StatsResponse{
 		MetricType: "workload",
@@ -51,9 +51,9 @@ func (h *StatsHandler) Workload(c *gin.Context) {
 			"overtime_rate":   12.5,
 		},
 		Data: []dto.StatDataPoint{
-			{Date: "开发组", Value: 5200.0, Label: "已完成工�?},
-			{Date: "测试�?, Value: 2800.0, Label: "已完成工�?},
-			{Date: "产品�?, Value: 1800.0, Label: "已完成工�?},
+			{Date: "开发组", Value: 5200.0, Label: "已完成工�?},
+			{Date: "测试�?, Value: 2800.0, Label: "已完成工�?},
+			{Date: "产品�?, Value: 1800.0, Label: "已完成工�?},
 		},
 	})
 }
@@ -73,10 +73,10 @@ func (h *StatsHandler) Quality(c *gin.Context) {
 			"avg_resolve_hours": 24.5,
 		},
 		Data: []dto.StatDataPoint{
-			{Date: "严重", Value: 2.0, Label: "Bug�?},
-			{Date: "�?, Value: 8.0, Label: "Bug�?},
-			{Date: "�?, Value: 15.0, Label: "Bug�?},
-			{Date: "�?, Value: 20.0, Label: "Bug�?},
+			{Date: "严重", Value: 2.0, Label: "Bug�?},
+			{Date: "�?, Value: 8.0, Label: "Bug�?},
+			{Date: "�?, Value: 15.0, Label: "Bug�?},
+			{Date: "�?, Value: 20.0, Label: "Bug�?},
 		},
 	})
 }
@@ -94,10 +94,10 @@ func (h *StatsHandler) RequirementCompletion(c *gin.Context) {
 			"on_time_rate":       68.3,
 		},
 		Data: []dto.StatDataPoint{
-			{Date: "Q1", Value: 78.0, Label: "完成�?},
-			{Date: "Q2", Value: 82.0, Label: "完成�?},
-			{Date: "Q3", Value: 75.0, Label: "完成�?},
-			{Date: "Q4", Value: 81.5, Label: "完成�?},
+			{Date: "Q1", Value: 78.0, Label: "完成�?},
+			{Date: "Q2", Value: 82.0, Label: "完成�?},
+			{Date: "Q3", Value: 75.0, Label: "完成�?},
+			{Date: "Q4", Value: 81.5, Label: "完成�?},
 		},
 	})
 }

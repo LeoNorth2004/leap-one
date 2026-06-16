@@ -42,7 +42,7 @@ func (s *DocumentService) Update(id uuid.UUID, updates map[string]interface{}) (
 	if err != nil { return nil, err }
 	for field, val := range updates {
 		switch field {
-		case "title": if v, ok := val.(string); ok { doc.Title = v; doc.Content = v } // 简化处�?		case "content": if v, ok := val.(string); ok { doc.Content = v }
+		case "title": if v, ok := val.(string); ok { doc.Title = v; doc.Content = v } // 简化处�?		case "content": if v, ok := val.(string); ok { doc.Content = v }
 		case "status": if v, ok := val.(string); ok { doc.Status = v }
 		case "visibility": if v, ok := val.(string); ok { doc.Visibility = v }
 		case "tags": if v, ok := val.(string); ok { doc.Tags = v }

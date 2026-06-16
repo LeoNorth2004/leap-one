@@ -16,7 +16,7 @@ type TestPlan struct {
 	ProjectID    *uuid.UUID     `gorm:"type:uuid" json:"project_id"`              // 关联项目ID
 	BuildVersion string         `gorm:"type:varchar(100)" json:"build_version"`   // 对应构建版本
 	Status       string         `gorm:"size:20;default:'planning'" json:"status"` // planning/executing/completed/cancelled
-	StartDate    *time.Time     `json:"start_date"`                               // 计划开始日�?
+	StartDate    *time.Time     `json:"start_date"`                               // 计划开始日�?
 	EndDate      *time.Time     `json:"end_date"`                                 // 计划结束日期
 	CreatorID    uuid.UUID      `gorm:"type:uuid;not null" json:"creator_id"`     // 创建人ID
 	ExecutorIDs  string         `gorm:"type:text" json:"executor_ids"`            // JSON数组执行人ID
@@ -26,7 +26,7 @@ type TestPlan struct {
 	DeletedAt    gorm.DeletedAt `gorm:"index" json:"-"`
 }
 
-// TableName 指定数据库表�?
+// TableName 指定数据库表�?
 func (TestPlan) TableName() string {
 	return "test_plans"
 }
@@ -48,14 +48,14 @@ type TestPlanCase struct {
 	Result       string     `gorm:"size:20" json:"result"`                   // not_run/passed/failed/blocked/skipped
 	ExecuteTime  *time.Time `json:"execute_time"`                            // 执行时间
 	ActualResult string     `gorm:"type:text" json:"actual_result"`          // 实际结果描述
-	BugIDs       string     `gorm:"type:text" json:"bug_ids"`                // 关联Bug ID列表（JSON数组�?
+	BugIDs       string     `gorm:"type:text" json:"bug_ids"`                // 关联Bug ID列表（JSON数组�?
 	Comment      string     `gorm:"type:text" json:"comment"`                // 执行备注
 	SortOrder    int        `gorm:"default:0" json:"sort_order"`             // 排序顺序
 	CreatedAt    time.Time  `json:"created_at"`
 	UpdatedAt    time.Time  `json:"updated_at"`
 }
 
-// TableName 指定数据库表�?
+// TableName 指定数据库表�?
 func (TestPlanCase) TableName() string {
 	return "test_plan_cases"
 }

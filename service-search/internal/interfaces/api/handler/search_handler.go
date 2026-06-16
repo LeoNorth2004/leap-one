@@ -53,7 +53,7 @@ func(h*SearchHandler)SaveSearch(c*gin.Context){
 	s:=&entity.SavedSearch{UserID:req.UserID,Name:req.Name,Scope:req.Scope,Filters:req.Filters,Sort:req.Sort}
 	ctx:=c.Request.Context()
 	if err:=h.savedRepo.Create(ctx,s);err!=nil{c.JSON(http.StatusInternalServerError,gin.H{"error":"保存失败"});return}
-	c.JSON(http.StatusCreated,gin.H{"message":"搜索条件已保�?,"saved_id":s.ID.String()})
+	c.JSON(http.StatusCreated,gin.H{"message":"搜索条件已保�?,"saved_id":s.ID.String()})
 }
 
 // ListSavedSearches 我的保存搜索 (GET /api/v1/search/saved)
@@ -65,11 +65,11 @@ for i,s:=range list{items[i]=dto.SavedSearchInfo{ID:s.ID.String(),UserID:s.UserI
 c.JSON(http.StatusOK,gin.H{"list":items})
 }
 
-// DeleteSavedSearch 删除保存的搜�?(DELETE /api/v1/search/saved/:id)
+// DeleteSavedSearch 删除保存的搜�?(DELETE /api/v1/search/saved/:id)
 func(h*SearchHandler)DeleteSavedSearch(c*gin.Context){
 	id,err:=uuid.Parse(c.Param("id")); if err!=nil{c.JSON(http.StatusBadRequest,gin.H{"error":"无效的ID"});return}
 ctx:=c.Request.Context(); h.savedRepo.Delete(ctx,id)
-c.JSON(http.StatusOK,gin.H{"message":"已删�?})
+c.JSON(http.StatusOK,gin.H{"message":"已删�?})
 }
 
 // SearchHistory 搜索历史 (GET /api/v1/search/history)
@@ -86,7 +86,7 @@ c.JSON(http.StatusOK,gin.H{"list":items})
 func(h*SearchHandler)ClearHistory(c*gin.Context){
 	userIDStr:=c.Query("user_id"); userID,_:=uuid.Parse(userIDStr)
 ctx:=c.Request.Context(); h.historyRepo.DeleteByUserID(ctx,userID)
-c.JSON(http.StatusOK,gin.H{"message":"历史记录已清�?})
+c.JSON(http.StatusOK,gin.H{"message":"历史记录已清�?})
 }
 
 // Suggestions 搜索建议 (GET /api/v1/search/suggestions)
@@ -97,9 +97,9 @@ c.JSON(http.StatusOK,dto.SuggestionResponse{Suggestions:suggestions,Query:prefix
 }
 
 // TriggerIndex 手动触发索引更新 (POST /api/v1/search/index)
-func(h*SearchHandler)TriggerIndex(c*gin.Context){c.JSON(http.StatusOK,gin.H{"message":"索引更新任务已触�?,"status":"processing"})}
+func(h*SearchHandler)TriggerIndex(c*gin.Context){c.JSON(http.StatusOK,gin.H{"message":"索引更新任务已触�?,"status":"processing"})}
 
-// IndexStatus 索引状�?(GET /api/v1/search/index/status)
+// IndexStatus 索引状�?(GET /api/v1/search/index/status)
 func(h*SearchHandler)IndexStatus(c*gin.Context){
 ctx:=c.Request.Context()
 var totalDocs int64; h.docRepo.Search(ctx,"",nil,1,1)// 获取总数

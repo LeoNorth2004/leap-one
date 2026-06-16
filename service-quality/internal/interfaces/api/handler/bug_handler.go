@@ -28,7 +28,7 @@ func NewBugHandler(bugRepo repository.BugRepository, logger *zap.Logger) *BugHan
 	}
 }
 
-// CreateBug 创建Bug（POST /api/v1/bugs�?
+// CreateBug 创建Bug（POST /api/v1/bugs�?
 func (h *BugHandler) CreateBug(c *gin.Context) {
 	var req dto.CreateBugRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -64,18 +64,18 @@ func (h *BugHandler) CreateBug(c *gin.Context) {
 		Status:        "new",
 	}
 
-	// 设置默认�?
+	// 设置默认�?
 	if bug.Severity == 0 {
 		bug.Severity = 2 // 默认严重
 	}
 	if bug.Priority == 0 {
-		bug.Priority = 3 // 默认中等优先�?
+		bug.Priority = 3 // 默认中等优先�?
 	}
 	if bug.Type == "" {
 		bug.Type = "code_bug" // 默认代码缺陷
 	}
 	if bug.Reproductive == false {
-		bug.Reproductive = true // 默认可复�?
+		bug.Reproductive = true // 默认可复�?
 	}
 	if deadlineStr := req.Deadline; deadlineStr != "" {
 		if t, err := time.Parse(time.RFC3339, deadlineStr); err == nil {
@@ -102,7 +102,7 @@ func (h *BugHandler) CreateBug(c *gin.Context) {
 	})
 }
 
-// ListBugs Bug列表（高级筛选）（GET /api/v1/bugs�?
+// ListBugs Bug列表（高级筛选）（GET /api/v1/bugs�?
 func (h *BugHandler) ListBugs(c *gin.Context) {
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	size, _ := strconv.Atoi(c.DefaultQuery("size", "20"))
@@ -162,7 +162,7 @@ func (h *BugHandler) ListBugs(c *gin.Context) {
 	})
 }
 
-// GetBug Bug详情（含历史）（GET /api/v1/bugs/:id�?
+// GetBug Bug详情（含历史）（GET /api/v1/bugs/:id�?
 func (h *BugHandler) GetBug(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -173,7 +173,7 @@ func (h *BugHandler) GetBug(c *gin.Context) {
 	ctx := c.Request.Context()
 	bug, err := h.bugRepo.GetByID(ctx, id)
 	if err != nil || bug == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Bug不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Bug不存�?})
 		return
 	}
 
@@ -181,7 +181,7 @@ func (h *BugHandler) GetBug(c *gin.Context) {
 	c.JSON(http.StatusOK, resp)
 }
 
-// UpdateBug 更新Bug（PUT /api/v1/bugs/:id�?
+// UpdateBug 更新Bug（PUT /api/v1/bugs/:id�?
 func (h *BugHandler) UpdateBug(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -198,7 +198,7 @@ func (h *BugHandler) UpdateBug(c *gin.Context) {
 	ctx := c.Request.Context()
 	bug, err := h.bugRepo.GetByID(ctx, id)
 	if err != nil || bug == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Bug不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Bug不存�?})
 		return
 	}
 
@@ -213,7 +213,7 @@ func (h *BugHandler) UpdateBug(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Bug更新成功"})
 }
 
-// DeleteBug 删除Bug（DELETE /api/v1/bugs/:id�?
+// DeleteBug 删除Bug（DELETE /api/v1/bugs/:id�?
 func (h *BugHandler) DeleteBug(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -224,7 +224,7 @@ func (h *BugHandler) DeleteBug(c *gin.Context) {
 	ctx := c.Request.Context()
 	bug, getErr := h.bugRepo.GetByID(ctx, id)
 	if getErr != nil || bug == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Bug不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Bug不存�?})
 		return
 	}
 
@@ -238,7 +238,7 @@ func (h *BugHandler) DeleteBug(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Bug删除成功"})
 }
 
-// ConfirmBug 确认Bug（POST /api/v1/bugs/:id/confirm�?
+// ConfirmBug 确认Bug（POST /api/v1/bugs/:id/confirm�?
 func (h *BugHandler) ConfirmBug(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -251,11 +251,11 @@ func (h *BugHandler) ConfirmBug(c *gin.Context) {
 
 	bug, getErr := h.bugRepo.GetByID(ctx, id)
 	if getErr != nil || bug == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Bug不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Bug不存�?})
 		return
 	}
 	if bug.Status != "new" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "只有新建状态的Bug可以被确�?})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "只有新建状态的Bug可以被确�?})
 		return
 	}
 
@@ -265,13 +265,13 @@ func (h *BugHandler) ConfirmBug(c *gin.Context) {
 		return
 	}
 
-	// 记录状态变更历�?
+	// 记录状态变更历�?
 	h.recordHistory(ctx, id, "status", "new", "confirmed", currentUserID)
 
-	c.JSON(http.StatusOK, gin.H{"message": "Bug已确�?})
+	c.JSON(http.StatusOK, gin.H{"message": "Bug已确�?})
 }
 
-// ResolveBug 解决Bug（POST /api/v1/bugs/:id/resolve�?
+// ResolveBug 解决Bug（POST /api/v1/bugs/:id/resolve�?
 func (h *BugHandler) ResolveBug(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -290,7 +290,7 @@ func (h *BugHandler) ResolveBug(c *gin.Context) {
 
 	bug, getErr := h.bugRepo.GetByID(ctx, id)
 	if getErr != nil || bug == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Bug不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Bug不存�?})
 		return
 	}
 	if bug.Status != "in_progress" && bug.Status != "confirmed" {
@@ -309,10 +309,10 @@ func (h *BugHandler) ResolveBug(c *gin.Context) {
 	h.recordHistory(ctx, id, "status", oldStatus, "resolved", currentUserID)
 	h.recordHistory(ctx, id, "resolution", "", req.Resolution, currentUserID)
 
-	c.JSON(http.StatusOK, gin.H{"message": "Bug已解�?})
+	c.JSON(http.StatusOK, gin.H{"message": "Bug已解�?})
 }
 
-// CloseBug 关闭Bug（POST /api/v1/bugs/:id/close�?
+// CloseBug 关闭Bug（POST /api/v1/bugs/:id/close�?
 func (h *BugHandler) CloseBug(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -338,10 +338,10 @@ func (h *BugHandler) CloseBug(c *gin.Context) {
 	}
 
 	h.recordHistory(ctx, id, "status", "resolved", "closed", currentUserID)
-	c.JSON(http.StatusOK, gin.H{"message": "Bug已关�?})
+	c.JSON(http.StatusOK, gin.H{"message": "Bug已关�?})
 }
 
-// ReopenBug 重新激活Bug（POST /api/v1/bugs/:id/reopen�?
+// ReopenBug 重新激活Bug（POST /api/v1/bugs/:id/reopen�?
 func (h *BugHandler) ReopenBug(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -372,10 +372,10 @@ func (h *BugHandler) ReopenBug(c *gin.Context) {
 	}
 
 	h.recordHistory(ctx, id, "status", oldStatus, "reopened", currentUserID)
-	c.JSON(http.StatusOK, gin.H{"message": "Bug已重新激�?})
+	c.JSON(http.StatusOK, gin.H{"message": "Bug已重新激�?})
 }
 
-// AddComment 添加评论（POST /api/v1/bugs/:id/comments�?
+// AddComment 添加评论（POST /api/v1/bugs/:id/comments�?
 func (h *BugHandler) AddComment(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -395,7 +395,7 @@ func (h *BugHandler) AddComment(c *gin.Context) {
 	// 验证Bug存在
 	bug, getErr := h.bugRepo.GetByID(ctx, id)
 	if getErr != nil || bug == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Bug不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Bug不存�?})
 		return
 	}
 
@@ -418,7 +418,7 @@ func (h *BugHandler) AddComment(c *gin.Context) {
 	})
 }
 
-// ListComments 评论历史（GET /api/v1/bugs/:id/comments�?
+// ListComments 评论历史（GET /api/v1/bugs/:id/comments�?
 func (h *BugHandler) ListComments(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -451,7 +451,7 @@ func (h *BugHandler) ListComments(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"list": list, "count": len(list)})
 }
 
-// UploadAttachment 上传附件（POST /api/v1/bugs/:id/attachments�?
+// UploadAttachment 上传附件（POST /api/v1/bugs/:id/attachments�?
 func (h *BugHandler) UploadAttachment(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -471,7 +471,7 @@ func (h *BugHandler) UploadAttachment(c *gin.Context) {
 	// 验证Bug存在
 	bug, getErr := h.bugRepo.GetByID(ctx, id)
 	if getErr != nil || bug == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Bug不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Bug不存�?})
 		return
 	}
 
@@ -528,7 +528,7 @@ func (h *BugHandler) ListAttachments(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"list": list, "count": len(list)})
 }
 
-// ListHistory 变更历史（GET /api/v1/bugs/:id/history�?
+// ListHistory 变更历史（GET /api/v1/bugs/:id/history�?
 func (h *BugHandler) ListHistory(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -559,11 +559,11 @@ func (h *BugHandler) ListHistory(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"list": list, "count": len(list)})
 }
 
-// MyBugs 我的Bug（GET /api/v1/bugs/my�?
+// MyBugs 我的Bug（GET /api/v1/bugs/my�?
 func (h *BugHandler) MyBugs(c *gin.Context) {
 	userIDVal, exists := c.Get("userID")
 	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "未登�?})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "未登�?})
 		return
 	}
 
@@ -620,7 +620,7 @@ func (h *BugHandler) recordHistory(ctx interface {
 	_ = history
 }
 
-// buildBugInfo 构建Bug简要信�?
+// buildBugInfo 构建Bug简要信�?
 func buildBugInfo(b *entity.Bug) dto.BugInfo {
 	info := dto.BugInfo{
 		ID:           b.ID.String(),

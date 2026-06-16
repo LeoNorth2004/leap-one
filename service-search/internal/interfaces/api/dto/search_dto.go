@@ -13,7 +13,7 @@ type SearchRequest struct {
 // AdvancedSearchRequest 高级搜索请求
 type AdvancedSearchRequest struct {
 	Query    string                 `json:"query" binding:"max=500"`
-	Filters  map[string]interface{} `json:"filters"` // 高级筛选条�?
+	Filters  map[string]interface{} `json:"filters"` // 高级筛选条�?
 	Sort     string                 `json:"sort,omitempty"`
 	Page     int                    `json:"page"`
 	PageSize int                    `json:"page_size"`
@@ -24,11 +24,11 @@ type SaveSearchRequest struct {
 	UserID  uuid.UUID `json:"user_id" binding:"required"`
 	Name    string    `json:"name" binding:"required,max=200"`
 	Scope   string    `json:"scope" binding:"required,max=30"`
-	Filters string    `json:"filters"` // JSON筛选条�?
+	Filters string    `json:"filters"` // JSON筛选条�?
 	Sort    string    `json:"sort"`
 }
 
-// SearchResult 搜索结果�?
+// SearchResult 搜索结果�?
 type SearchResult struct {
 	ID        string `json:"id"`
 	DocType   string `json:"doc_type"`
@@ -51,7 +51,7 @@ type SearchResponse struct {
 	DurationMs int64          `json:"duration_ms"`
 }
 
-// SavedSearchInfo 保存的搜索信�?
+// SavedSearchInfo 保存的搜索信�?
 type SavedSearchInfo struct {
 	ID        string `json:"id"`
 	UserID    string `json:"user_id"`
@@ -62,7 +62,7 @@ type SavedSearchInfo struct {
 	CreatedAt string `json:"created_at"`
 }
 
-// SearchHistoryItem 搜索历史�?
+// SearchHistoryItem 搜索历史�?
 type SearchHistoryItem struct {
 	ID          string `json:"id"`
 	Query       string `json:"query"`
@@ -77,7 +77,7 @@ type SuggestionResponse struct {
 	Query       string   `json:"query"`
 }
 
-// IndexStatusResponse 索引状态响�?
+// IndexStatusResponse 索引状态响�?
 type IndexStatusResponse struct {
 	TotalDocuments int64            `json:"total_documents"`
 	LastIndexedAt  string           `json:"last_indexed_at"`

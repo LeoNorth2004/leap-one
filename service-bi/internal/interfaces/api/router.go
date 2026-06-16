@@ -14,7 +14,7 @@ func RegisterRoutes(
 ) {
 	r.Use(gin.Recovery())
 
-	// 健康检�?
+	// 健康检�?
 	r.GET("/healthz", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"status":  "ok",
@@ -22,7 +22,7 @@ func RegisterRoutes(
 		})
 	})
 
-	// API路由�?
+	// API路由�?
 	v1 := r.Group("/api/v1")
 	{
 		// ---- BI大屏 ----

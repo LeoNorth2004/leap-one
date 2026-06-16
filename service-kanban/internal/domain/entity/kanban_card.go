@@ -14,7 +14,7 @@ type KanbanCard struct {
 	ColumnID    uuid.UUID  `gorm:"index;not null"`
 	SwimlaneID  *uuid.UUID // 泳道
 	CardType    string     `gorm:"size:20;default:'task'"` // task/requirement/bug
-	RefID       uuid.UUID  `gorm:"not null"` // 关联的任�?需�?Bug ID
+	RefID       uuid.UUID  `gorm:"not null"` // 关联的任�?需�?Bug ID
 	Title       string     `gorm:"size:500;not null"`
 	Priority    int        `gorm:"default:3"` // 1-5
 	AssigneeID  *uuid.UUID
@@ -22,7 +22,7 @@ type KanbanCard struct {
 	Tags        string     `gorm:"type:text"`
 	BlockReason string     `gorm:"type:text"` // 阻塞原因
 	SortOrder   int        `gorm:"default:0"`
-	MovedAt     time.Time  // 最后移动时�?	MovedBy     *uuid.UUID
+	MovedAt     time.Time  // 最后移动时�?	MovedBy     *uuid.UUID
 }
 
 // TableName 指定表名

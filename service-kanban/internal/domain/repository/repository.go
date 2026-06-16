@@ -15,7 +15,7 @@ type BoardRepository interface {
 	GetByRefID(refID uuid.UUID) (*entity.KanbanBoard, error)
 }
 
-// ColumnRepository 看板列仓储接�?type ColumnRepository interface {
+// ColumnRepository 看板列仓储接�?type ColumnRepository interface {
 	Create(column *entity.KanbanColumn) error
 	GetByID(id uuid.UUID) (*entity.KanbanColumn, error)
 	Update(column *entity.KanbanColumn) error

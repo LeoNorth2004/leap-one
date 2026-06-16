@@ -31,7 +31,7 @@ type DocumentCommentRepository interface {
 	ListByDocumentID(documentID uuid.UUID) ([]*entity.DocumentComment, error)
 }
 
-// KnowledgeBaseRepository 知识库仓储接�?type KnowledgeBaseRepository interface {
+// KnowledgeBaseRepository 知识库仓储接�?type KnowledgeBaseRepository interface {
 	Create(kb *entity.KnowledgeBase) error
 	GetByID(id uuid.UUID) (*entity.KnowledgeBase, error)
 	Update(kb *entity.KnowledgeBase) error

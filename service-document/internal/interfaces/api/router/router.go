@@ -37,7 +37,7 @@ func SetupRouter(h *handler.DocumentHandler) *gin.Engine {
 			docs.POST("/:id/favorite", h.Favorite)
 			docs.DELETE("/:id/favorite", h.Unfavorite)
 			docs.POST("/:id/attachments", h.UploadAttachment)
-			docs.GET("/export/:id", func(c *gin.Context) { c.JSON(200, gin.H{"message": "导出功能待实�?}) })
+			docs.GET("/export/:id", func(c *gin.Context) { c.JSON(200, gin.H{"message": "导出功能待实�?}) })
 		}
 
 		// 文档分类
@@ -49,7 +49,7 @@ func SetupRouter(h *handler.DocumentHandler) *gin.Engine {
 			cats.DELETE("/:id", h.DeleteCategory)
 		}
 
-		// 知识�?		kbs := v1.Group("/knowledge-bases")
+		// 知识�?		kbs := v1.Group("/knowledge-bases")
 		{
 			kbs.POST("", h.CreateKB)
 			kbs.GET("", h.ListKBs)
@@ -58,7 +58,7 @@ func SetupRouter(h *handler.DocumentHandler) *gin.Engine {
 			kbs.DELETE("/:id", h.DeleteKB)
 		}
 
-		// 模板�?		v1.GET("/templates", h.ListTemplates)
+		// 模板�?		v1.GET("/templates", h.ListTemplates)
 	}
 
 	return r

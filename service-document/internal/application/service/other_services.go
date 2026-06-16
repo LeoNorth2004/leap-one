@@ -65,7 +65,7 @@ func (s *CategoryService) List() ([]*entity.DocumentCategory, error) { return s.
 func (s *CategoryService) Update(c *entity.DocumentCategory) error   { return s.repo.Update(c) }
 func (s *CategoryService) Delete(id uuid.UUID) error                 { return s.repo.Delete(id) }
 
-// KnowledgeBaseService 知识库服�?
+// KnowledgeBaseService 知识库服�?
 type KnowledgeBaseService struct {
 	repo repository.KnowledgeBaseRepository
 }

@@ -29,7 +29,7 @@ func NewSuiteHandler(suiteRepo repository.TestSuiteRepository, caseRepo reposito
 	}
 }
 
-// CreateSuite 创建套件（POST /api/v1/test-suites�?
+// CreateSuite 创建套件（POST /api/v1/test-suites�?
 func (h *SuiteHandler) CreateSuite(c *gin.Context) {
 	var req dto.CreateTestSuiteRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -60,7 +60,7 @@ func (h *SuiteHandler) CreateSuite(c *gin.Context) {
 	})
 }
 
-// ListSuites 套件列表（GET /api/v1/test-suites�?
+// ListSuites 套件列表（GET /api/v1/test-suites�?
 func (h *SuiteHandler) ListSuites(c *gin.Context) {
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	size, _ := strconv.Atoi(c.DefaultQuery("size", "20"))
@@ -104,7 +104,7 @@ func (h *SuiteHandler) ListSuites(c *gin.Context) {
 	})
 }
 
-// GetSuite 套件详情+用例列表（GET /api/v1/test-suites/:id�?
+// GetSuite 套件详情+用例列表（GET /api/v1/test-suites/:id�?
 func (h *SuiteHandler) GetSuite(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -115,11 +115,11 @@ func (h *SuiteHandler) GetSuite(c *gin.Context) {
 	ctx := c.Request.Context()
 	suite, err := h.suiteRepo.GetByID(ctx, id)
 	if err != nil || suite == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "测试套件不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "测试套件不存�?})
 		return
 	}
 
-	// 获取关联的用例信�?
+	// 获取关联的用例信�?
 	caseItems := make([]dto.SuiteCaseItem, 0)
 	for _, rel := range suite.Cases {
 		item := dto.SuiteCaseItem{
@@ -148,7 +148,7 @@ func (h *SuiteHandler) GetSuite(c *gin.Context) {
 	})
 }
 
-// UpdateSuite 更新套件（PUT /api/v1/test-suites/:id�?
+// UpdateSuite 更新套件（PUT /api/v1/test-suites/:id�?
 func (h *SuiteHandler) UpdateSuite(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -165,7 +165,7 @@ func (h *SuiteHandler) UpdateSuite(c *gin.Context) {
 	ctx := c.Request.Context()
 	suite, err := h.suiteRepo.GetByID(ctx, id)
 	if err != nil || suite == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "测试套件不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "测试套件不存�?})
 		return
 	}
 
@@ -191,7 +191,7 @@ func (h *SuiteHandler) UpdateSuite(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "测试套件更新成功"})
 }
 
-// DeleteSuite 删除套件（DELETE /api/v1/test-suites/:id�?
+// DeleteSuite 删除套件（DELETE /api/v1/test-suites/:id�?
 func (h *SuiteHandler) DeleteSuite(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -202,7 +202,7 @@ func (h *SuiteHandler) DeleteSuite(c *gin.Context) {
 	ctx := c.Request.Context()
 	suite, getErr := h.suiteRepo.GetByID(ctx, id)
 	if getErr != nil || suite == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "测试套件不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "测试套件不存�?})
 		return
 	}
 
@@ -216,7 +216,7 @@ func (h *SuiteHandler) DeleteSuite(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "测试套件删除成功"})
 }
 
-// AddCasesToSuite 添加用例到套件（POST /api/v1/test-suites/:id/cases�?
+// AddCasesToSuite 添加用例到套件（POST /api/v1/test-suites/:id/cases�?
 func (h *SuiteHandler) AddCasesToSuite(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -235,13 +235,13 @@ func (h *SuiteHandler) AddCasesToSuite(c *gin.Context) {
 	// 验证套件存在
 	suite, getErr := h.suiteRepo.GetByID(ctx, id)
 	if getErr != nil || suite == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "测试套件不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "测试套件不存�?})
 		return
 	}
 
 	if err := h.suiteRepo.AddCases(ctx, id, req.CaseIDs); err != nil {
-		h.logger.Error("添加用例到套件失�?, zap.Error(err))
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "添加用例到套件失�?})
+		h.logger.Error("添加用例到套件失�?, zap.Error(err))
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "添加用例到套件失�?})
 		return
 	}
 
@@ -251,7 +251,7 @@ func (h *SuiteHandler) AddCasesToSuite(c *gin.Context) {
 	})
 }
 
-// RemoveCaseFromSuite 移除用例（DELETE /api/v1/test-suites/:id/cases/:cid�?
+// RemoveCaseFromSuite 移除用例（DELETE /api/v1/test-suites/:id/cases/:cid�?
 func (h *SuiteHandler) RemoveCaseFromSuite(c *gin.Context) {
 	suiteID, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -267,10 +267,10 @@ func (h *SuiteHandler) RemoveCaseFromSuite(c *gin.Context) {
 	ctx := c.Request.Context()
 
 	if err := h.suiteRepo.RemoveCase(ctx, suiteID, caseID); err != nil {
-		h.logger.Error("从套件移除用例失�?, zap.Error(err))
+		h.logger.Error("从套件移除用例失�?, zap.Error(err))
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "移除用例失败"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "用例已从套件中移�?})
+	c.JSON(http.StatusOK, gin.H{"message": "用例已从套件中移�?})
 }

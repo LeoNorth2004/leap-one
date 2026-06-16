@@ -69,7 +69,7 @@ func (h *WebhookHandler) GetWebhook(c *gin.Context) {
 	ctx := c.Request.Context()
 	cfg, err := h.cfgRepo.GetByID(ctx, id)
 	if err != nil || cfg == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "不存�?})
 		return
 	}
 	c.JSON(http.StatusOK, dto.WebhookInfo{ID: cfg.ID.String(), Name: cfg.Name, URL: cfg.URL, Events: cfg.Events, IsActive: cfg.IsActive, CreatedAt: cfg.CreatedAt.Format("2006-01-02 15:04:05")})
@@ -89,7 +89,7 @@ func (h *WebhookHandler) UpdateWebhook(c *gin.Context) {
 	ctx := c.Request.Context()
 	cfg, err := h.cfgRepo.GetByID(ctx, id)
 	if err != nil || cfg == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "不存�?})
 		return
 	}
 	if req.Name != nil {

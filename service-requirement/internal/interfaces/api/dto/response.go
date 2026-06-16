@@ -49,7 +49,7 @@ func BadRequest(message string) Response {
 	return Error(http.StatusBadRequest, message)
 }
 
-// NotFound 未找到响�?func NotFound(message string) Response {
+// NotFound 未找到响�?func NotFound(message string) Response {
 	return Error(http.StatusNotFound, message)
 }
 

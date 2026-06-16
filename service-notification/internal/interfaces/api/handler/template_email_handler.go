@@ -43,7 +43,7 @@ func (h *TemplateHandler) GetTemplate(c *gin.Context) {
 	if err != nil { c.JSON(http.StatusBadRequest, gin.H{"error": "无效的模板ID"}); return }
 	ctx := c.Request.Context()
 	t, err := h.tplRepo.GetByID(ctx, id)
-	if err != nil || t == nil { c.JSON(http.StatusNotFound, gin.H{"error": "模板不存�?}); return }
+	if err != nil || t == nil { c.JSON(http.StatusNotFound, gin.H{"error": "模板不存�?}); return }
 	c.JSON(http.StatusOK, dto.TemplateInfo{ID: t.ID.String(), Code: t.Code, Name: t.Name, Subject: t.Subject, Body: t.Body, Channels: t.Channels, EventType: t.EventType, IsSystem: t.IsSystem, CreatedAt: t.CreatedAt.Format("2006-01-02 15:04:05")})
 }
 func (h *TemplateHandler) UpdateTemplate(c *gin.Context) {
@@ -53,7 +53,7 @@ func (h *TemplateHandler) UpdateTemplate(c *gin.Context) {
 	if err := c.ShouldBindJSON(&req); err != nil { c.JSON(http.StatusBadRequest, gin.H{"error": "请求参数错误"}); return }
 	ctx := c.Request.Context()
 	t, err := h.tplRepo.GetByID(ctx, id)
-	if err != nil || t == nil { c.JSON(http.StatusNotFound, gin.H{"error": "模板不存�?}); return }
+	if err != nil || t == nil { c.JSON(http.StatusNotFound, gin.H{"error": "模板不存�?}); return }
 	if req.Name != nil { t.Name = *req.Name }; if req.Subject != nil { t.Subject = *req.Subject }; if req.Body != nil { t.Body = *req.Body }; if req.Channels != nil { t.Channels = *req.Channels }; if req.EventType != nil { t.EventType = *req.EventType }
 	if err := h.tplRepo.Update(ctx, t); err != nil { c.JSON(http.StatusInternalServerError, gin.H{"error": "更新失败"}); return }
 	c.JSON(http.StatusOK, gin.H{"message": "模板更新成功"})
@@ -91,7 +91,7 @@ func (h *EmailLogHandler) GetEmailLog(c *gin.Context) {
 	if err != nil { c.JSON(http.StatusBadRequest, gin.H{"error": "无效的日志ID"}); return }
 	ctx := c.Request.Context()
 	log, err := h.logRepo.GetByID(ctx, id)
-	if err != nil || log == nil { c.JSON(http.StatusNotFound, gin.H{"error": "日志不存�?}); return }
+	if err != nil || log == nil { c.JSON(http.StatusNotFound, gin.H{"error": "日志不存�?}); return }
 	resp := dto.EmailLogInfo{ID: log.ID.String(), ToAddress: log.ToAddress, Subject: log.Subject, Status: log.Status, Content: log.Content, ErrorMsg: log.ErrorMsg, RetryCount: log.RetryCount, CreatedAt: log.CreatedAt.Format("2006-01-02 15:04:05")}
 	if log.SentAt != nil { resp.SentAt = log.SentAt.Format("2006-01-02 15:04:05") }
 	c.JSON(http.StatusOK, resp)
@@ -103,5 +103,5 @@ func (h *EmailLogHandler) ResendEmail(c *gin.Context) {
 	h.logRepo.IncrementRetry(ctx, id)
 	h.logRepo.UpdateStatus(ctx, id, "pending", "")
 	h.logger.Info("重发邮件请求", zap.String("log_id", id.String()))
-	c.JSON(http.StatusOK, gin.H{"message": "邮件重发任务已加入队�?})
+	c.JSON(http.StatusOK, gin.H{"message": "邮件重发任务已加入队�?})
 }

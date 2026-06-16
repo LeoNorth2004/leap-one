@@ -42,11 +42,11 @@ func (r *EnvironmentRepositoryImpl) Update(ctx context.Context, env *entity.Test
 	return r.db.WithContext(ctx).Save(env).Error
 }
 
-// Delete 删除测试环境（软删除�?func (r *EnvironmentRepositoryImpl) Delete(ctx context.Context, id uuid.UUID) error {
+// Delete 删除测试环境（软删除�?func (r *EnvironmentRepositoryImpl) Delete(ctx context.Context, id uuid.UUID) error {
 	return r.db.WithContext(ctx).Delete(&entity.TestEnvironment{}, "id = ?", id).Error
 }
 
-// List 查询所有测试环境列�?func (r *EnvironmentRepositoryImpl) List(ctx context.Context, includeInactive bool) ([]*entity.TestEnvironment, error) {
+// List 查询所有测试环境列�?func (r *EnvironmentRepositoryImpl) List(ctx context.Context, includeInactive bool) ([]*entity.TestEnvironment, error) {
 	var envs []*entity.TestEnvironment
 
 	query := r.db.WithContext(ctx).Model(&entity.TestEnvironment{})

@@ -5,7 +5,7 @@ import ("time"; "github.com/google/uuid"; "gorm.io/gorm")
 type SystemConfig struct{
 	ID uuid.UUID `gorm:"type:uuid;primary_key" json:"id"`
 	Category string `gorm:"size:100;not null;index" json:"category"` // 分类
-	Key string `gorm:"size:200;not null" json:"key"` // 配置�?	Value string `gorm:"type:text" json:"value"` // 配置�?	ValueType string `gorm:"size:20;default:'string'" json:"value_type"` // string/int/bool/json
+	Key string `gorm:"size:200;not null" json:"key"` // 配置�?	Value string `gorm:"type:text" json:"value"` // 配置�?	ValueType string `gorm:"size:20;default:'string'" json:"value_type"` // string/int/bool/json
 	IsEncrypted bool `gorm:"default:false" json:"is_encrypted"`
 	IsPublic bool `gorm:"default:false" json:"is_public"` // 是否公开可读
 	Description string `gorm:"size:500" json:"description"`

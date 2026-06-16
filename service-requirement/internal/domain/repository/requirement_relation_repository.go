@@ -5,7 +5,7 @@ import (
 	"leap-one/service-requirement/internal/domain/entity"
 )
 
-// RequirementRelationRepository 需求关联仓储接�?
+// RequirementRelationRepository 需求关联仓储接�?
 type RequirementRelationRepository interface {
 	// Create 创建关联关系
 	Create(relation *entity.RequirementRelation) error

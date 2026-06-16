@@ -21,7 +21,7 @@ type TestSuite struct {
 	DeletedAt   gorm.DeletedAt          `gorm:"index" json:"-"`
 }
 
-// TableName 指定数据库表�?
+// TableName 指定数据库表�?
 func (TestSuite) TableName() string {
 	return "test_suites"
 }

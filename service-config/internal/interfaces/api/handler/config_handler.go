@@ -47,7 +47,7 @@ func (h *ConfigHandler) GetConfig(c *gin.Context) {
 	ctx := c.Request.Context()
 	cfg, err := h.cfgRepo.GetByCategoryAndKey(ctx, c.Param("category"), c.Param("key"))
 	if err != nil || cfg == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "配置不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "配置不存�?})
 		return
 	}
 	c.JSON(http.StatusOK, buildConfigItem(cfg))
@@ -62,7 +62,7 @@ func (h *ConfigHandler) UpdateConfig(c *gin.Context) {
 	ctx := c.Request.Context()
 	cfg, err := h.cfgRepo.GetByCategoryAndKey(ctx, c.Param("category"), c.Param("key"))
 	if err != nil || cfg == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "不存�?})
 		return
 	}
 	cfg.Value = req.Value
@@ -131,7 +131,7 @@ func (h *FlagHandler) GetFlag(c *gin.Context) {
 	ctx := c.Request.Context()
 	f, err := h.flagRepo.GetByKey(ctx, c.Param("key"))
 	if err != nil || f == nil {
-		c.JSON(404, gin.H{"error": "不存�?})
+		c.JSON(404, gin.H{"error": "不存�?})
 		return
 	}
 	c.JSON(200, dto.FeatureFlagInfo{ID: f.ID.String(), Key: f.Key, Name: f.Name, Description: f.Description, Enabled: f.Enabled, Rules: f.Rules})
@@ -145,7 +145,7 @@ func (h *FlagHandler) UpdateFlag(c *gin.Context) {
 	ctx := c.Request.Context()
 	f, err := h.flagRepo.GetByKey(ctx, c.Param("key"))
 	if err != nil || f == nil {
-		c.JSON(404, gin.H{"error": "不存�?})
+		c.JSON(404, gin.H{"error": "不存�?})
 		return
 	}
 	if req.Name != nil {
@@ -216,7 +216,7 @@ func (h *AuditLogHandler) GetLog(c *gin.Context) {
 	ctx := c.Request.Context()
 	log, err := h.logRepo.GetByID(ctx, id)
 	if err != nil || log == nil {
-		c.JSON(404, gin.H{"error": "不存�?})
+		c.JSON(404, gin.H{"error": "不存�?})
 		return
 	}
 	c.JSON(200, dto.AuditLogInfo{ID: log.ID.String(), UserID: log.UserID.String(), Action: log.Action, Resource: log.Resource, ResourceID: log.ResourceID.String(), Detail: log.Detail, IPAddress: log.IPAddress, UserAgent: log.UserAgent, CreatedAt: log.CreatedAt.Format("2006-01-02 15:04:05")})

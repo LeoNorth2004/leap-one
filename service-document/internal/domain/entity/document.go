@@ -18,10 +18,10 @@ type Document struct {
 	OwnerID         uuid.UUID        `gorm:"not null"`
 	Status          string           `gorm:"size:20;default:'draft'"` // draft/published/archived
 	Visibility      string           `gorm:"size:20;default:'public'"` // public/private/team/custom
-	PermissionUsers string          `gorm:"type:text"` // JSON自定义权限用户列�?	Version         int              `gorm:"default:1"`
+	PermissionUsers string          `gorm:"type:text"` // JSON自定义权限用户列�?	Version         int              `gorm:"default:1"`
 	TemplateID      *uuid.UUID
 	Tags            string           `gorm:"type:text"`
-	IsTemplate      bool             `gorm:"default:false"` // 是否为模�?	OrderIndex      int              `gorm:"default:0"`
+	IsTemplate      bool             `gorm:"default:false"` // 是否为模�?	OrderIndex      int              `gorm:"default:0"`
 	Children        []Document       `gorm:"foreignKey:ParentID"`
 	Versions        []DocumentVersion `gorm:"foreignKey:DocumentID"`
 	Attachments     []DocumentAttachment `gorm:"foreignKey:DocumentID"`

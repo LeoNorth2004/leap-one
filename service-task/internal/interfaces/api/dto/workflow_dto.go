@@ -47,7 +47,7 @@ type CreateTransitionRequest struct {
 	SortOrder  int    `json:"sort_order"`
 }
 
-// TransitionInfo 状态转换信�?
+// TransitionInfo 状态转换信息
 type TransitionInfo struct {
 	ID         string `json:"id"`
 	FromStatus string `json:"from_status"`

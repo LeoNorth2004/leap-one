@@ -4,7 +4,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// RequirementChangeLog 需求变更日�?type RequirementChangeLog struct {
+// RequirementChangeLog 需求变更日�?type RequirementChangeLog struct {
 	BaseModel
 ID            uuid.UUID `gorm:"primaryKey"`
 	RequirementID uuid.UUID `gorm:"index;not null"`

@@ -48,23 +48,23 @@ func (h *DashboardHandler) GetAnnualOverview(c *gin.Context) {
 	c.JSON(http.StatusOK, h.buildDashboardResponse(dash))
 }
 
-// GetRanking 获取年度排行�?(GET /api/v1/dashboards/ranking)
+// GetRanking 获取年度排行�?(GET /api/v1/dashboards/ranking)
 func (h *DashboardHandler) GetRanking(c *gin.Context) {
 	ctx := c.Request.Context()
 	dash, err := h.dashboardRepo.GetByType(ctx, "ranking")
 	if err != nil || dash == nil {
-		c.JSON(http.StatusOK, gin.H{"message": "暂无年度排行榜配�?, "data": gin.H{}})
+		c.JSON(http.StatusOK, gin.H{"message": "暂无年度排行榜配�?, "data": gin.H{}})
 		return
 	}
 	c.JSON(http.StatusOK, h.buildDashboardResponse(dash))
 }
 
-// GetSprintBurndown 获取迭代燃尽图大�?(GET /api/v1/dashboards/sprint-burndown)
+// GetSprintBurndown 获取迭代燃尽图大�?(GET /api/v1/dashboards/sprint-burndown)
 func (h *DashboardHandler) GetSprintBurndown(c *gin.Context) {
 	ctx := c.Request.Context()
 	dash, err := h.dashboardRepo.GetByType(ctx, "sprint_burndown")
 	if err != nil || dash == nil {
-		c.JSON(http.StatusOK, gin.H{"message": "暂无迭代燃尽图配�?, "data": gin.H{}})
+		c.JSON(http.StatusOK, gin.H{"message": "暂无迭代燃尽图配�?, "data": gin.H{}})
 		return
 	}
 	c.JSON(http.StatusOK, h.buildDashboardResponse(dash))
@@ -81,7 +81,7 @@ func (h *DashboardHandler) GetAnnualSummary(c *gin.Context) {
 	c.JSON(http.StatusOK, h.buildDashboardResponse(dash))
 }
 
-// GetDashboardByID 获取自定义大�?(GET /api/v1/dashboards/:id)
+// GetDashboardByID 获取自定义大�?(GET /api/v1/dashboards/:id)
 func (h *DashboardHandler) GetDashboardByID(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -92,7 +92,7 @@ func (h *DashboardHandler) GetDashboardByID(c *gin.Context) {
 	ctx := c.Request.Context()
 	dash, err := h.dashboardRepo.GetByID(ctx, id)
 	if err != nil || dash == nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "大屏不存�?})
+		c.JSON(http.StatusNotFound, gin.H{"error": "大屏不存�?})
 		return
 	}
 	c.JSON(http.StatusOK, h.buildDashboardResponse(dash))
@@ -114,7 +114,7 @@ func (h *DashboardHandler) buildDashboardResponse(dash *entity.DashboardConfig) 
 	}
 }
 
-// getStringFromContext 从Gin上下文中安全获取字符串�?
+// getStringFromContext 从Gin上下文中安全获取字符串�?
 func getStringFromContext(c *gin.Context, key string) string {
 	val, exists := c.Get(key)
 	if !exists {

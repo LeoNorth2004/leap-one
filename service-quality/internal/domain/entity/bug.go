@@ -13,8 +13,8 @@ type Bug struct {
 	Title         string          `gorm:"type:varchar(500);not null" json:"title"`       // Bug标题
 	Description   string          `gorm:"type:text" json:"description"`                  // Bug详细描述
 	Steps         string          `gorm:"type:text" json:"steps"`                        // 复现步骤
-	Severity      int             `gorm:"default:2" json:"severity"`                     // 严重程度 1致命/2严重/3一�?4提示
-	Priority      int             `gorm:"default:3" json:"priority"`                     // 优先�?1-5
+	Severity      int             `gorm:"default:2" json:"severity"`                     // 严重程度 1致命/2严重/3一�?4提示
+	Priority      int             `gorm:"default:3" json:"priority"`                     // 优先�?1-5
 	Status        string          `gorm:"size:20;default:'new'" json:"status"`           // new/confirmed/in_progress/resolved/closed/reopened/cancelled
 	Type          string          `gorm:"size:30;default:'code_bug'" json:"type"`        // code_bug/design_bug/data_bug/config/security/performance/ui
 	ProductID     *uuid.UUID      `gorm:"type:uuid" json:"product_id"`                   // 关联产品ID
@@ -30,8 +30,8 @@ type Bug struct {
 	FixedVersion  string          `gorm:"type:varchar(100)" json:"fixed_version"`        // 修复版本
 	Environment   string          `gorm:"type:varchar(200)" json:"environment"`          // 环境信息
 	OS            string          `gorm:"type:varchar(100)" json:"os"`                   // 操作系统
-	Browser       string          `gorm:"type:varchar(100)" json:"browser"`              // 浏览�?
-	Reproductive  bool            `gorm:"default:true" json:"reproductive"`              // 是否可复�?
+	Browser       string          `gorm:"type:varchar(100)" json:"browser"`              // 浏览�?
+	Reproductive  bool            `gorm:"default:true" json:"reproductive"`              // 是否可复�?
 	ConfirmedAt   *time.Time      `json:"confirmed_at"`                                  // 确认时间
 	ConfirmedBy   *uuid.UUID      `gorm:"type:uuid" json:"confirmed_by"`                 // 确认人ID
 	ResolvedAt    *time.Time      `json:"resolved_at"`                                   // 解决时间
@@ -48,7 +48,7 @@ type Bug struct {
 	DeletedAt     gorm.DeletedAt  `gorm:"index" json:"-"`
 }
 
-// TableName 指定数据库表�?
+// TableName 指定数据库表�?
 func (Bug) TableName() string {
 	return "bugs"
 }
@@ -72,7 +72,7 @@ type BugComment struct {
 	UpdatedAt time.Time  `json:"updated_at"`
 }
 
-// TableName 指定数据库表�?
+// TableName 指定数据库表�?
 func (BugComment) TableName() string {
 	return "bug_comments"
 }
@@ -98,7 +98,7 @@ type BugAttachment struct {
 	UpdatedAt  time.Time `json:"updated_at"`
 }
 
-// TableName 指定数据库表�?
+// TableName 指定数据库表�?
 func (BugAttachment) TableName() string {
 	return "bug_attachments"
 }
@@ -111,19 +111,19 @@ func (a *BugAttachment) BeforeCreate(tx *gorm.DB) error {
 	return nil
 }
 
-// BugHistory Bug状态变更历史实�?
+// BugHistory Bug状态变更历史实�?
 type BugHistory struct {
 	ID        uuid.UUID `gorm:"type:uuid;primary_key" json:"id"`
 	BugID     uuid.UUID `gorm:"type:uuid;index;not null" json:"bug_id"`      // 关联Bug ID
-	FieldName string    `gorm:"type:varchar(50);not null" json:"field_name"` // 变更字段�?
-	OldValue  string    `gorm:"type:text" json:"old_value"`                  // 变更前的�?
-	NewValue  string    `gorm:"type:text" json:"new_value"`                  // 变更后的�?
+	FieldName string    `gorm:"type:varchar(50);not null" json:"field_name"` // 变更字段�?
+	OldValue  string    `gorm:"type:text" json:"old_value"`                  // 变更前的�?
+	NewValue  string    `gorm:"type:text" json:"new_value"`                  // 变更后的�?
 	UserID    uuid.UUID `gorm:"type:uuid;not null" json:"user_id"`           // 操作人ID
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-// TableName 指定数据库表�?
+// TableName 指定数据库表�?
 func (BugHistory) TableName() string {
 	return "bug_histories"
 }
@@ -136,18 +136,18 @@ func (h *BugHistory) BeforeCreate(tx *gorm.DB) error {
 	return nil
 }
 
-// BugWorkflow Bug工作流定义实�?
+// BugWorkflow Bug工作流定义实�?
 type BugWorkflow struct {
 	ID            uuid.UUID               `gorm:"type:uuid;primary_key" json:"id"`
-	Name          string                  `gorm:"type:varchar(200);not null" json:"name"`             // 工作流名�?
-	InitialStatus string                  `gorm:"size:20;default:'new'" json:"initial_status"`        // 初始状�?
-	IsDefault     bool                    `gorm:"default:false" json:"is_default"`                    // 是否默认工作�?
-	Transitions   []BugWorkflowTransition `gorm:"foreignKey:WorkflowID" json:"transitions,omitempty"` // 状态转换规�?
+	Name          string                  `gorm:"type:varchar(200);not null" json:"name"`             // 工作流名�?
+	InitialStatus string                  `gorm:"size:20;default:'new'" json:"initial_status"`        // 初始状�?
+	IsDefault     bool                    `gorm:"default:false" json:"is_default"`                    // 是否默认工作�?
+	Transitions   []BugWorkflowTransition `gorm:"foreignKey:WorkflowID" json:"transitions,omitempty"` // 状态转换规�?
 	CreatedAt     time.Time               `json:"created_at"`
 	UpdatedAt     time.Time               `json:"updated_at"`
 }
 
-// TableName 指定数据库表�?
+// TableName 指定数据库表�?
 func (BugWorkflow) TableName() string {
 	return "bug_workflows"
 }
@@ -160,21 +160,21 @@ func (w *BugWorkflow) BeforeCreate(tx *gorm.DB) error {
 	return nil
 }
 
-// BugWorkflowTransition Bug状态转换规则实�?
+// BugWorkflowTransition Bug状态转换规则实�?
 type BugWorkflowTransition struct {
 	ID             uuid.UUID `gorm:"type:uuid;primary_key" json:"id"`
 	WorkflowID     uuid.UUID `gorm:"type:uuid;index;not null" json:"workflow_id"` // 所属工作流ID
-	FromStatus     string    `gorm:"size:20;not null" json:"from_status"`         // 源状�?
-	ToStatus       string    `gorm:"size:20;not null" json:"to_status"`           // 目标状�?
-	Name           string    `gorm:"size:varchar(100)" json:"name"`               // 转换名称（如"确认Bug"�?开始处�?�?
+	FromStatus     string    `gorm:"size:20;not null" json:"from_status"`         // 源状�?
+	ToStatus       string    `gorm:"size:20;not null" json:"to_status"`           // 目标状�?
+	Name           string    `gorm:"size:varchar(100)" json:"name"`               // 转换名称（如"确认Bug"�?开始处�?�?
 	Condition      string    `gorm:"size:200" json:"condition"`                   // 转换条件描述
-	RequiredFields string    `gorm:"type:text" json:"required_fields"`            // 必填字段（JSON�?
+	RequiredFields string    `gorm:"type:text" json:"required_fields"`            // 必填字段（JSON�?
 	SortOrder      int       `gorm:"default:0" json:"sort_order"`                 // 排序顺序
 	CreatedAt      time.Time `json:"created_at"`
 	UpdatedAt      time.Time `json:"updated_at"`
 }
 
-// TableName 指定数据库表�?
+// TableName 指定数据库表�?
 func (BugWorkflowTransition) TableName() string {
 	return "bug_workflow_transitions"
 }

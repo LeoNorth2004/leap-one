@@ -52,7 +52,7 @@ type BoardResponse struct {
 	Cards       []CardResponse     `json:"cards,omitempty"`
 }
 
-// ==================== åˆ?DTO ====================
+// ==================== ï¿½?DTO ====================
 
 type CreateColumnRequest struct {
 	Name     string `json:"name" binding:"required,max=100"`

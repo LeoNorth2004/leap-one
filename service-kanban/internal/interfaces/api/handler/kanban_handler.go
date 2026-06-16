@@ -10,7 +10,7 @@ import (
 	"leap-one/service-kanban/internal/interfaces/api/dto"
 )
 
-// KanbanHandler 看板HTTP处理�?type KanbanHandler struct {
+// KanbanHandler 看板HTTP处理�?type KanbanHandler struct {
 	boardSvc      *service.BoardService
 	columnSvc     *service.ColumnService
 	cardSvc       *service.CardService
@@ -70,7 +70,7 @@ func (h *KanbanHandler) GetBoard(c *gin.Context) {
 	}
 	board, err := h.boardSvc.GetByID(id)
 	if err != nil {
-		c.JSON(404, dto.NotFound("看板不存�?))
+		c.JSON(404, dto.NotFound("看板不存�?))
 		return
 	}
 	c.JSON(200, dto.Success(toBoardFullResp(board)))
@@ -113,7 +113,7 @@ func (h *KanbanHandler) DeleteBoard(c *gin.Context) {
 	c.JSON(200, dto.Success(nil))
 }
 
-// ==================== 列操�?====================
+// ==================== 列操�?====================
 
 func (h *KanbanHandler) CreateColumn(c *gin.Context) {
 	boardID, err := uuid.Parse(c.Param("id"))
@@ -129,7 +129,7 @@ func (h *KanbanHandler) CreateColumn(c *gin.Context) {
 	col := &entity.KanbanColumn{ID: uuid.New(), BoardID: boardID, Name: req.Name, Key: req.Key, WIPLimit: req.WIPLimit, Color: req.Color, Type: req.Type}
 	result, err := h.columnSvc.Create(col)
 	if err != nil {
-		c.JSON(500, dto.InternalError("创建列失�?))
+		c.JSON(500, dto.InternalError("创建列失�?))
 		return
 	}
 	c.JSON(201, dto.Success(toColResp(result)))
@@ -166,7 +166,7 @@ func (h *KanbanHandler) UpdateColumn(c *gin.Context) {
 		col.SortOrder = *req.SortOrder
 	}
 	if err := h.columnSvc.Update(col); err != nil {
-		c.JSON(500, dto.InternalError("更新列失�?))
+		c.JSON(500, dto.InternalError("更新列失�?))
 		return
 	}
 	c.JSON(200, dto.Success(nil))
@@ -179,7 +179,7 @@ func (h *KanbanHandler) DeleteColumn(c *gin.Context) {
 		return
 	}
 	if err := h.columnSvc.Delete(colID); err != nil {
-		c.JSON(500, dto.InternalError("删除列失�?))
+		c.JSON(500, dto.InternalError("删除列失�?))
 		return
 	}
 	c.JSON(200, dto.Success(nil))
@@ -199,7 +199,7 @@ func (h *KanbanHandler) ReorderColumns(c *gin.Context) {
 		return
 	}
 	if err := h.columnSvc.Reorder(boardID, req.ColumnIDs); err != nil {
-		c.JSON(500, dto.InternalError("排序列失�?))
+		c.JSON(500, dto.InternalError("排序列失�?))
 		return
 	}
 	c.JSON(200, dto.Success(nil))
@@ -311,7 +311,7 @@ func (h *KanbanHandler) UpdateCard(c *gin.Context) {
 	}
 	card, err := h.cardSvc.GetByID(cardID)
 	if err != nil {
-		c.JSON(404, dto.NotFound("卡片不存�?))
+		c.JSON(404, dto.NotFound("卡片不存�?))
 		return
 	}
 	if req.Title != nil {

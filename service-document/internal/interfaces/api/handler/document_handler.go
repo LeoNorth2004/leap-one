@@ -13,7 +13,7 @@ import (
 	"leap-one/service-document/internal/interfaces/api/dto"
 )
 
-// DocumentHandler 文档HTTP处理�?
+// DocumentHandler 文档HTTP处理�?
 type DocumentHandler struct {
 	docSvc      *service.DocumentService
 	versionSvc  *service.VersionService
@@ -89,7 +89,7 @@ func (h *DocumentHandler) GetTree(c *gin.Context) {
 	}
 	tree, err := h.docSvc.GetTree(pid)
 	if err != nil {
-		c.JSON(500, dto.InternalError("获取目录树失�?))
+		c.JSON(500, dto.InternalError("获取目录树失�?))
 		return
 	}
 	var resps []dto.DocumentResponse
@@ -107,7 +107,7 @@ func (h *DocumentHandler) GetByID(c *gin.Context) {
 	}
 	doc, err := h.docSvc.GetByID(id)
 	if err != nil {
-		c.JSON(404, dto.NotFound("文档不存�?))
+		c.JSON(404, dto.NotFound("文档不存�?))
 		return
 	}
 	c.JSON(200, dto.Success(toDocResp(doc)))
@@ -205,7 +205,7 @@ func (h *DocumentHandler) GetVersion(c *gin.Context) {
 	ver, _ := strconv.Atoi(c.Param("vid"))
 	v, err := h.versionSvc.GetVersion(docID, ver)
 	if err != nil {
-		c.JSON(404, dto.NotFound("版本不存�?))
+		c.JSON(404, dto.NotFound("版本不存�?))
 		return
 	}
 	c.JSON(200, dto.Success(toVersionResp(v)))
@@ -220,7 +220,7 @@ func (h *DocumentHandler) Restore(c *gin.Context) {
 	targetVer, _ := strconv.Atoi(c.Query("version"))
 	doc, err := h.docSvc.GetByID(docID)
 	if err != nil {
-		c.JSON(404, dto.NotFound("文档不存�?))
+		c.JSON(404, dto.NotFound("文档不存�?))
 		return
 	}
 	if err := h.versionSvc.RestoreToVersion(docID, targetVer, doc, h.docSvc); err != nil {
@@ -388,7 +388,7 @@ func (h *DocumentHandler) DeleteCategory(c *gin.Context) {
 	c.JSON(200, dto.Success(nil))
 }
 
-// ==================== 知识�?CRUD ====================
+// ==================== 知识�?CRUD ====================
 
 func (h *DocumentHandler) CreateKB(c *gin.Context) {
 	var req dto.KBRequest
@@ -399,7 +399,7 @@ func (h *DocumentHandler) CreateKB(c *gin.Context) {
 	ownerID, _ := uuid.Parse(c.GetHeader("X-User-ID"))
 	kb := &entity.KnowledgeBase{ID: uuid.New(), Name: req.Name, Description: req.Description, OwnerID: ownerID, IsPublic: req.IsPublic}
 	if err := h.kbSvc.Create(kb); err != nil {
-		c.JSON(500, dto.InternalError("创建知识库失�?))
+		c.JSON(500, dto.InternalError("创建知识库失�?))
 		return
 	}
 	c.JSON(201, dto.Success(dto.KBResponse{ID: kb.ID, Name: req.Name, Description: req.Description, OwnerID: ownerID, IsPublic: req.IsPublic}))
@@ -409,7 +409,7 @@ func (h *DocumentHandler) ListKBs(c *gin.Context) {
 	ownerID, _ := uuid.Parse(c.DefaultQuery("owner_id", "00000000-0000-0000-0000-000000000000"))
 	kbs, err := h.kbSvc.List(ownerID)
 	if err != nil {
-		c.JSON(500, dto.InternalError("获取知识库列表失�?))
+		c.JSON(500, dto.InternalError("获取知识库列表失�?))
 		return
 	}
 	var resps []dto.KBResponse
@@ -446,7 +446,7 @@ func (h *DocumentHandler) UpdateKB(c *gin.Context) {
 	}
 	kb := &entity.KnowledgeBase{ID: id, Name: req.Name, Description: req.Description, IsPublic: req.IsPublic}
 	if err := h.kbSvc.Update(kb); err != nil {
-		c.JSON(500, dto.InternalError("更新知识库失�?))
+		c.JSON(500, dto.InternalError("更新知识库失�?))
 		return
 	}
 	c.JSON(200, dto.Success(nil))
@@ -459,7 +459,7 @@ func (h *DocumentHandler) DeleteKB(c *gin.Context) {
 		return
 	}
 	if err := h.kbSvc.Delete(id); err != nil {
-		c.JSON(500, dto.InternalError("删除知识库失�?))
+		c.JSON(500, dto.InternalError("删除知识库失�?))
 		return
 	}
 	c.JSON(200, dto.Success(nil))

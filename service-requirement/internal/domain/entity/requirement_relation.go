@@ -4,7 +4,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// RequirementRelation 需求关�?type RequirementRelation struct {
+// RequirementRelation 需求关�?type RequirementRelation struct {
 	BaseModel
 	ID            uuid.UUID `gorm:"primaryKey"`
 	RequirementID uuid.UUID `gorm:"index;not null"`

@@ -116,8 +116,8 @@ type SLAInfo struct {
 	ResolveSLA        int    `json:"resolve_sla"`         // 解决SLA（分钟）
 	SLADueDate        string `json:"sla_due_date"`        // SLA截止时间
 	ResponseDueDate   string `json:"response_due_date"`   // 响应截止时间
-	IsOverdue         bool   `json:"is_overdue"`          // 是否已超�?
-	ResponseOverdue   bool   `json:"response_overdue"`    // 响应是否已超�?
-	RemainingMinutes  *int64 `json:"remaining_minutes"`   // 剩余分钟�?
-	BusinessHoursOnly bool   `json:"business_hours_only"` // 仅工作时�?
+	IsOverdue         bool   `json:"is_overdue"`          // 是否已超时
+	ResponseOverdue   bool   `json:"response_overdue"`    // 响应是否已超时
+	RemainingMinutes  *int64 `json:"remaining_minutes"`   // 剩余分钟数
+	BusinessHoursOnly bool   `json:"business_hours_only"` // 仅工作时间
 }

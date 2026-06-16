@@ -51,7 +51,7 @@ func getCurrentUserID(c *gin.Context) uuid.UUID {
 	return uuid.Nil
 }
 
-// getStringFromContext 从Gin上下文中安全获取字符串�?func getStringFromContext(c *gin.Context, key string) string {
+// getStringFromContext 从Gin上下文中安全获取字符串�?func getStringFromContext(c *gin.Context, key string) string {
 	val, exists := c.Get(key)
 	if !exists {
 		return ""
@@ -62,7 +62,7 @@ func getCurrentUserID(c *gin.Context) uuid.UUID {
 	return ""
 }
 
-// getUUIDFromContext 从Gin上下文中安全获取UUID�?func getUUIDFromContext(c *gin.Context, key string) (uuid.UUID, bool) {
+// getUUIDFromContext 从Gin上下文中安全获取UUID�?func getUUIDFromContext(c *gin.Context, key string) (uuid.UUID, bool) {
 	val, exists := c.Get(key)
 	if !exists {
 		return uuid.Nil, false

@@ -32,7 +32,7 @@ func (s *DevOpsService) TriggerPipelineUseCase(ctx context.Context, pipelineID u
 	if err := s.runRepo.Create(ctx, pr); err != nil {
 		return nil, err
 	}
-	s.logger.Info("流水线触发成�?, zap.String("pipeline_id", pipelineID.String()), zap.Int("run_number", pr.RunNumber))
+	s.logger.Info("流水线触发成�?, zap.String("pipeline_id", pipelineID.String()), zap.Int("run_number", pr.RunNumber))
 	return pr, nil
 }
 func (s *DevOpsService) CreateDeploymentUseCase(ctx context.Context, environment string, artifactID *uuid.UUID, projectID *uuid.UUID, deployedBy uuid.UUID, version, notes string) (*entity.Deployment, error) {

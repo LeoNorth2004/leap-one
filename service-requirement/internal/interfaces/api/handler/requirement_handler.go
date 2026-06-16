@@ -13,7 +13,7 @@ import (
 	"leap-one/service-requirement/internal/interfaces/api/dto"
 )
 
-// RequirementHandler 需求HTTP处理�?
+// RequirementHandler 需求HTTP处理�?
 type RequirementHandler struct {
 	reqService    *service.RequirementService
 	reviewService *service.ReviewService
@@ -39,7 +39,7 @@ func NewRequirementHandler(
 	}
 }
 
-// CreateRequirement 创建需�?
+// CreateRequirement 创建需�?
 func (h *RequirementHandler) CreateRequirement(c *gin.Context) {
 	var req dto.CreateRequirementRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -70,15 +70,15 @@ func (h *RequirementHandler) CreateRequirement(c *gin.Context) {
 
 	result, err := h.reqService.CreateRequirement(entity)
 	if err != nil {
-		h.logger.Error("创建需求失�?, zap.Error(err))
-		c.JSON(500, dto.InternalError("创建需求失�?))
+		h.logger.Error("创建需求失�?, zap.Error(err))
+		c.JSON(500, dto.InternalError("创建需求失�?))
 		return
 	}
 
 	c.JSON(201, dto.Success(toRequirementResponse(result)))
 }
 
-// GetRequirement 获取需求详�?
+// GetRequirement 获取需求详�?
 func (h *RequirementHandler) GetRequirement(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -95,7 +95,7 @@ func (h *RequirementHandler) GetRequirement(c *gin.Context) {
 	c.JSON(200, dto.Success(toRequirementResponse(req)))
 }
 
-// UpdateRequirement 更新需�?
+// UpdateRequirement 更新需�?
 func (h *RequirementHandler) UpdateRequirement(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -137,15 +137,15 @@ func (h *RequirementHandler) UpdateRequirement(c *gin.Context) {
 
 	result, err := h.reqService.UpdateRequirement(id, updates)
 	if err != nil {
-		h.logger.Error("更新需求失�?, zap.Error(err))
-		c.JSON(500, dto.InternalError("更新需求失�?))
+		h.logger.Error("更新需求失�?, zap.Error(err))
+		c.JSON(500, dto.InternalError("更新需求失�?))
 		return
 	}
 
 	c.JSON(200, dto.Success(toRequirementResponse(result)))
 }
 
-// DeleteRequirement 删除需�?
+// DeleteRequirement 删除需�?
 func (h *RequirementHandler) DeleteRequirement(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -154,8 +154,8 @@ func (h *RequirementHandler) DeleteRequirement(c *gin.Context) {
 	}
 
 	if err := h.reqService.DeleteRequirement(id); err != nil {
-		h.logger.Error("删除需求失�?, zap.Error(err))
-		c.JSON(500, dto.InternalError("删除需求失�?))
+		h.logger.Error("删除需求失�?, zap.Error(err))
+		c.JSON(500, dto.InternalError("删除需求失�?))
 		return
 	}
 
@@ -202,8 +202,8 @@ func (h *RequirementHandler) ListRequirements(c *gin.Context) {
 
 	list, total, err := h.reqService.ListRequirements(params)
 	if err != nil {
-		h.logger.Error("查询需求列表失�?, zap.Error(err))
-		c.JSON(500, dto.InternalError("查询需求列表失�?))
+		h.logger.Error("查询需求列表失�?, zap.Error(err))
+		c.JSON(500, dto.InternalError("查询需求列表失�?))
 		return
 	}
 
@@ -238,7 +238,7 @@ func (h *RequirementHandler) GetRequirementTree(c *gin.Context) {
 	c.JSON(200, dto.Success(responses))
 }
 
-// UpdateStatus 更改状�?
+// UpdateStatus 更改状�?
 func (h *RequirementHandler) UpdateStatus(c *gin.Context) {
 	id, err := uuid.Parse(c.Param("id"))
 	if err != nil {
@@ -253,8 +253,8 @@ func (h *RequirementHandler) UpdateStatus(c *gin.Context) {
 	}
 
 	if err := h.reqService.UpdateStatus(id, req.Status); err != nil {
-		h.logger.Error("更新状态失�?, zap.Error(err))
-		c.JSON(500, dto.InternalError("更新状态失�?))
+		h.logger.Error("更新状态失�?, zap.Error(err))
+		c.JSON(500, dto.InternalError("更新状态失�?))
 		return
 	}
 
@@ -450,12 +450,12 @@ func (h *RequirementHandler) GetRelations(c *gin.Context) {
 	c.JSON(200, dto.Success(responses))
 }
 
-// GetMatrix 需求跟踪矩�?
+// GetMatrix 需求跟踪矩�?
 func (h *RequirementHandler) GetMatrix(c *gin.Context) {
 	// 返回需求跟踪矩阵数据（按状态、优先级等维度统计）
 	list, _, err := h.reqService.ListRequirements(&repository.RequirementListParams{Page: 1, PageSize: 1000})
 	if err != nil {
-		c.JSON(500, dto.InternalError("获取需求数据失�?))
+		c.JSON(500, dto.InternalError("获取需求数据失�?))
 		return
 	}
 

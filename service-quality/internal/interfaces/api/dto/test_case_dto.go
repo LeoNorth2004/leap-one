@@ -7,13 +7,13 @@ import "github.com/google/uuid"
 // CreateTestCaseRequest 创建测试用例请求
 type CreateTestCaseRequest struct {
 	Title          string     `json:"title" binding:"required,max=500"`                                 // 用例标题
-	Module         string     `json:"module" binding:"max=200"`                                         // 所属模�?
+	Module         string     `json:"module" binding:"max=200"`                                         // 所属模�?
 	Precondition   string     `json:"precondition"`                                                     // 前置条件
 	Steps          string     `json:"steps"`                                                            // JSON数组测试步骤
 	ExpectedResult string     `json:"expected_result"`                                                  // 预期结果
-	Priority       int        `json:"priority" binding:"min=1,max=5"`                                   // 优先�?1-5
+	Priority       int        `json:"priority" binding:"min=1,max=5"`                                   // 优先�?1-5
 	Type           string     `json:"type" binding:"omitempty,oneof=manual automated smoke regression"` // 用例类型
-	Automation     bool       `json:"automation"`                                                       // 是否自动�?
+	Automation     bool       `json:"automation"`                                                       // 是否自动�?
 	ProductID      *uuid.UUID `json:"product_id"`                                                       // 产品ID
 	ProjectID      *uuid.UUID `json:"project_id"`                                                       // 项目ID
 	RequirementID  *uuid.UUID `json:"requirement_id"`                                                   // 需求ID
@@ -37,7 +37,7 @@ type UpdateTestCaseRequest struct {
 	Tags           *string    `json:"tags"`
 }
 
-// TestCaseInfo 测试用例简要信�?
+// TestCaseInfo 测试用例简要信�?
 type TestCaseInfo struct {
 	ID         string  `json:"id"`
 	Title      string  `json:"title"`

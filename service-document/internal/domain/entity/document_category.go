@@ -9,7 +9,7 @@ type DocumentCategory struct {
 	BaseModel
 	ID        uuid.UUID  `gorm:"primaryKey"`
 	Name      string     `gorm:"size:200;not null"`
-	ParentID  *uuid.UUID // 支持分类�?
+	ParentID  *uuid.UUID // 支持分类�?
 	SortOrder int        `gorm:"default:0"`
 }
 

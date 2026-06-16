@@ -18,13 +18,13 @@ func InitPostgreSQL(cfg *config.Config, logger *zap.Logger) (*gorm.DB, error) {
 	gormLog := &GormZapLogger{logger: logger, slowThreshold: 200 * time.Millisecond, logLevel: gormlogger.Info}
 	db, err := gorm.Open(postgres.Open(cfg.Database.DSN()), &gorm.Config{Logger: gormLog})
 	if err != nil {
-		return nil, fmt.Errorf("无法连接数据�?%w", err)
+		return nil, fmt.Errorf("无法连接数据�?%w", err)
 	}
 	sqlDB, _ := db.DB()
 	sqlDB.SetMaxOpenConns(cfg.Database.MaxOpenConns)
 	sqlDB.SetMaxIdleConns(cfg.Database.MaxIdleConns)
 	sqlDB.SetConnMaxLifetime(cfg.Database.ConnMaxLifetime)
-	logger.Info("PostgreSQL连接初始化成�?, zap.String("host", cfg.Database.Host), zap.Int("port", cfg.Database.Port))
+	logger.Info("PostgreSQL连接初始化成�?, zap.String("host", cfg.Database.Host), zap.Int("port", cfg.Database.Port))
 	return db, nil
 }
 func AutoMigrate(db *gorm.DB) error {
@@ -69,7 +69,7 @@ func (l *GormZapLogger) Trace(ctx context.Context, begin time.Time, fc func() (s
 		fields = append(fields, zap.Error(err))
 		l.logger.Error("SQL错误", fields...)
 	case elapsed > l.slowThreshold && l.logLevel >= gormlogger.Warn:
-		l.logger.Warn("慢查询检�?, fields...)
+		l.logger.Warn("慢查询检�?, fields...)
 	case l.logLevel == gormlogger.Info:
 		l.logger.Debug("SQL执行", fields...)
 	}

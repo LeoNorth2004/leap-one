@@ -27,7 +27,7 @@ func SetupRouter(h *handler.KanbanHandler) *gin.Engine {
 			boards.PUT("/:id", h.UpdateBoard)
 			boards.DELETE("/:id", h.DeleteBoard)
 
-			// 看板�?
+			// 看板�?
 			boards.POST("/:id/columns", h.CreateColumn)
 			boards.PUT("/:id/columns/:cid", h.UpdateColumn)
 			boards.DELETE("/:id/columns/:cid", h.DeleteColumn)
@@ -49,7 +49,7 @@ func SetupRouter(h *handler.KanbanHandler) *gin.Engine {
 			boards.GET("/:id/statistics", h.GetStatistics)
 			boards.GET("/:id/cfd", h.GetCFD)
 			boards.GET("/:id/export", func(c *gin.Context) {
-				c.JSON(200, gin.H{"message": "导出功能待实�?})
+				c.JSON(200, gin.H{"message": "导出功能待实�?})
 			})
 		}
 	}

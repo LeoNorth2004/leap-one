@@ -4,7 +4,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// KnowledgeBase 知识�?type KnowledgeBase struct {
+// KnowledgeBase 知识�?type KnowledgeBase struct {
 	BaseModel
 	ID          uuid.UUID `gorm:"primaryKey"`
 	Name        string    `gorm:"size:200;not null"`

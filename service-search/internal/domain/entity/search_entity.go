@@ -10,7 +10,7 @@ type SearchDocument struct{
 	Content string `gorm:"type:text" json:"content"`
 	Summary string `gorm:"size:500" json:"summary"`
 	Tags string `gorm:"type:text" json:"tags"`
-	MetaData string `gorm:"type:text" json:"metadata"` // JSON扩展元数�?	Permission string `gorm:"type:text" json:"permission"`
+	MetaData string `gorm:"type:text" json:"metadata"` // JSON扩展元数�?	Permission string `gorm:"type:text" json:"permission"`
 	IndexedAt time.Time `gorm:"default:NOW()" json:"indexed_at"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -24,7 +24,7 @@ type SavedSearch struct{
 	UserID uuid.UUID `gorm:"index;not null" json:"user_id"`
 	Name string `gorm:"size:200;not null" json:"name"`
 	Scope string `gorm:"size:30;not null" json:"scope"` // 搜索范围
-	Filters string `gorm:"type;text" json:"filters"` // JSON筛选条�?	Sort string `gorm:"size:100" json:"sort"`
+	Filters string `gorm:"type;text" json:"filters"` // JSON筛选条�?	Sort string `gorm:"size:100" json:"sort"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`

@@ -18,7 +18,7 @@ type TestCaseRepository interface {
 	// Update 更新测试用例
 	Update(ctx context.Context, testCase *entity.TestCase) error
 
-	// Delete 删除测试用例（软删除�?
+	// Delete 删除测试用例（软删除�?
 	Delete(ctx context.Context, id uuid.UUID) error
 
 	// List 分页查询测试用例列表（支持筛选条件）
@@ -34,15 +34,15 @@ type TestCaseRepository interface {
 	Review(ctx context.Context, id uuid.UUID, reviewerID uuid.UUID) error
 }
 
-// TestCaseFilter 测试用例查询筛选条�?
+// TestCaseFilter 测试用例查询筛选条�?
 type TestCaseFilter struct {
 	Keyword       string     // 关键词搜索（标题、模块）
 	Type          string     // 用例类型 manual/automated/smoke/regression
-	Status        string     // 状�?draft/active/archived
-	Priority      *int       // 优先�?
+	Status        string     // 状�?draft/active/archived
+	Priority      *int       // 优先�?
 	ProductID     *uuid.UUID // 产品ID
 	ProjectID     *uuid.UUID // 项目ID
 	CreatorID     *uuid.UUID // 创建人ID
-	Automation    *bool      // 是否自动�?
+	Automation    *bool      // 是否自动�?
 	RequirementID *uuid.UUID // 需求ID
 }

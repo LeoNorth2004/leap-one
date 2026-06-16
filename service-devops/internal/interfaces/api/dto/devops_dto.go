@@ -37,7 +37,7 @@ type UpdateRepoRequest struct {
 	IsActive      *bool
 }
 
-// PipelineInfo 流水线信�?
+// PipelineInfo 流水线信�?
 type PipelineInfo struct {
 	ID           string
 	RepoID       string
@@ -50,7 +50,7 @@ type PipelineInfo struct {
 	CreatedAt    string
 }
 
-// CreatePipelineRequest 创建流水线请�?
+// CreatePipelineRequest 创建流水线请�?
 type CreatePipelineRequest struct {
 	RepoID       uuid.UUID  `json:"repo_id binding:"required"`
 	Name         string     `json:"name binding:"required,max=200"`
@@ -61,7 +61,7 @@ type CreatePipelineRequest struct {
 	ProjectID    *uuid.UUID `json:"project_id"`
 }
 
-// UpdatePipelineRequest 更新流水线请�?
+// UpdatePipelineRequest 更新流水线请�?
 type UpdatePipelineRequest struct {
 	Name         *string
 	Type         *string

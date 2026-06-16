@@ -35,7 +35,7 @@ type Pipeline struct {
 	RepoID       uuid.UUID      `gorm:"index;not null" json:"repo_id"`
 	Name         string         `gorm:"size:200;not null" json:"name"`
 	Type         string         `gorm:"size:30;default:'ci'" json:"type"`             // ci/cd/custom
-	Config       string         `gorm:"type:text" json:"config"`                      // YAML/JSON流水线配�?
+	Config       string         `gorm:"type:text" json:"config"`                      // YAML/JSON流水线配�?
 	TriggerMode  string         `gorm:"size:20;default:'manual'" json:"trigger_mode"` // manual/webhook/schedule
 	ScheduleCron string         `gorm:"size:100" json:"schedule_cron"`
 	ProjectID    *uuid.UUID     `json:"project_id"`
@@ -63,7 +63,7 @@ type PipelineRun struct {
 	CommitSHA   string         `gorm:"size:100" json:"commit_sha"`
 	StartedAt   *time.Time     `json:"started_at"`
 	FinishedAt  *time.Time     `json:"finished_at"`
-	Duration    int64          `json:"duration"` // �?
+	Duration    int64          `json:"duration"` // �?
 	CreatedAt   time.Time      `json:"created_at"`
 	DeletedAt   gorm.DeletedAt `gorm:"index" json:"-"`
 	Jobs        []PipelineJob  `gorm:"foreignKey:RunID" json:"jobs,omitempty"`
