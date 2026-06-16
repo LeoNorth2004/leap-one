@@ -1,0 +1,816 @@
+version: '3.8'
+
+services:
+  # ============================================================
+  # 基础设施 - PostgreSQL 数据库集群
+  # ============================================================
+
+  postgres-user:
+    image: postgres:16-alpine
+    container_name: leapone-postgres-user
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: user_db
+      POSTGRES_USER: leapone
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_user_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leapone -d user_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - leapone-network
+
+  postgres-portfolio:
+    image: postgres:16-alpine
+    container_name: leapone-postgres-portfolio
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: portfolio_db
+      POSTGRES_USER: leapone
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_portfolio_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leapone -d portfolio_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - leapone-network
+
+  postgres-project:
+    image: postgres:16-alpine
+    container_name: leapone-postgres-project
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_DB: project_db
+      POSTGRES_USER: leapone
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_project_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leapone -d project_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - leapone-network
+
+  postgres-task:
+    image: postgres:16-alpine
+    container_name: leapone-postgres-task
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_DB: task_db
+      POSTGRES_USER: leapone
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_task_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leapone -d task_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - leapone-network
+
+  postgres-requirement:
+    image: postgres:16-alpine
+    container_name: leapone-postgres-requirement
+    ports:
+      - "5436:5432"
+    environment:
+      POSTGRES_DB: requirement_db
+      POSTGRES_USER: leapone
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_requirement_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leapone -d requirement_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - leapone-network
+
+  postgres-quality:
+    image: postgres:16-alpine
+    container_name: leapone-postgres-quality
+    ports:
+      - "5437:5432"
+    environment:
+      POSTGRES_DB: quality_db
+      POSTGRES_USER: leapone
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_quality_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leapone -d quality_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - leapone-network
+
+  postgres-devops:
+    image: postgres:16-alpine
+    container_name: leapone-postgres-devops
+    ports:
+      - "5438:5432"
+    environment:
+      POSTGRES_DB: devops_db
+      POSTGRES_USER: leapone
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_devops_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leapone -d devops_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - leapone-network
+
+  postgres-document:
+    image: postgres:16-alpine
+    container_name: leapone-postgres-document
+    ports:
+      - "5439:5432"
+    environment:
+      POSTGRES_DB: document_db
+      POSTGRES_USER: leapone
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_document_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leapone -d document_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - leapone-network
+
+  postgres-kanban:
+    image: postgres:16-alpine
+    container_name: leapone-postgres-kanban
+    ports:
+      - "5440:5432"
+    environment:
+      POSTGRES_DB: kanban_db
+      POSTGRES_USER: leapone
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_kanban_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leapone -d kanban_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - leapone-network
+
+  postgres-bi:
+    image: postgres:16-alpine
+    container_name: leapone-postgres-bi
+    ports:
+      - "5441:5432"
+    environment:
+      POSTGRES_DB: bi_db
+      POSTGRES_USER: leapone
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_bi_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leapone -d bi_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - leapone-network
+
+  postgres-ai:
+    image: postgres:16-alpine
+    container_name: leapone-postgres-ai
+    ports:
+      - "5442:5432"
+    environment:
+      POSTGRES_DB: ai_db
+      POSTGRES_USER: leapone
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_ai_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leapone -d ai_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - leapone-network
+
+  postgres-notification:
+    image: postgres:16-alpine
+    container_name: leapone-postgres-notification
+    ports:
+      - "5443:5432"
+    environment:
+      POSTGRES_DB: notification_db
+      POSTGRES_USER: leapone
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_notification_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leapone -d notification_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - leapone-network
+
+  postgres-search:
+    image: postgres:16-alpine
+    container_name: leapone-postgres-search
+    ports:
+      - "5444:5432"
+    environment:
+      POSTGRES_DB: search_db
+      POSTGRES_USER: leapone
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_search_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leapone -d search_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - leapone-network
+
+  postgres-config:
+    image: postgres:16-alpine
+    container_name: leapone-postgres-config
+    ports:
+      - "5445:5432"
+    environment:
+      POSTGRES_DB: config_db
+      POSTGRES_USER: leapone
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_config_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U leapone -d config_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - leapone-network
+
+  # ============================================================
+  # 基础设施 - Redis 缓存服务
+  # ============================================================
+
+  redis:
+    image: redis:7.0-alpine
+    container_name: leapone-redis
+    ports:
+      - "6379:6379"
+    command: >
+      redis-server
+      --requirepass ${REDIS_PASSWORD}
+      --appendonly yes
+      --appendfsync everysec
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - leapone-network
+
+  # ============================================================
+  # 基础设施 - Nginx 反向代理
+  # ============================================================
+
+  nginx:
+    image: nginx:1.24-alpine
+    container_name: leapone-nginx
+    ports:
+      - "${NGINX_PORT:-80}:80"
+      - "${NGINX_SSL_PORT:-443}:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./leap-one-web/dist:/usr/share/nginx/html:ro
+      - nginx_logs:/var/log/nginx
+    depends_on:
+      gateway-service:
+        condition: service_started
+    networks:
+      - leapone-network
+    restart: unless-stopped
+
+  # ============================================================
+  # 应用服务 - API 网关
+  # ============================================================
+
+  gateway-service:
+    build: ./gateway-service
+    container_name: leapone-gateway
+    ports:
+      - "${GATEWAY_PORT:-8080}:8080"
+    environment:
+      DB_HOST: postgres-user
+      DB_PORT: 5432
+      DB_NAME: user_db
+      DB_USER: leapone
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      SERVICE_PORT: 8080
+    depends_on:
+      postgres-user:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - leapone-network
+    restart: unless-stopped
+
+  # ============================================================
+  # 应用服务 - 用户与组织管理
+  # ============================================================
+
+  service-user-org:
+    build: ./service-user-org
+    container_name: leapone-user-org
+    ports:
+      - "8001:8001"
+    environment:
+      DB_HOST: postgres-user
+      DB_PORT: 5432
+      DB_NAME: user_db
+      DB_USER: leapone
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      SERVICE_PORT: 8001
+    depends_on:
+      postgres-user:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - leapone-network
+    restart: unless-stopped
+
+  # ============================================================
+  # 应用服务 - 投资组合管理
+  # ============================================================
+
+  service-portfolio:
+    build: ./service-portfolio
+    container_name: leapone-portfolio
+    ports:
+      - "8002:8002"
+    environment:
+      DB_HOST: postgres-portfolio
+      DB_PORT: 5432
+      DB_NAME: portfolio_db
+      DB_USER: leapone
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      SERVICE_PORT: 8002
+    depends_on:
+      postgres-portfolio:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - leapone-network
+    restart: unless-stopped
+
+  # ============================================================
+  # 应用服务 - 项目管理
+  # ============================================================
+
+  service-project:
+    build: ./service-project
+    container_name: leapone-project
+    ports:
+      - "8003:8003"
+    environment:
+      DB_HOST: postgres-project
+      DB_PORT: 5432
+      DB_NAME: project_db
+      DB_USER: leapone
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      SERVICE_PORT: 8003
+    depends_on:
+      postgres-project:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - leapone-network
+    restart: unless-stopped
+
+  # ============================================================
+  # 应用服务 - 任务管理
+  # ============================================================
+
+  service-task:
+    build: ./service-task
+    container_name: leapone-task
+    ports:
+      - "8004:8004"
+    environment:
+      DB_HOST: postgres-task
+      DB_PORT: 5432
+      DB_NAME: task_db
+      DB_USER: leapone
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      SERVICE_PORT: 8004
+    depends_on:
+      postgres-task:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - leapone-network
+    restart: unless-stopped
+
+  # ============================================================
+  # 应用服务 - 需求管理
+  # ============================================================
+
+  service-requirement:
+    build: ./service-requirement
+    container_name: leapone-requirement
+    ports:
+      - "8005:8005"
+    environment:
+      DB_HOST: postgres-requirement
+      DB_PORT: 5432
+      DB_NAME: requirement_db
+      DB_USER: leapone
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      SERVICE_PORT: 8005
+    depends_on:
+      postgres-requirement:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - leapone-network
+    restart: unless-stopped
+
+  # ============================================================
+  # 应用服务 - 质量管理
+  # ============================================================
+
+  service-quality:
+    build: ./service-quality
+    container_name: leapone-quality
+    ports:
+      - "8006:8006"
+    environment:
+      DB_HOST: postgres-quality
+      DB_PORT: 5432
+      DB_NAME: quality_db
+      DB_USER: leapone
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      SERVICE_PORT: 8006
+    depends_on:
+      postgres-quality:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - leapone-network
+    restart: unless-stopped
+
+  # ============================================================
+  # 应用服务 - DevOps 管理
+  # ============================================================
+
+  service-devops:
+    build: ./service-devops
+    container_name: leapone-devops
+    ports:
+      - "8007:8007"
+    environment:
+      DB_HOST: postgres-devops
+      DB_PORT: 5432
+      DB_NAME: devops_db
+      DB_USER: leapone
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      SERVICE_PORT: 8007
+    depends_on:
+      postgres-devops:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - leapone-network
+    restart: unless-stopped
+
+  # ============================================================
+  # 应用服务 - 文档管理
+  # ============================================================
+
+  service-document:
+    build: ./service-document
+    container_name: leapone-document
+    ports:
+      - "8008:8008"
+    environment:
+      DB_HOST: postgres-document
+      DB_PORT: 5432
+      DB_NAME: document_db
+      DB_USER: leapone
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      SERVICE_PORT: 8008
+    depends_on:
+      postgres-document:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - leapone-network
+    restart: unless-stopped
+
+  # ============================================================
+  # 应用服务 - 看板管理
+  # ============================================================
+
+  service-kanban:
+    build: ./service-kanban
+    container_name: leapone-kanban
+    ports:
+      - "8009:8009"
+    environment:
+      DB_HOST: postgres-kanban
+      DB_PORT: 5432
+      DB_NAME: kanban_db
+      DB_USER: leapone
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      SERVICE_PORT: 8009
+    depends_on:
+      postgres-kanban:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - leapone-network
+    restart: unless-stopped
+
+  # ============================================================
+  # 应用服务 - 商业智能 (BI)
+  # ============================================================
+
+  service-bi:
+    build: ./service-bi
+    container_name: leapone-bi
+    ports:
+      - "8010:8010"
+    environment:
+      DB_HOST: postgres-bi
+      DB_PORT: 5432
+      DB_NAME: bi_db
+      DB_USER: leapone
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      SERVICE_PORT: 8010
+    depends_on:
+      postgres-bi:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - leapone-network
+    restart: unless-stopped
+
+  # ============================================================
+  # 应用服务 - AI 智能助手
+  # ============================================================
+
+  service-ai:
+    build: ./service-ai
+    container_name: leapone-ai
+    ports:
+      - "8011:8011"
+    environment:
+      DB_HOST: postgres-ai
+      DB_PORT: 5432
+      DB_NAME: ai_db
+      DB_USER: leapone
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      SERVICE_PORT: 8011
+    depends_on:
+      postgres-ai:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - leapone-network
+    restart: unless-stopped
+
+  # ============================================================
+  # 应用服务 - 消息通知
+  # ============================================================
+
+  service-notification:
+    build: ./service-notification
+    container_name: leapone-notification
+    ports:
+      - "8012:8012"
+    environment:
+      DB_HOST: postgres-notification
+      DB_PORT: 5432
+      DB_NAME: notification_db
+      DB_USER: leapone
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      SERVICE_PORT: 8012
+    depends_on:
+      postgres-notification:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - leapone-network
+    restart: unless-stopped
+
+  # ============================================================
+  # 应用服务 - 全文搜索
+  # ============================================================
+
+  service-search:
+    build: ./service-search
+    container_name: leapone-search
+    ports:
+      - "8013:8013"
+    environment:
+      DB_HOST: postgres-search
+      DB_PORT: 5432
+      DB_NAME: search_db
+      DB_USER: leapone
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      SERVICE_PORT: 8013
+    depends_on:
+      postgres-search:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - leapone-network
+    restart: unless-stopped
+
+  # ============================================================
+  # 应用服务 - 配置中心
+  # ============================================================
+
+  service-config:
+    build: ./service-config
+    container_name: leapone-config
+    ports:
+      - "8014:8014"
+    environment:
+      DB_HOST: postgres-config
+      DB_PORT: 5432
+      DB_NAME: config_db
+      DB_USER: leapone
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      SERVICE_PORT: 8014
+    depends_on:
+      postgres-config:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - leapone-network
+    restart: unless-stopped
+
+# ============================================================
+# 网络配置
+# ============================================================
+
+networks:
+  leapone-network:
+    driver: bridge
+    name: leapone-network
+
+# ============================================================
+# 数据卷 - 持久化存储
+# ============================================================
+
+volumes:
+  pg_user_data:
+    name: leapone-pg-user-data
+  pg_portfolio_data:
+    name: leapone-pg-portfolio-data
+  pg_project_data:
+    name: leapone-pg-project-data
+  pg_task_data:
+    name: leapone-pg-task-data
+  pg_requirement_data:
+    name: leapone-pg-requirement-data
+  pg_quality_data:
+    name: leapone-pg-quality-data
+  pg_devops_data:
+    name: leapone-pg-devops-data
+  pg_document_data:
+    name: leapone-pg-document-data
+  pg_kanban_data:
+    name: leapone-pg-kanban-data
+  pg_bi_data:
+    name: leapone-pg-bi-data
+  pg_ai_data:
+    name: leapone-pg-ai-data
+  pg_notification_data:
+    name: leapone-pg-notification-data
+  pg_search_data:
+    name: leapone-pg-search-data
+  pg_config_data:
+    name: leapone-pg-config-data
+  redis_data:
+    name: leapone-redis-data
+  nginx_logs:
+    name: leapone-nginx-logs

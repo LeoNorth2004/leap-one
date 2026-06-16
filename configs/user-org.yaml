@@ -1,0 +1,73 @@
+# ============================================================
+# Leap One - 用户与组织管理服务配置
+# ============================================================
+
+server:
+  host: "0.0.0.0"
+  port: 8001
+  mode: "debug"
+  name: "service-user-org"
+
+database:
+  host: "postgres-user"
+  port: 5432
+  name: "user_db"
+  user: "leapone"
+  password: "${DB_PASSWORD}"
+  max_open_conns: 30
+  max_idle_conns: 10
+  conn_max_lifetime: "30m"
+
+redis:
+  host: "redis"
+  port: 6379
+  password: "${REDIS_PASSWORD}"
+  db: 0
+  pool_size: 50
+
+jwt:
+  secret: "${JWT_SECRET}"
+  expire: "24h"
+  issuer: "leapone-user-org"
+
+log:
+  level: "debug"
+  format: "json"
+  path: "./logs/user-org.log"
+  max_size: 100
+  max_backups: 7
+  max_age: 30
+  compress: true
+
+user:
+  default_avatar: "/assets/default-avatar.png"
+  password_min_length: 8
+  password_require_uppercase: true
+  password_require_number: true
+  password_require_special: true
+  session_timeout: "30m"
+  login_max_attempts: 5
+  lockout_duration: "15m"
+
+organization:
+  max_depth: 5           # 组织层级最大深度
+  max_members_per_org: 500
+  max_organizations_per_user: 20
+
+rbac:
+  default_roles:
+    - name: "super_admin"
+      display_name: "超级管理员"
+      description: "系统最高权限"
+    - name: "org_admin"
+      display_name: "组织管理员"
+      description: "组织内全部权限"
+    - name: "project_manager"
+      display_name: "项目经理"
+      description: "项目管理相关权限"
+    - name: "member"
+      display_name: "普通成员"
+      description: "基本操作权限"
+    - name: "viewer"
+      display_name: "访客"
+      description: "只读权限"

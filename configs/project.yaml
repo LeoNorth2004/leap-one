@@ -1,0 +1,47 @@
+# ============================================================
+# Leap One - 项目管理服务配置
+# ============================================================
+
+server:
+  host: "0.0.0.0"
+  port: 8003
+  mode: "debug"
+  name: "service-project"
+
+database:
+  host: "postgres-project"
+  port: 5432
+  name: "project_db"
+  user: "leapone"
+  password: "${DB_PASSWORD}"
+  max_open_conns: 35
+  max_idle_conns: 10
+  conn_max_lifetime: "30m"
+
+redis:
+  host: "redis"
+  port: 6379
+  password: "${REDIS_PASSWORD}"
+  db: 2
+  pool_size: 60
+
+jwt:
+  secret: "${JWT_SECRET}"
+  expire: "24h"
+  issuer: "leapone-project"
+
+log:
+  level: "debug"
+  format: "json"
+  path: "./logs/project.log"
+  max_size: 100
+  max_backups: 7
+  max_age: 30
+  compress: true
+
+project:
+  max_members_per_project: 100
+  milestone_auto_reminder: true
+  reminder_advance_days: 3
+  project_archive_days: 90     # 归档前保留天数
+  gantt_refresh_interval: "5s"

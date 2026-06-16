@@ -1,0 +1,64 @@
+# ============================================================
+# Leap One - 商业智能 (BI) 服务配置
+# ============================================================
+
+server:
+  host: "0.0.0.0"
+  port: 8010
+  mode: "debug"
+  name: "service-bi"
+
+database:
+  host: "postgres-bi"
+  port: 5432
+  name: "bi_db"
+  user: "leapone"
+  password: "${DB_PASSWORD}"
+  max_open_conns: 25
+  max_idle_conns: 8
+  conn_max_lifetime: "30m"
+
+redis:
+  host: "redis"
+  port: 6379
+  password: "${REDIS_PASSWORD}"
+  db: 9
+  pool_size: 40
+
+jwt:
+  secret: "${JWT_SECRET}"
+  expire: "24h"
+  issuer: "leapone-bi"
+
+log:
+  level: "debug"
+  format: "json"
+  path: "./logs/bi.log"
+  max_size: 100
+  max_backups: 7
+  max_age: 30
+  compress: true
+
+bi:
+  data_refresh_interval: "1h"    # 数据刷新间隔
+  cache_enabled: true
+  cache_ttl: "15m"
+  max_dashboard_widgets: 50
+  export_formats:
+    - csv
+    - xlsx
+    - pdf
+  chart_types:
+    - bar
+    - line
+    - pie
+    - area
+    - scatter
+    - table
+    - gauge
+    - funnel
+    - heatmap
+    - treemap
+  scheduled_reports:
+    enabled: true
+    cron_expression: "0 9 * * 1"   # 每周一早上9点

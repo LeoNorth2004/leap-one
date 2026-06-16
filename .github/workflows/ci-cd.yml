@@ -1,0 +1,159 @@
+name: Leap One CI/CD
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  GO_VERSION: '1.23'
+  NODE_VERSION: '20'
+
+jobs:
+  # ============================================================
+  # 后端代码检查
+  # ============================================================
+  backend-check:
+    name: Backend Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Download dependencies
+        run: |
+          for dir in service-*/; do
+            if [ -f "$$dir/go.mod" ]; then
+              echo "Downloading dependencies for $$dir"
+              cd "$$dir" && go mod download && cd ..
+            fi
+          done
+
+      - name: Check go mod tidy
+        run: |
+          for dir in service-*/; do
+            if [ -f "$$dir/go.mod" ]; then
+              echo "Checking mod tidy for $$dir"
+              cd "$$dir" && go mod tidy && git diff --exit-code go.mod go.sum || (echo "go.mod/go.sum not tidy in $$dir" && exit 1) && cd ..
+            fi
+          done
+
+      - name: Run go vet
+        run: |
+          for dir in service-*/; do
+            if [ -f "$$dir/go.mod" ]; then
+              echo "Running vet for $$dir"
+              cd "$$dir" && go vet ./... && cd ..
+            fi
+          done
+
+      - name: Run tests with race detector
+        run: |
+          for dir in service-*/; do
+            if [ -f "$$dir/go.mod" ]; then
+              echo "Testing $$dir"
+              cd "$$dir" && go test -v -race -coverprofile=coverage.out ./... && cd ..
+            fi
+          done
+
+  # ============================================================
+  # 前端代码检查
+  # ============================================================
+  frontend-check:
+    name: Frontend Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: leap-one-web/package-lock.json
+
+      - name: Install dependencies
+        working-directory: leap-one-web
+        run: npm ci
+
+      - name: Run linter
+        working-directory: leap-one-web
+        run: npm run lint
+
+      - name: Run type check
+        working-directory: leap-one-web
+        run: npm run type-check || npx tsc --noEmit
+
+      - name: Build frontend
+        working-directory: leap-one-web
+        run: npm run build
+
+  # ============================================================
+  # 构建 Docker 镜像
+  # ============================================================
+  build-docker:
+    name: Build & Push Docker Images
+    needs: [backend-check, frontend-check]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix:
+        service:
+          - gateway-service
+          - service-user-org
+          - service-portfolio
+          - service-project
+          - service-task
+          - service-requirement
+          - service-quality
+          - service-devops
+          - service-document
+          - service-kanban
+          - service-bi
+          - service-ai
+          - service-notification
+          - service-search
+          - service-config
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}/${{ matrix.service }}
+          tags: |
+            type=sha,prefix=
+            type=ref,event=branch
+            latest
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./${{ matrix.service }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

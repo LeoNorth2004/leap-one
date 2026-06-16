@@ -1,0 +1,62 @@
+# ============================================================
+# Leap One - AI 智能助手服务配置
+# ============================================================
+
+server:
+  host: "0.0.0.0"
+  port: 8011
+  mode: "debug"
+  name: "service-ai"
+
+database:
+  host: "postgres-ai"
+  port: 5432
+  name: "ai_db"
+  user: "leapone"
+  password: "${DB_PASSWORD}"
+  max_open_conns: 25
+  max_idle_conns: 8
+  conn_max_lifetime: "30m"
+
+redis:
+  host: "redis"
+  port: 6379
+  password: "${REDIS_PASSWORD}"
+  db: 10
+  pool_size: 40
+
+jwt:
+  secret: "${JWT_SECRET}"
+  expire: "24h"
+  issuer: "leapone-ai"
+
+log:
+  level: "debug"
+  format: "json"
+  path: "./logs/ai.log"
+  max_size: 100
+  max_backups: 7
+  max_age: 30
+  compress: true
+
+ai:
+  provider: "openai"              # openai / azure / anthropic / local
+  api_key: "${AI_API_KEY}"
+  base_url: "${AI_BASE_URL:-https://api.openai.com/v1}"
+  model: "${AI_MODEL:-gpt-4o}"
+  max_tokens: 4096
+  temperature: 0.7
+  stream_enabled: true
+  conversation:
+    max_history_length: 20        # 最大对话轮数
+    context_window: 8192          # 上下文窗口大小
+    session_timeout: "2h"
+  rag:
+    enabled: true
+    chunk_size: 1000
+    chunk_overlap: 200
+    top_k: 5
+    similarity_threshold: 0.7
+  rate_limit:
+    requests_per_minute: 30
+    tokens_per_minute: 60000

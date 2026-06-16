@@ -1,0 +1,59 @@
+# ============================================================
+# Leap One - 看板管理服务配置
+# ============================================================
+
+server:
+  host: "0.0.0.0"
+  port: 8009
+  mode: "debug"
+  name: "service-kanban"
+
+database:
+  host: "postgres-kanban"
+  port: 5432
+  name: "kanban_db"
+  user: "leapone"
+  password: "${DB_PASSWORD}"
+  max_open_conns: 30
+  max_idle_conns: 10
+  conn_max_lifetime: "30m"
+
+redis:
+  host: "redis"
+  port: 6379
+  password: "${REDIS_PASSWORD}"
+  db: 8
+  pool_size: 60
+
+jwt:
+  secret: "${JWT_SECRET}"
+  expire: "24h"
+  issuer: "leapone-kanban"
+
+log:
+  level: "debug"
+  format: "json"
+  path: "./logs/kanban.log"
+  max_size: 100
+  max_backups: 7
+  max_age: 30
+  compress: true
+
+kanban:
+  default_columns:
+    - name: "待办"
+      wip_limit: null          # null 表示无限制
+      color: "#94a3b8"
+    - name: "进行中"
+      wip_limit: 5
+      color: "#3b82f6"
+    - name: "审核中"
+      wip_limit: 3
+      color: "#f59e0b"
+    - name: "已完成"
+      wip_limit: null
+      color: "#22c55e"
+  max_swimlanes: 10
+  max_cards_per_board: 500
+  drag_and_drop_enabled: true
+  auto_archive_completed_days: 30

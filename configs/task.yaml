@@ -1,0 +1,52 @@
+# ============================================================
+# Leap One - 任务管理服务配置
+# ============================================================
+
+server:
+  host: "0.0.0.0"
+  port: 8004
+  mode: "debug"
+  name: "service-task"
+
+database:
+  host: "postgres-task"
+  port: 5432
+  name: "task_db"
+  user: "leapone"
+  password: "${DB_PASSWORD}"
+  max_open_conns: 40
+  max_idle_conns: 12
+  conn_max_lifetime: "30m"
+
+redis:
+  host: "redis"
+  port: 6379
+  password: "${REDIS_PASSWORD}"
+  db: 3
+  pool_size: 80
+
+jwt:
+  secret: "${JWT_SECRET}"
+  expire: "24h"
+  issuer: "leapone-task"
+
+log:
+  level: "debug"
+  format: "json"
+  path: "./logs/task.log"
+  max_size: 100
+  max_backups: 7
+  max_age: 30
+  compress: true
+
+task:
+  max_subtasks: 50
+  max_dependencies: 20
+  time_entry_rounding: "15m"   # 工时最小粒度
+  max_daily_hours: 16
+  auto_status_transition: true
+  priority_levels:
+    - critical
+    - high
+    - medium
+    - low

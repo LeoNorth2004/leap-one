@@ -1,0 +1,53 @@
+# ============================================================
+# Leap One - 需求管理服务配置
+# ============================================================
+
+server:
+  host: "0.0.0.0"
+  port: 8005
+  mode: "debug"
+  name: "service-requirement"
+
+database:
+  host: "postgres-requirement"
+  port: 5432
+  name: "requirement_db"
+  user: "leapone"
+  password: "${DB_PASSWORD}"
+  max_open_conns: 30
+  max_idle_conns: 10
+  conn_max_lifetime: "30m"
+
+redis:
+  host: "redis"
+  port: 6379
+  password: "${REDIS_PASSWORD}"
+  db: 4
+  pool_size: 50
+
+jwt:
+  secret: "${JWT_SECRET}"
+  expire: "24h"
+  issuer: "leapone-requirement"
+
+log:
+  level: "debug"
+  format: "json"
+  path: "./logs/requirement.log"
+  max_size: 100
+  max_backups: 7
+  max_age: 30
+  compress: true
+
+requirement:
+  max_items_per_requirement: 200
+  max_attachments_per_item: 20
+  max_attachment_size_mb: 50
+  change_request_auto_workflow: true
+  traceability_enabled: true
+  types:
+    - functional
+    - non_functional
+    - user_story
+    - technical
+    - regulatory

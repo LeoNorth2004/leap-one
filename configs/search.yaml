@@ -1,0 +1,62 @@
+# ============================================================
+# Leap One - 全文搜索服务配置
+# ============================================================
+
+server:
+  host: "0.0.0.0"
+  port: 8013
+  mode: "debug"
+  name: "service-search"
+
+database:
+  host: "postgres-search"
+  port: 5432
+  name: "search_db"
+  user: "leapone"
+  password: "${DB_PASSWORD}"
+  max_open_conns: 25
+  max_idle_conns: 8
+  conn_max_lifetime: "30m"
+
+redis:
+  host: "redis"
+  port: 6379
+  password: "${REDIS_PASSWORD}"
+  db: 12
+  pool_size: 40
+
+jwt:
+  secret: "${JWT_SECRET}"
+  expire: "24h"
+  issuer: "leapone-search"
+
+log:
+  level: "debug"
+  format: "json"
+  path: "./logs/search.log"
+  max_size: 100
+  max_backups: 7
+  max_age: 30
+  compress: true
+
+search:
+  engine: "postgresql"            # postgresql / elasticsearch / meilisearch
+  index_sync_interval: "5m"       # 索引同步间隔
+  max_results: 100
+  highlight_enabled: true
+  highlight_pre_tag: "<em>"
+  highlight_post_tag: "</em>"
+  suggest_enabled: true
+  suggest_max_items: 10
+  searchable_entities:
+    - projects
+    - tasks
+    - requirements
+    - documents
+    - users
+  # Elasticsearch 配置（当 engine 为 elasticsearch 时生效）
+  elasticsearch:
+    urls: []
+    username: ""
+    password: ""
+    index_prefix: "leapone_"

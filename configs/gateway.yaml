@@ -1,0 +1,108 @@
+# ============================================================
+# Leap One - API 网关服务配置
+# ============================================================
+
+server:
+  host: "0.0.0.0"
+  port: 8080
+  mode: "debug" # debug / release / test
+  name: "gateway-service"
+
+database:
+  host: "postgres-user"
+  port: 5432
+  name: "user_db"
+  user: "leapone"
+  password: "${DB_PASSWORD}"
+  max_open_conns: 50
+  max_idle_conns: 10
+  conn_max_lifetime: "1h"
+
+redis:
+  host: "redis"
+  port: 6379
+  password: "${REDIS_PASSWORD}"
+  db: 0
+  pool_size: 100
+
+jwt:
+  secret: "${JWT_SECRET}"
+  expire: "24h"        # Access Token 过期时间
+  refresh_expire: "168h" # Refresh Token 过期时间（7天）
+  issuer: "leapone-gateway"
+
+log:
+  level: "debug"       # debug / info / warn / error
+  format: "json"       # json / text
+  path: "./logs/gateway.log"
+  max_size: 100        # MB
+  max_backups: 7
+  max_age: 30          # days
+  compress: true
+
+gateway:
+  routes:
+    - path: "/api/v1/user"
+      service: "service-user-org"
+      target: "service-user-org:8001"
+    - path: "/api/v1/portfolio"
+      service: "service-portfolio"
+      target: "service-portfolio:8002"
+    - path: "/api/v1/project"
+      service: "service-project"
+      target: "service-project:8003"
+    - path: "/api/v1/task"
+      service: "service-task"
+      target: "service-task:8004"
+    - path: "/api/v1/requirement"
+      service: "service-requirement"
+      target: "service-requirement:8005"
+    - path: "/api/v1/quality"
+      service: "service-quality"
+      target: "service-quality:8006"
+    - path: "/api/v1/devops"
+      service: "service-devops"
+      target: "service-devops:8007"
+    - path: "/api/v1/document"
+      service: "service-document"
+      target: "service-document:8008"
+    - path: "/api/v1/kanban"
+      service: "service-kanban"
+      target: "service-kanban:8009"
+    - path: "/api/v1/bi"
+      service: "service-bi"
+      target: "service-bi:8010"
+    - path: "/api/v1/ai"
+      service: "service-ai"
+      target: "service-ai:8011"
+    - path: "/api/v1/notification"
+      service: "service-notification"
+      target: "service-notification:8012"
+    - path: "/api/v1/search"
+      service: "service-search"
+      target: "service-search:8013"
+    - path: "/api/v1/config"
+      service: "service-config"
+      target: "service-config:8014"
+
+rate_limit:
+  enabled: true
+  requests_per_second: 100
+  burst: 200
+
+cors:
+  allowed_origins:
+    - "http://localhost:*"
+    - "http://127.0.0.1:*"
+  allowed_methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - OPTIONS
+  allowed_headers:
+    - Authorization
+    - Content-Type
+    - X-Requested-With
+  allow_credentials: true
+  max_age: 86400

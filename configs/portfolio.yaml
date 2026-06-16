@@ -1,0 +1,46 @@
+# ============================================================
+# Leap One - 投资组合管理服务配置
+# ============================================================
+
+server:
+  host: "0.0.0.0"
+  port: 8002
+  mode: "debug"
+  name: "service-portfolio"
+
+database:
+  host: "postgres-portfolio"
+  port: 5432
+  name: "portfolio_db"
+  user: "leapone"
+  password: "${DB_PASSWORD}"
+  max_open_conns: 25
+  max_idle_conns: 8
+  conn_max_lifetime: "30m"
+
+redis:
+  host: "redis"
+  port: 6379
+  password: "${REDIS_PASSWORD}"
+  db: 1
+  pool_size: 40
+
+jwt:
+  secret: "${JWT_SECRET}"
+  expire: "24h"
+  issuer: "leapone-portfolio"
+
+log:
+  level: "debug"
+  format: "json"
+  path: "./logs/portfolio.log"
+  max_size: 100
+  max_backups: 7
+  max_age: 30
+  compress: true
+
+portfolio:
+  max_portfolios: 50
+  max_projects_per_portfolio: 200
+  scoring_model: "weighted"   # weighted / simple / custom
+  auto_sync_interval: "1h"   # 战略对齐自动同步间隔

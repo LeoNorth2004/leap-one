@@ -1,0 +1,69 @@
+# ============================================================
+# Leap One - 消息通知服务配置
+# ============================================================
+
+server:
+  host: "0.0.0.0"
+  port: 8012
+  mode: "debug"
+  name: "service-notification"
+
+database:
+  host: "postgres-notification"
+  port: 5432
+  name: "notification_db"
+  user: "leapone"
+  password: "${DB_PASSWORD}"
+  max_open_conns: 20
+  max_idle_conns: 8
+  conn_max_lifetime: "30m"
+
+redis:
+  host: "redis"
+  port: 6379
+  password: "${REDIS_PASSWORD}"
+  db: 11
+  pool_size: 30
+
+jwt:
+  secret: "${JWT_SECRET}"
+  expire: "24h"
+  issuer: "leapone-notification"
+
+log:
+  level: "debug"
+  format: "json"
+  path: "./logs/notification.log"
+  max_size: 100
+  max_backups: 7
+  max_age: 30
+  compress: true
+
+notification:
+  channels:
+    in_app:
+      enabled: true
+      max_messages_per_user: 500
+      retention_days: 90
+    email:
+      enabled: true
+      smtp_host: "${SMTP_HOST}"
+      smtp_port: ${SMTP_PORT:-587}
+      smtp_user: "${SMTP_USER}"
+      smtp_pass: "${SMTP_PASS}"
+      from_address: "${SMTP_FROM:-Leap One <noreply@leapone.local>}"
+      templates_dir: "./templates/email"
+    webhook:
+      enabled: true
+      max_retries: 3
+      retry_interval: "30s"
+      timeout: "10s"
+  batch_send:
+    enabled: true
+    batch_size: 100
+    interval: "1s"
+  quiet_hours:
+    enabled: true
+    start: "22:00"
+    end: "08:00"
+    timezone: "Asia/Shanghai"

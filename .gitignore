@@ -1,27 +1,92 @@
-# If you prefer the allow list template instead of the deny list, see community template:
-# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
-#
-# Binaries for programs and plugins
+# Binaries
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
-
-# Test binary, built with `go test -c`
 *.test
-
-# Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+/leapone
+/leapone.exe
 
-# Dependency directories (remove the comment below to include it)
-# vendor/
+# Dependency directories
+node_modules/
+vendor/
 
-# Go workspace file
+# Go workspace files
 go.work
 go.work.sum
 
-# env file
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# Environment files
 .env
+.env.local
+.env.*.local
+*.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+tmp/
+temp/
+*.tmp
+
+# Test coverage
+coverage/
+*.cover
+*.coverprofile
+*.cov
+
+# Docker
+*.pid
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Frontend
+.cache/
+.next/
+out/
+*.tsbuildinfo
+
+# Secrets
+**/secrets/
+**/*.pem
+**/*.key
+**/*.crt
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Temporary files
+*.tmp
+.cache/
+
+# API docs generated
+docs/swagger.json
+docs/swagger.yaml
+
 # AgentPrompt file
 AgentPrompt.md

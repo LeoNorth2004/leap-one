@@ -1,0 +1,57 @@
+# ============================================================
+# Leap One - DevOps 管理服务配置
+# ============================================================
+
+server:
+  host: "0.0.0.0"
+  port: 8007
+  mode: "debug"
+  name: "service-devops"
+
+database:
+  host: "postgres-devops"
+  port: 5432
+  name: "devops_db"
+  user: "leapone"
+  password: "${DB_PASSWORD}"
+  max_open_conns: 25
+  max_idle_conns: 8
+  conn_max_lifetime: "30m"
+
+redis:
+  host: "redis"
+  port: 6379
+  password: "${REDIS_PASSWORD}"
+  db: 6
+  pool_size: 40
+
+jwt:
+  secret: "${JWT_SECRET}"
+  expire: "24h"
+  issuer: "leapone-devops"
+
+log:
+  level: "debug"
+  format: "json"
+  path: "./logs/devops.log"
+  max_size: 100
+  max_backups: 7
+  max_age: 30
+  compress: true
+
+devops:
+  pipeline_timeout: "60m"
+  max_log_size_mb: 50
+  deployment_strategies:
+    - rolling        # 滚动更新
+    - blue_green     # 蓝绿部署
+    - canary         # 金丝雀发布
+  environments:
+    - name: "development"
+      auto_deploy: false
+    - name: "staging"
+      auto_deploy: true
+    - name: "production"
+      auto_deploy: false
+      require_approval: true
+  webhook_secret: "${WEBHOOK_SECRET}"

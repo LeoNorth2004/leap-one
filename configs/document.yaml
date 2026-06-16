@@ -1,0 +1,73 @@
+# ============================================================
+# Leap One - 文档管理服务配置
+# ============================================================
+
+server:
+  host: "0.0.0.0"
+  port: 8008
+  mode: "debug"
+  name: "service-document"
+
+database:
+  host: "postgres-document"
+  port: 5432
+  name: "document_db"
+  user: "leapone"
+  password: "${DB_PASSWORD}"
+  max_open_conns: 25
+  max_idle_conns: 8
+  conn_max_lifetime: "30m"
+
+redis:
+  host: "redis"
+  port: 6379
+  password: "${REDIS_PASSWORD}"
+  db: 7
+  pool_size: 40
+
+jwt:
+  secret: "${JWT_SECRET}"
+  expire: "24h"
+  issuer: "leapone-document"
+
+log:
+  level: "debug"
+  format: "json"
+  path: "./logs/document.log"
+  max_size: 100
+  max_backups: 7
+  max_age: 30
+  compress: true
+
+document:
+  storage_type: "local"       # local / s3 / minio / oss
+  upload_dir: "./uploads/documents"
+  max_file_size_mb: 100
+  allowed_extensions:
+    - .pdf
+    - .doc
+    - .docx
+    - .xls
+    - .xlsx
+    - .ppt
+    - .pptx
+    - .txt
+    - .md
+    - .csv
+    - .png
+    - .jpg
+    - .jpeg
+    - .gif
+    - .svg
+  versioning_enabled: true
+  max_versions: 20
+  preview_enabled: true
+  thumbnail_enabled: true
+
+storage:
+  # S3/MinIO 配置（当 storage_type 为 s3/minio 时生效）
+  endpoint: ""
+  access_key: ""
+  secret_key: ""
+  bucket: "leapone-documents"
+  region: ""
