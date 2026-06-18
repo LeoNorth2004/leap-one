@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useMemo } from 'react';
-import { useAppStore } from '@/store/appStore';
+import useAppStore from '@/store/appStore';
 
 // ── 类型定义 ─────────────────────────────────────────────────
 

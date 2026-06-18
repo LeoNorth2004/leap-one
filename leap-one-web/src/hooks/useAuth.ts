@@ -6,7 +6,7 @@
 
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '@/store/authStore';
+import useAuthStore from '@/store/authStore';
 import type { LoginParams, UserInfo } from '@/types/auth';
 
 // ── 类型定义 ─────────────────────────────────────────────────
@@ -45,13 +45,13 @@ const useAuth = (): UseAuthReturn => {
       await store.login(params);
       navigate('/', { replace: true });
     },
-    [store.login, navigate]
+    [store, navigate]
   );
 
   const logoutHandler = useCallback(async (): Promise<void> => {
     await store.logout();
     navigate('/login', { replace: true });
-  }, [store.logout, navigate]);
+  }, [store, navigate]);
 
   return {
     user: store.user,

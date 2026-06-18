@@ -25,6 +25,7 @@ export type LeapRoute = RouteObject & {
 };
 
 /** 路由配置表 */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const routesConfig: any[] = [
   // ════════════════════════════════════════════════════════════
   // 无需认证的路由

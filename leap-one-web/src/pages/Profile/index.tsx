@@ -2,7 +2,7 @@
 
 import { Card, Form, Input, Button, Avatar, Upload, message, Tabs, Tag } from 'antd';
 import { UserOutlined, MailOutlined, CameraOutlined, LockOutlined } from '@ant-design/icons';
-import { useAuth } from '@/hooks/useAuth';
+import useAuth from '@/hooks/useAuth';
 import PageHeader from '@/components/Common/PageHeader';
 
 export default function Profile() {

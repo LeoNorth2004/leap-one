@@ -17,7 +17,7 @@ import { ConfigProvider, theme as antdTheme, Spin } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import { routesConfig, type RouteMeta } from './routes.config';
 import AuthGuard from './AuthGuard';
-import { useAppStore } from '@/store/appStore';
+import useAppStore from '@/store/appStore';
 
 /** 全局 Loading 组件（用于 Suspense fallback） */
 function PageLoading() {

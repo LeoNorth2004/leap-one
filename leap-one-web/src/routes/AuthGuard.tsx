@@ -2,7 +2,7 @@
 
 import { Navigate, useLocation } from 'react-router-dom';
 import React from 'react';
-import { useAuthStore } from '@/store/authStore';
+import useAuthStore from '@/store/authStore';
 
 interface AuthGuardProps {
   children: React.ReactNode;

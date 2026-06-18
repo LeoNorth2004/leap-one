@@ -29,7 +29,7 @@ import {
   SettingOutlined,
   TeamOutlined,
 } from '@ant-design/icons';
-import { useAppStore } from '@/store/appStore';
+import useAppStore from '@/store/appStore';
 
 const { Sider } = Layout;
 

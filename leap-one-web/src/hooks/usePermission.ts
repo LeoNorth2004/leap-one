@@ -6,8 +6,8 @@
  */
 
 import { useMemo, useCallback } from 'react';
-import { useAuthStore } from '@/store/authStore';
-import { useUserStore } from '@/store/userStore';
+import useAuthStore from '@/store/authStore';
+import useUserStore from '@/store/userStore';
 import { hasPermission as checkPerm, hasAnyPermission as checkAnyPerm, hasAllPermissions as checkAllPerm, isAdmin } from '@/utils/permission';
 
 // ── 类型定义 ─────────────────────────────────────────────────

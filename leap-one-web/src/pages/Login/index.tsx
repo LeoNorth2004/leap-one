@@ -11,7 +11,7 @@
 import { useCallback } from 'react';
 import { Form, Input, Button, Checkbox, Card } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { useAuth } from '@/hooks/useAuth';
+import useAuth from '@/hooks/useAuth';
 import styles from './index.module.less';
 
 // ── 表单验证规则 ─────────────────────────────────────────────

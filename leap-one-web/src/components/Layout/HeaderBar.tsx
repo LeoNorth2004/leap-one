@@ -24,9 +24,9 @@ import {
   DownOutlined,
 } from '@ant-design/icons';
 import BreadcrumbNav from './BreadcrumbNav';
-import { useAuth } from '@/hooks/useAuth';
-import { useAppStore } from '@/store/appStore';
-import { useTheme } from '@/hooks/useTheme';
+import useAuth from '@/hooks/useAuth';
+import useAppStore from '@/store/appStore';
+import useTheme from '@/hooks/useTheme';
 import styles from './HeaderBar.module.less';
 
 const { Header } = Layout;
