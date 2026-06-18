@@ -88,7 +88,7 @@ export default function Profile() {
                       <Input value={user?.department || '-'} disabled />
                     </Form.Item>
                     <Form.Item label="角色">
-                      {(user?.roles || []).map((role) => (
+                      {(user?.roles || []).map((role: string) => (
                         <Tag key={role} color="blue">{role}</Tag>
                       ))}
                     </Form.Item>

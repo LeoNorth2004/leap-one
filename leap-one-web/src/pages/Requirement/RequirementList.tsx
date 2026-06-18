@@ -41,7 +41,7 @@ export default function RequirementList() {
     { title: '更新时间', dataIndex: 'updatedAt', width: 110 },
     {
       title: '操作', key: 'action', width: 150,
-      render: (_, record) => (
+      render: () => (
         <Space size="small">
           <Button type="link" size="small" icon={<EyeOutlined />}>查看</Button>
           <Button type="link" size="small">编辑</Button>

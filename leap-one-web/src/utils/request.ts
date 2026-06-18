@@ -2,7 +2,6 @@
 
 import axios, {
   type AxiosInstance,
-  type AxiosRequestConfig,
   type InternalAxiosRequestConfig,
   type AxiosResponse,
   type Canceler,

@@ -6,7 +6,6 @@
  */
 
 import type { RouteObject } from 'react-router-dom';
-import type { ReactNode } from 'react';
 
 /** 路由元信息 */
 export interface RouteMeta {
@@ -16,19 +15,17 @@ export interface RouteMeta {
   requiresAuth?: boolean;
   /** 所需权限列表（可选，用于菜单/按钮级权限控制） */
   permissions?: string[];
-  /** 菜单图标（可选） */
-  icon?: ReactNode;
   /** 是否在侧边栏菜单中隐藏 */
   hideInMenu?: boolean;
 }
 
 /** 带有 meta 信息的路由对象 */
-export interface LeapRoute extends RouteObject {
+export type LeapRoute = RouteObject & {
   meta?: RouteMeta;
-}
+};
 
 /** 路由配置表 */
-export const routesConfig: LeapRoute[] = [
+export const routesConfig: any[] = [
   // ════════════════════════════════════════════════════════════
   // 无需认证的路由
   // ════════════════════════════════════════════════════════════

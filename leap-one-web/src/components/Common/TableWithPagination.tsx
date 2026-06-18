@@ -1,7 +1,15 @@
-/** 带分页表格组件 - 封装Ant Design Table常用配置 */
+/**
+ * 带分页表格组件
+ *
+ * 封装 Ant Design Table 的常用配置：
+ * - 内置分页（支持切换每页条数、快速跳转）
+ * - 默认中等尺寸、横向滚动
+ */
 
 import type { TableProps } from 'antd';
 import { Table } from 'antd';
+
+// ── 类型定义 ─────────────────────────────────────────────────
 
 interface TableWithPaginationProps<T> extends Omit<TableProps<T>, 'onChange' | 'pagination'> {
   /** 数据源 */
@@ -12,15 +20,36 @@ interface TableWithPaginationProps<T> extends Omit<TableProps<T>, 'onChange' | '
   current: number;
   /** 每页条数 */
   pageSize: number;
-  /** 切换页码 */
+  /** 分页变化回调 */
   onChange: (page: number, pageSize: number) => void;
-  /** 是否加载中 */
+  /** 加载状态 */
   loading?: boolean;
-  /** 行key */
+  /** 行唯一标识字段或函数 */
   rowKey?: string | ((record: T) => string);
 }
 
-export default function TableWithPagination<T extends Record<string, unknown>>({
+// ── 默认配置 ─────────────────────────────────────────────────
+
+const DEFAULT_ROW_KEY = 'id';
+
+const buildPaginationConfig = (
+  current: number,
+  pageSize: number,
+  total: number,
+  onChange: (page: number, size: number) => void
+) => ({
+  current,
+  pageSize,
+  total,
+  showSizeChanger: true,
+  showQuickJumper: true,
+  showTotal: (t: number) => `共 ${t} 条`,
+  onChange,
+});
+
+// ── 组件实现 ─────────────────────────────────────────────────
+
+function TableWithPagination<T extends Record<string, unknown>>({
   columns,
   dataSource,
   total,
@@ -28,25 +57,17 @@ export default function TableWithPagination<T extends Record<string, unknown>>({
   pageSize,
   onChange,
   loading = false,
-  rowKey = 'id',
+  rowKey = DEFAULT_ROW_KEY,
   ...restProps
 }: TableWithPaginationProps<T>) {
-  const paginationConfig = {
-    current,
-    pageSize,
-    total,
-    showSizeChanger: true,
-    showQuickJumper: true,
-    showTotal: (t: number) => `共 ${t} 条`,
-    onChange,
-  };
+  const pagination = buildPaginationConfig(current, pageSize, total, onChange);
 
   return (
     <Table<T>
       columns={columns}
       dataSource={dataSource}
       rowKey={rowKey}
-      pagination={paginationConfig}
+      pagination={pagination}
       loading={loading}
       size="middle"
       scroll={{ x: 'max-content' }}
@@ -54,3 +75,5 @@ export default function TableWithPagination<T extends Record<string, unknown>>({
     />
   );
 }
+
+export default TableWithPagination;

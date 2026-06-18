@@ -11,11 +11,11 @@
  * - Ant Design ConfigProvider 全局配置（中文 + 主题）
  */
 
-import { Suspense, useEffect } from 'react';
-import { useRoutes, Navigate } from 'react-router-dom';
+import { Suspense } from 'react';
+import { useRoutes, Navigate, type RouteObject } from 'react-router-dom';
 import { ConfigProvider, theme as antdTheme, Spin } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
-import { routesConfig } from './routes.config';
+import { routesConfig, type RouteMeta } from './routes.config';
 import AuthGuard from './AuthGuard';
 import { useAppStore } from '@/store/appStore';
 
@@ -39,31 +39,37 @@ function PageLoading() {
  * - 为懒加载组件包裹 Suspense
  */
 function RenderRoutes() {
-  const appTheme = useAppStore((state) => state.theme);
-
   const element = useRoutes(
-    routesConfig.map((route) => {
+    routesConfig.map((route): RouteObject => {
+      const routeWithMeta = route as RouteObject & { meta?: RouteMeta };
+      
       // 登录页直接返回，无需守卫和 Suspense（自身已处理）
-      if (route.path === '/login') {
-        return route;
+      if (routeWithMeta.path === '/login') {
+        return routeWithMeta;
       }
 
       // 主布局路由：为子路由添加 AuthGuard 和 Suspense
-      if (route.meta?.requiresAuth !== false && route.children) {
+      if (routeWithMeta.meta?.requiresAuth !== false && routeWithMeta.children) {
         return {
-          ...route,
-          children: route.children.map((child) => ({
-            ...child,
-            element: child.element ? (
-              <Suspense fallback={<PageLoading />}>
-                <AuthGuard>{<child.element />}</AuthGuard>
-              </Suspense>
-            ) : undefined,
-          })),
+          ...routeWithMeta,
+          children: routeWithMeta.children.map((child): RouteObject => {
+            const childWithMeta = child as RouteObject & { meta?: RouteMeta };
+            const Element = childWithMeta.element as unknown as React.ComponentType;
+            return {
+              ...childWithMeta,
+              element: Element ? (
+                <Suspense fallback={<PageLoading />}>
+                  <AuthGuard>
+                    <Element />
+                  </AuthGuard>
+                </Suspense>
+              ) : undefined,
+            };
+          }),
         };
       }
 
-      return route;
+      return routeWithMeta;
     })
   );
 

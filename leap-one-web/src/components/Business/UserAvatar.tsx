@@ -1,23 +1,42 @@
-/** 用户头像组件 */
+/**
+ * 用户头像组件
+ *
+ * 支持图片头像 / 文字头像（取用户名后两位）/ 默认图标三种模式
+ * 悬停显示 Tooltip 用户名
+ */
 
 import { Avatar, Tooltip } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
+// ── 类型定义 ─────────────────────────────────────────────────
+
 interface UserAvatarProps {
-  /** 头像URL */
+  /** 头像图片地址 */
   src?: string;
-  /** 用户名（用于显示tooltip和头像文字） */
+  /** 用户名（用于 Tooltip 和文字头像） */
   name?: string;
-  /** 头像大小 */
+  /** 头像尺寸 */
   size?: number;
 }
 
-export default function UserAvatar({ src, name = '', size = 32 }: UserAvatarProps) {
-  const initials = name
-    ? name.length > 1
-      ? name.slice(-2)
-      : name.toUpperCase()
-    : undefined;
+// ── 默认值 ───────────────────────────────────────────────────
+
+const DEFAULT_SIZE = 32;
+const FALLBACK_COLOR = '#1677ff';
+
+// ── 工具函数 ─────────────────────────────────────────────────
+
+/** 从用户名提取头像文字 */
+const extractInitials = (name: string): string | undefined => {
+  if (!name) return undefined;
+  return name.length > 1 ? name.slice(-2) : name.toUpperCase();
+};
+
+// ── 组件实现 ─────────────────────────────────────────────────
+
+const UserAvatar = ({ src, name = '', size = DEFAULT_SIZE }: UserAvatarProps) => {
+  const initials = src ? undefined : extractInitials(name);
+  const bgColor = src ? undefined : FALLBACK_COLOR;
 
   return (
     <Tooltip title={name}>
@@ -25,10 +44,12 @@ export default function UserAvatar({ src, name = '', size = 32 }: UserAvatarProp
         src={src}
         icon={!src ? <UserOutlined /> : undefined}
         size={size}
-        style={{ backgroundColor: !src ? '#1677ff' : undefined }}
+        style={{ backgroundColor: bgColor }}
       >
         {!src && initials}
       </Avatar>
     </Tooltip>
   );
-}
+};
+
+export default UserAvatar;

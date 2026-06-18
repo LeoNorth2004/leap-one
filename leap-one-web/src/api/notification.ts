@@ -1,32 +1,35 @@
-/** 通知服务API */
+/**
+ * 通知服务 API
+ *
+ * 提供通知列表查询、已读标记、删除等接口
+ */
 
 import { apiClient } from './client';
 
-const BASE_URL = '/notification';
+const BASE = '/notification';
 
-/** 获取通知列表 */
-export function getNotificationListApi(params?: Record<string, unknown>) {
-  return apiClient.getPage(`${BASE_URL}/list`, params);
-}
+// ── 查询接口 ─────────────────────────────────────────────────
+
+/** 获取通知列表（分页） */
+export const getNotificationListApi = (params?: Record<string, unknown>) =>
+  apiClient.getPage(`${BASE}/list`, params);
 
 /** 获取未读通知数量 */
-export function getUnreadCountApi(): Promise<number> {
-  return apiClient
-    .get<{ count: number }>(`${BASE_URL}/unread/count`)
+export const getUnreadCountApi = (): Promise<number> =>
+  apiClient
+    .get<{ count: number }>(`${BASE}/unread/count`)
     .then((res) => res.data.count);
-}
 
-/** 标记通知为已读 */
-export function markAsReadApi(ids: number[]): Promise<void> {
-  return apiClient.put(`${BASE_URL}/read`, { ids }).then(() => undefined);
-}
+// ── 操作接口 ─────────────────────────────────────────────────
+
+/** 标记指定通知为已读 */
+export const markAsReadApi = (ids: number[]): Promise<void> =>
+  apiClient.put(`${BASE}/read`, { ids }).then(() => undefined);
 
 /** 全部标记为已读 */
-export function markAllReadApi(): Promise<void> {
-  return apiClient.put(`${BASE_URL}/read/all`).then(() => undefined);
-}
+export const markAllReadApi = (): Promise<void> =>
+  apiClient.put(`${BASE}/read/all`).then(() => undefined);
 
 /** 删除通知 */
-export function deleteNotificationApi(id: number): Promise<void> {
-  return apiClient.delete(`${BASE_URL}/${id}`).then(() => undefined);
-}
+export const deleteNotificationApi = (id: number): Promise<void> =>
+  apiClient.delete(`${BASE}/${id}`).then(() => undefined);

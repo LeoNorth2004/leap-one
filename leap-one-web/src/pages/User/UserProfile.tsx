@@ -1,8 +1,8 @@
 /** 用户详情/个人资料页面 */
 
 import { useState } from 'react';
-import { Descriptions, Card, Avatar, Tag, Divider, Button, Space } from 'antd';
-import { UserOutlined, MailOutlined, PhoneOutlined, TeamOutlined } from '@ant-design/icons';
+import { Descriptions, Card, Tag, Divider, Button, Space } from 'antd';
+import { MailOutlined, PhoneOutlined, TeamOutlined } from '@ant-design/icons';
 import { useParams, useNavigate } from 'react-router-dom';
 import PageHeader from '@/components/Common/PageHeader';
 import UserAvatar from '@/components/Business/UserAvatar';

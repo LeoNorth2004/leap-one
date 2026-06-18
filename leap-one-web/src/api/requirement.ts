@@ -1,50 +1,55 @@
-/** 需求服务API */
+/**
+ * 需求服务 API
+ *
+ * 提供需求 CRUD、状态变更、评审等接口
+ */
 
 import { apiClient } from './client';
 import type { Requirement, RequirementListParams } from '@/types/requirement';
 
-const BASE_URL = '/requirement';
+const BASE = '/requirement';
 
-/** 获取需求列表 */
-export function getRequirementListApi(params?: RequirementListParams) {
-  return apiClient.getPage<Requirement>(`${BASE_URL}/list`, params as Record<string, unknown>);
-}
+// ── 查询接口 ─────────────────────────────────────────────────
+
+/** 获取需求列表（分页） */
+export const getRequirementListApi = (params?: RequirementListParams) =>
+  apiClient.getPage<Requirement>(`${BASE}/list`, params as Record<string, unknown>);
 
 /** 获取需求详情 */
-export function getRequirementDetailApi(id: number): Promise<Requirement> {
-  return apiClient.get<Requirement>(`${BASE_URL}/${id}`).then((res) => res.data);
-}
+export const getRequirementDetailApi = (id: number): Promise<Requirement> =>
+  apiClient.get<Requirement>(`${BASE}/${id}`).then((res) => res.data);
+
+// ── 写入接口 ─────────────────────────────────────────────────
 
 /** 创建需求 */
-export function createRequirementApi(data: Partial<Requirement>): Promise<Requirement> {
-  return apiClient.post<Requirement>(BASE_URL, data).then((res) => res.data);
-}
+export const createRequirementApi = (data: Partial<Requirement>): Promise<Requirement> =>
+  apiClient.post<Requirement>(BASE, data).then((res) => res.data);
 
 /** 更新需求 */
-export function updateRequirementApi(id: number, data: Partial<Requirement>): Promise<Requirement> {
-  return apiClient.put<Requirement>(`${BASE_URL}/${id}`, data).then((res) => res.data);
-}
+export const updateRequirementApi = (id: number, data: Partial<Requirement>): Promise<Requirement> =>
+  apiClient.put<Requirement>(`${BASE}/${id}`, data).then((res) => res.data);
 
 /** 删除需求 */
-export function deleteRequirementApi(id: number): Promise<void> {
-  return apiClient.delete(`${BASE_URL}/${id}`).then(() => undefined);
-}
+export const deleteRequirementApi = (id: number): Promise<void> =>
+  apiClient.delete(`${BASE}/${id}`).then(() => undefined);
+
+// ── 状态 & 评审接口 ──────────────────────────────────────────
 
 /** 变更需求状态 */
-export function changeRequirementStatusApi(
+export const changeRequirementStatusApi = (
   id: number,
   status: Requirement['status']
-): Promise<Requirement> {
-  return apiClient.put<Requirement>(`${BASE_URL}/${id}/status`, { status }).then((res) => res.data);
-}
+): Promise<Requirement> =>
+  apiClient
+    .put<Requirement>(`${BASE}/${id}/status`, { status })
+    .then((res) => res.data);
 
-/** 需求评审 */
-export function reviewRequirementApi(
+/** 需求评审（通过 / 拒绝） */
+export const reviewRequirementApi = (
   id: number,
   action: 'approve' | 'reject',
   comment?: string
-): Promise<Requirement> {
-  return apiClient
-    .put<Requirement>(`${BASE_URL}/${id}/review`, { action, comment })
+): Promise<Requirement> =>
+  apiClient
+    .put<Requirement>(`${BASE}/${id}/review`, { action, comment })
     .then((res) => res.data);
-}

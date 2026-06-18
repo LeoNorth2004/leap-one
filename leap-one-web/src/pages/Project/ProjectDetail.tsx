@@ -1,7 +1,7 @@
 /** 项目详情页面 */
 
 import { useParams, useNavigate } from 'react-router-dom';
-import { Descriptions, Card, Tag, Tabs, Progress, Button, Space, Statistic, Row, Col } from 'antd';
+import { Descriptions, Card, Tag, Tabs, Button, Space, Statistic, Row, Col } from 'antd';
 import { ArrowLeftOutlined, TeamOutlined, FileTextOutlined, CarryOutOutlined, BugOutlined } from '@ant-design/icons';
 import PageHeader from '@/components/Common/PageHeader';
 import StatusTag from '@/components/Common/StatusTag';

@@ -1,10 +1,9 @@
 /**
- * 应用入口文件
+ * 应用入口
  *
- * - ReactDOM.createRoot（React 18 并发模式）
- * - 渲染 App 根组件
- * - StrictMode（开发模式额外检查）
- * - 导入全局样式
+ * - React 18 createRoot 并发渲染模式
+ * - StrictMode 开发模式检查
+ * - 全局样式引入
  */
 
 import React from 'react';
@@ -12,8 +11,12 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './assets/styles/global.css';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const rootElement = document.getElementById('root');
+
+if (rootElement) {
+  ReactDOM.createRoot(rootElement).render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+}

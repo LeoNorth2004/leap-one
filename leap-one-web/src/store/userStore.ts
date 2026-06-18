@@ -1,14 +1,22 @@
-/** 用户状态管理 - Zustand Store */
+/**
+ * 用户状态管理 - Zustand Store
+ *
+ * 管理当前用户详情信息和权限列表
+ */
 
 import { create } from 'zustand';
 import type { UserDetail } from '@/types/user';
 
+// ── 类型定义 ─────────────────────────────────────────────────
+
 interface UserState {
+  // ── State ──────────────────────────────────────────────────
   /** 当前用户详情（扩展信息） */
   currentUser: UserDetail | null;
   /** 用户权限列表 */
   permissions: string[];
 
+  // ── Actions ────────────────────────────────────────────────
   /** 设置当前用户 */
   setCurrentUser: (user: UserDetail | null) => void;
   /** 设置权限列表 */
@@ -19,21 +27,31 @@ interface UserState {
   clearUser: () => void;
 }
 
-export const useUserStore = create<UserState>((set) => ({
+// ── Store 创建 ───────────────────────────────────────────────
+
+const useUserStore = create<UserState>((set) => ({
   currentUser: null,
   permissions: [],
 
-  setCurrentUser: (user: UserDetail | null) =>
-    set({ currentUser: user }),
+  setCurrentUser(user: UserDetail | null): void {
+    set({ currentUser: user });
+  },
 
-  setPermissions: (permissions: string[]) =>
-    set({ permissions }),
+  setPermissions(permissions: string[]): void {
+    set({ permissions });
+  },
 
-  updateUserInfo: (data: Partial<UserDetail>) =>
+  updateUserInfo(data: Partial<UserDetail>): void {
     set((state) => ({
-      currentUser: state.currentUser ? { ...state.currentUser, ...data } : null,
-    })),
+      currentUser: state.currentUser
+        ? { ...state.currentUser, ...data }
+        : null,
+    }));
+  },
 
-  clearUser: () =>
-    set({ currentUser: null, permissions: [] }),
+  clearUser(): void {
+    set({ currentUser: null, permissions: [] });
+  },
 }));
+
+export default useUserStore;

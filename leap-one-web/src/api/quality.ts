@@ -1,78 +1,85 @@
-/** 质量服务API（测试用例、Bug、测试计划） */
+/**
+ * 质量服务 API（测试用例、Bug、测试计划）
+ *
+ * 以对象形式组织三类资源的 CRUD 接口
+ */
 
 import { apiClient } from './client';
 
-const BASE_URL = '/quality';
+const BASE = '/quality';
 
-/** 测试用例相关 */
-export const testCaseApi = {
-  /** 获取用例列表 */
+// ── 测试用例 API ─────────────────────────────────────────────
+
+export const testCaseApi = Object.freeze({
+  /** 获取用例列表（分页） */
   getList: (params?: Record<string, unknown>) =>
-    apiClient.getPage(`${BASE_URL}/testcase/list`, params),
+    apiClient.getPage(`${BASE}/testcase/list`, params),
 
   /** 获取用例详情 */
   getDetail: (id: number) =>
-    apiClient.get(`${BASE_URL}/testcase/${id}`),
+    apiClient.get(`${BASE}/testcase/${id}`),
 
   /** 创建用例 */
   create: (data: Record<string, unknown>) =>
-    apiClient.post(`${BASE_URL}/testcase`, data),
+    apiClient.post(`${BASE}/testcase`, data),
 
   /** 更新用例 */
   update: (id: number, data: Record<string, unknown>) =>
-    apiClient.put(`${BASE_URL}/testcase/${id}`, data),
+    apiClient.put(`${BASE}/testcase/${id}`, data),
 
   /** 删除用例 */
   delete: (id: number) =>
-    apiClient.delete(`${BASE_URL}/testcase/${id}`),
-};
+    apiClient.delete(`${BASE}/testcase/${id}`),
+});
 
-/** Bug相关 */
-export const bugApi = {
-  /** 获取Bug列表 */
+// ── Bug API ───────────────────────────────────────────────────
+
+export const bugApi = Object.freeze({
+  /** 获取 Bug 列表（分页） */
   getList: (params?: Record<string, unknown>) =>
-    apiClient.getPage(`${BASE_URL}/bug/list`, params),
+    apiClient.getPage(`${BASE}/bug/list`, params),
 
-  /** 获取Bug详情 */
+  /** 获取 Bug 详情 */
   getDetail: (id: number) =>
-    apiClient.get(`${BASE_URL}/bug/${id}`),
+    apiClient.get(`${BASE}/bug/${id}`),
 
-  /** 提交Bug */
+  /** 提交 Bug */
   create: (data: Record<string, unknown>) =>
-    apiClient.post(`${BASE_URL}/bug`, data),
+    apiClient.post(`${BASE}/bug`, data),
 
-  /** 更新Bug */
+  /** 更新 Bug */
   update: (id: number, data: Record<string, unknown>) =>
-    apiClient.put(`${BASE_URL}/bug/${id}`, data),
+    apiClient.put(`${BASE}/bug/${id}`, data),
 
-  /** 删除Bug */
+  /** 删除 Bug */
   delete: (id: number) =>
-    apiClient.delete(`${BASE_URL}/bug/${id}`),
+    apiClient.delete(`${BASE}/bug/${id}`),
 
-  /** 变更Bug状态（确认/修复/关闭/激活） */
+  /** 变更 Bug 状态（确认/修复/关闭/激活） */
   changeStatus: (id: number, status: string) =>
-    apiClient.put(`${BASE_URL}/bug/${id}/status`, { status }),
-};
+    apiClient.put(`${BASE}/bug/${id}/status`, { status }),
+});
 
-/** 测试计划相关 */
-export const testPlanApi = {
-  /** 获取测试计划列表 */
+// ── 测试计划 API ─────────────────────────────────────────────
+
+export const testPlanApi = Object.freeze({
+  /** 获取测试计划列表（分页） */
   getList: (params?: Record<string, unknown>) =>
-    apiClient.getPage(`${BASE_URL}/testplan/list`, params),
+    apiClient.getPage(`${BASE}/testplan/list`, params),
 
   /** 获取测试计划详情 */
   getDetail: (id: number) =>
-    apiClient.get(`${BASE_URL}/testplan/${id}`),
+    apiClient.get(`${BASE}/testplan/${id}`),
 
   /** 创建测试计划 */
   create: (data: Record<string, unknown>) =>
-    apiClient.post(`${BASE_URL}/testplan`, data),
+    apiClient.post(`${BASE}/testplan`, data),
 
   /** 更新测试计划 */
   update: (id: number, data: Record<string, unknown>) =>
-    apiClient.put(`${BASE_URL}/testplan/${id}`, data),
+    apiClient.put(`${BASE}/testplan/${id}`, data),
 
   /** 删除测试计划 */
   delete: (id: number) =>
-    apiClient.delete(`${BASE_URL}/testplan/${id}`),
-};
+    apiClient.delete(`${BASE}/testplan/${id}`),
+});

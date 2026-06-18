@@ -1,6 +1,12 @@
-/** 分页管理Hook */
+/**
+ * 分页状态管理 Hook
+ *
+ * 提供统一的分页状态和处理函数，兼容 Ant Design Table
+ */
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
+
+// ── 类型定义 ─────────────────────────────────────────────────
 
 interface PaginationState {
   page: number;
@@ -13,59 +19,97 @@ interface UsePaginationOptions {
   defaultPageSize?: number;
 }
 
-/**
- * 分页状态管理Hook
- * 提供统一的分页状态和处理函数
- */
-export function usePagination(options: UsePaginationOptions = {}) {
-  const { defaultPageSize = 10 } = options;
+interface UsePaginationReturn {
+  /** 当前页码 */
+  page: number;
+  /** 每页条数 */
+  pageSize: number;
+  /** 总记录数 */
+  total: number;
+  /** 切换页码 */
+  changePage: (page: number) => void;
+  /** 切换每页条数 */
+  changePageSize: (_current: number, size: number) => void;
+  /** 设置总记录数 */
+  setTotal: (total: number) => void;
+  /** 重置分页到第一页 */
+  reset: () => void;
+  /** Ant Design Table pagination 配置 */
+  tablePagination: {
+    current: number;
+    pageSize: number;
+    total: number;
+    showSizeChanger: boolean;
+    showQuickJumper: boolean;
+    showTotal: (total: number) => string;
+    onChange: (page: number) => void;
+    onShowSizeChange: (_current: number, size: number) => void;
+  };
+}
 
-  const [pagination, setPagination] = useState<PaginationState>({
+// ── 默认配置 ─────────────────────────────────────────────────
+
+const DEFAULT_PAGE_SIZE = 10;
+
+// ── Hook 实现 ────────────────────────────────────────────────
+
+const usePagination = (options: UsePaginationOptions = {}): UsePaginationReturn => {
+  const { defaultPageSize = DEFAULT_PAGE_SIZE } = options;
+
+  const [state, setState] = useState<PaginationState>({
     page: 1,
     pageSize: defaultPageSize,
     total: 0,
   });
 
-  /** 切换页码 */
-  const changePage = useCallback((page: number) => {
-    setPagination((prev) => ({ ...prev, page }));
+  // 页码切换
+  const changePage = useCallback((targetPage: number): void => {
+    setState((prev) => ({ ...prev, page: targetPage }));
   }, []);
 
-  /** 切换每页条数 */
-  const changePageSize = useCallback((_current: number, size: number) => {
-    setPagination({ page: 1, pageSize: size, total: pagination.total });
-  }, [pagination.total]);
+  // 每页条数切换
+  const changePageSize = useCallback(
+    (_current: number, newSize: number): void => {
+      setState({ page: 1, pageSize: newSize, total: state.total });
+    },
+    [state.total]
+  );
 
-  /** 设置总记录数（通常在API响应后调用） */
-  const setTotal = useCallback((total: number) => {
-    setPagination((prev) => ({ ...prev, total }));
+  // 设置总记录数
+  const setTotal = useCallback((newTotal: number): void => {
+    setState((prev) => ({ ...prev, total: newTotal }));
   }, []);
 
-  /** 重置分页到第一页 */
-  const reset = useCallback(() => {
-    setPagination({ page: 1, pageSize: defaultPageSize, total: 0 });
+  // 重置分页
+  const reset = useCallback((): void => {
+    setState({ page: 1, pageSize: defaultPageSize, total: 0 });
   }, [defaultPageSize]);
 
-  /** 获取Ant Design Table的pagination属性 */
-  const tablePagination = {
-    current: pagination.page,
-    pageSize: pagination.pageSize,
-    total: pagination.total,
-    showSizeChanger: true,
-    showQuickJumper: true,
-    showTotal: (total: number) => `共 ${total} 条`,
-    onChange: changePage,
-    onShowSizeChange: changePageSize,
-  };
+  // Ant Design Table 兼容的 pagination 配置
+  const tablePagination = useMemo(
+    () => ({
+      current: state.page,
+      pageSize: state.pageSize,
+      total: state.total,
+      showSizeChanger: true,
+      showQuickJumper: true,
+      showTotal: (totalCount: number) => `共 ${totalCount} 条`,
+      onChange: changePage,
+      onShowSizeChange: changePageSize,
+    }),
+    [state.page, state.pageSize, state.total, changePage, changePageSize]
+  );
 
   return {
-    page: pagination.page,
-    pageSize: pagination.pageSize,
-    total: pagination.total,
+    page: state.page,
+    pageSize: state.pageSize,
+    total: state.total,
     changePage,
     changePageSize,
     setTotal,
     reset,
     tablePagination,
   };
-}
+};
+
+export default usePagination;

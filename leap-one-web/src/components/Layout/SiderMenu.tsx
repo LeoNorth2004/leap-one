@@ -16,7 +16,6 @@ import { Layout, Menu } from 'antd';
 import type { MenuProps } from 'antd';
 import {
   DashboardOutlined,
-  UserOutlined,
   AppstoreOutlined,
   ShoppingOutlined,
   FolderOpenOutlined,
@@ -29,30 +28,10 @@ import {
   BarChartOutlined,
   SettingOutlined,
   TeamOutlined,
-  SafetyCertificateOutlined,
 } from '@ant-design/icons';
 import { useAppStore } from '@/store/appStore';
 
 const { Sider } = Layout;
-
-/** 图标映射表 */
-const iconMap: Record<string, React.ReactNode> = {
-  DashboardOutlined: <DashboardOutlined />,
-  UserOutlined: <UserOutlined />,
-  AppstoreOutlined: <AppstoreOutlined />,
-  ShoppingOutlined: <ShoppingOutlined />,
-  FolderOpenOutlined: <FolderOpenOutlined />,
-  FileTextOutlined: <FileTextOutlined />,
-  CarryOutOutlined: <CarryOutOutlined />,
-  ExperimentOutlined: <ExperimentOutlined />,
-  CustomerServiceOutlined: <CustomerServiceOutlined />,
-  FileOutlined: <FileOutlined />,
-  TableOutlined: <TableOutlined />,
-  BarChartOutlined: <BarChartOutlined />,
-  SettingOutlined: <SettingOutlined />,
-  TeamOutlined: <TeamOutlined />,
-  SafetyCertificateOutlined: <SafetyCertificateOutlined />,
-};
 
 /** 菜单配置 - 参考禅道导航结构，现代化升级 */
 const menuItems: MenuProps['items'] = [
@@ -173,7 +152,7 @@ export default function SiderMenu() {
 
   /** 菜单项点击处理 */
   const handleMenuClick: MenuProps['onClick'] = useCallback(
-    ({ key }) => {
+    ({ key }: { key: string }) => {
       navigate(key);
     },
     [navigate]

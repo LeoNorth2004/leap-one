@@ -15,7 +15,10 @@ import type { UserInfo, LoginParams, LoginResult } from '@/types/auth';
 import { loginApi, logoutApi, refreshTokenApi, fetchUserProfileApi } from '@/api/auth';
 import { tokenStorage } from '@/utils/storage';
 
+// ── 类型定义 ─────────────────────────────────────────────────
+
 interface AuthState {
+  // ── State ──────────────────────────────────────────────────
   /** 当前用户信息 */
   user: UserInfo | null;
   /** 访问令牌 */
@@ -27,11 +30,12 @@ interface AuthState {
   /** 登录中 / 请求中状态 */
   isLoading: boolean;
 
+  // ── Actions ────────────────────────────────────────────────
   /** 用户登录 */
   login: (params: LoginParams) => Promise<LoginResult>;
   /** 用户登出 */
   logout: () => Promise<void>;
-  /** 设置 Tokens（手动设置时使用） */
+  /** 手动设置 Tokens */
   setTokens: (access: string, refresh: string) => void;
   /** 获取当前用户信息 */
   fetchUserProfile: () => Promise<void>;
@@ -43,23 +47,36 @@ interface AuthState {
   clearAuth: () => void;
 }
 
-export const useAuthStore = create<AuthState>()(
+// ── Persist 配置 ─────────────────────────────────────────────
+
+const PERSIST_CONFIG = {
+  name: 'leap-one-auth',
+  partialize: (state: AuthState) => ({
+    token: state.token,
+    refreshToken: state.refreshToken,
+    isAuthenticated: state.isAuthenticated,
+    user: state.user,
+  }),
+};
+
+// ── Store 创建 ───────────────────────────────────────────────
+
+const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
-      // ─── 初始状态 ─────────────────────────────────────────────
+      // ═══ 初始状态 ══════════════════════════════════════════
       user: null,
       token: null,
       refreshToken: null,
       isAuthenticated: false,
       isLoading: false,
 
-      // ─── login ──────────────────────────────────────────────────
+      // ═══ login ══════════════════════════════════════════════
       login: async (params: LoginParams): Promise<LoginResult> => {
         set({ isLoading: true });
         try {
           const result = await loginApi(params);
 
-          // 持久化 Token 到 localStorage
           tokenStorage.setToken(result.token);
           tokenStorage.setRefreshToken(result.refreshToken);
 
@@ -78,18 +95,17 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      // ─── logout ─────────────────────────────────────────────────
+      // ═══ logout ═════════════════════════════════════════════
       logout: async (): Promise<void> => {
         try {
           await logoutApi();
         } finally {
-          // 无论 API 是否成功，都清除本地状态
           get().clearAuth();
         }
       },
 
-      // ─── setTokens ─────────────────────────────────────────────
-      setTokens: (access: string, refresh: string): void => {
+      // ═══ setTokens ══════════════════════════════════════════
+      setTokens(access: string, refresh: string): void {
         tokenStorage.setToken(access);
         tokenStorage.setRefreshToken(refresh);
         set({
@@ -99,45 +115,46 @@ export const useAuthStore = create<AuthState>()(
         });
       },
 
-      // ─── fetchUserProfile ──────────────────────────────────────
+      // ═══ fetchUserProfile ═══════════════════════════════════
       fetchUserProfile: async (): Promise<void> => {
         try {
-          const user = await fetchUserProfileApi();
-          set({ user });
+          const userInfo = await fetchUserProfileApi();
+          set({ user: userInfo });
         } catch (error) {
           console.error('[Auth] 获取用户信息失败:', error);
           throw error;
         }
       },
 
-      // ─── refreshAccessToken ────────────────────────────────────
+      // ═══ refreshAccessToken ═════════════════════════════════
       refreshAccessToken: async (): Promise<void> => {
-        const currentRefreshToken = get().refreshToken ?? tokenStorage.getRefreshToken();
+        const currentRefreshToken =
+          get().refreshToken ?? tokenStorage.getRefreshToken();
+
         if (!currentRefreshToken) {
           get().clearAuth();
           return;
         }
 
         try {
-          const result = await refreshTokenApi(currentRefreshToken);
-          tokenStorage.setToken(result.accessToken);
+          const tokenInfo = await refreshTokenApi(currentRefreshToken);
+          tokenStorage.setToken(tokenInfo.accessToken);
           set({
-            token: result.accessToken,
+            token: tokenInfo.accessToken,
             isAuthenticated: true,
           });
         } catch {
-          // 刷新失败，清除认证状态
           get().clearAuth();
         }
       },
 
-      // ─── setUser ───────────────────────────────────────────────
-      setUser: (user: UserInfo): void => {
+      // ═══ setUser ════════════════════════════════════════════
+      setUser(user: UserInfo): void {
         set({ user });
       },
 
-      // ─── clearAuth ─────────────────────────────────────────────
-      clearAuth: (): void => {
+      // ═══ clearAuth ═════════════════════════════════════════
+      clearAuth(): void {
         tokenStorage.clearAll();
         set({
           user: null,
@@ -147,15 +164,8 @@ export const useAuthStore = create<AuthState>()(
         });
       },
     }),
-    {
-      name: 'leap-one-auth', // localStorage key
-      partialize: (state) => ({
-        // 只持久化这些字段（不包含 isLoading）
-        token: state.token,
-        refreshToken: state.refreshToken,
-        isAuthenticated: state.isAuthenticated,
-        user: state.user,
-      }),
-    }
+    PERSIST_CONFIG
   )
 );
+
+export default useAuthStore;

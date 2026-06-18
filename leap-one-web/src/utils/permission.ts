@@ -1,65 +1,50 @@
-/** 权限工具函数 */
+// 权限校验工具
 
 import type { UserInfo } from '@/types/auth';
 
-/** 权限码前缀 */
-const PERMISSION_PREFIXES = {
+// ── 权限码前缀定义 ───────────────────────────────────────────
+const PERMISSION_PREFIXES = Object.freeze({
   VIEW: 'view:',
   CREATE: 'create:',
   EDIT: 'edit:',
   DELETE: 'delete:',
   EXPORT: 'export:',
   MANAGE: 'manage:',
-} as const;
+});
 
-/**
- * 检查用户是否拥有指定权限
- * @param permissions - 用户权限列表
- * @param permission - 需要检查的权限码
- */
-export function hasPermission(permissions: string[], permission: string): boolean {
-  return permissions.includes(permission);
-}
+// ── 权限检查核心方法 ─────────────────────────────────────────
 
-/**
- * 检查是否拥有任一权限（OR逻辑）
- */
-export function hasAnyPermission(permissions: string[], requiredPermissions: string[]): boolean {
-  return requiredPermissions.some((p) => permissions.includes(p));
-}
+/** 校验用户是否拥有指定权限 */
+export const hasPermission = (permissions: string[], permission: string): boolean =>
+  permissions.includes(permission);
 
-/**
- * 检查是否拥有全部权限（AND逻辑）
- */
-export function hasAllPermissions(permissions: string[], requiredPermissions: string[]): boolean {
-  return requiredPermissions.every((p) => permissions.includes(p));
-}
+/** OR 逻辑：校验是否拥有任一权限 */
+export const hasAnyPermission = (permissions: string[], requiredPermissions: string[]): boolean =>
+  requiredPermissions.some((p) => permissions.includes(p));
 
-/**
- * 检查是否为管理员
- */
-export function isAdmin(user: UserInfo | null): boolean {
-  if (!user) return false;
-  return user.roles.includes('admin') || user.roles.includes('super_admin');
-}
+/** AND 逻辑：校验是否拥有全部权限 */
+export const hasAllPermissions = (permissions: string[], requiredPermissions: string[]): boolean =>
+  requiredPermissions.every((p) => permissions.includes(p));
 
-/**
- * 检查是否为项目成员
- */
-export function isProjectMember(projectMembers: number[], userId: number): boolean {
-  return projectMembers.includes(userId);
-}
+/** 判断当前用户是否为管理员 */
+export const isAdmin = (user: UserInfo | null): boolean => {
+  if (!user) {
+    return false;
+  }
+  const adminRoles = ['admin', 'super_admin'];
+  return adminRoles.some((role) => user.roles.includes(role));
+};
 
-/**
- * 根据资源生成查看权限码
- */
-export function viewPermission(resource: string): string {
-  return `${PERMISSION_PREFIXES.VIEW}${resource}`;
-}
+/** 判断用户是否为项目成员 */
+export const isProjectMember = (projectMembers: number[], userId: number): boolean =>
+  projectMembers.includes(userId);
 
-/**
- * 根据资源生成编辑权限码
- */
-export function editPermission(resource: string): string {
-  return `${PERMISSION_PREFIXES.EDIT}${resource}`;
-}
+// ── 权限码生成器 ─────────────────────────────────────────────
+
+/** 生成查看权限码 */
+export const viewPermission = (resource: string): string =>
+  `${PERMISSION_PREFIXES.VIEW}${resource}`;
+
+/** 生成编辑权限码 */
+export const editPermission = (resource: string): string =>
+  `${PERMISSION_PREFIXES.EDIT}${resource}`;

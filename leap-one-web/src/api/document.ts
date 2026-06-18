@@ -1,35 +1,39 @@
-/** 文档服务API */
+/**
+ * 文档服务 API
+ *
+ * 提供文档 CRUD、附件上传等接口
+ */
 
 import { apiClient } from './client';
 
-const BASE_URL = '/document';
+const BASE = '/document';
 
-/** 获取文档列表/目录树 */
-export function getDocumentListApi(params?: Record<string, unknown>) {
-  return apiClient.getPage(`${BASE_URL}/list`, params);
-}
+// ── 查询接口 ─────────────────────────────────────────────────
+
+/** 获取文档列表 / 目录树（分页） */
+export const getDocumentListApi = (params?: Record<string, unknown>) =>
+  apiClient.getPage(`${BASE}/list`, params);
 
 /** 获取文档详情 */
-export function getDocumentDetailApi(id: number) {
-  return apiClient.get(`${BASE_URL}/${id}`);
-}
+export const getDocumentDetailApi = (id: number) =>
+  apiClient.get(`${BASE}/${id}`);
+
+// ── 写入接口 ─────────────────────────────────────────────────
 
 /** 创建文档 */
-export function createDocumentApi(data: Record<string, unknown>) {
-  return apiClient.post(BASE_URL, data);
-}
+export const createDocumentApi = (data: Record<string, unknown>) =>
+  apiClient.post(BASE, data);
 
 /** 更新文档 */
-export function updateDocumentApi(id: number, data: Record<string, unknown>) {
-  return apiClient.put(`${BASE_URL}/${id}`, data);
-}
+export const updateDocumentApi = (id: number, data: Record<string, unknown>) =>
+  apiClient.put(`${BASE}/${id}`, data);
 
 /** 删除文档 */
-export function deleteDocumentApi(id: number): Promise<void> {
-  return apiClient.delete(`${BASE_URL}/${id}`).then(() => undefined);
-}
+export const deleteDocumentApi = (id: number): Promise<void> =>
+  apiClient.delete(`${BASE}/${id}`).then(() => undefined);
+
+// ── 文件操作 ─────────────────────────────────────────────────
 
 /** 上传文档附件 */
-export function uploadDocumentApi(file: FormData) {
-  return apiClient.post(`${BASE_URL}/upload`, file);
-}
+export const uploadDocumentApi = (file: FormData) =>
+  apiClient.post(`${BASE}/upload`, file);

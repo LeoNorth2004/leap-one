@@ -1,4 +1,8 @@
-/** 项目服务API */
+/**
+ * 项目服务 API
+ *
+ * 提供项目 CRUD、成员管理、迭代管理等接口
+ */
 
 import { apiClient } from './client';
 import type {
@@ -8,57 +12,56 @@ import type {
   Iteration,
 } from '@/types/project';
 
-const BASE_URL = '/project';
+const BASE = '/project';
 
-/** 获取项目列表 */
-export function getProjectListApi(params?: ProjectListParams) {
-  return apiClient.getPage<Project>(`${BASE_URL}/list`, params as Record<string, unknown>);
-}
+// ── 项目查询 ─────────────────────────────────────────────────
+
+/** 获取项目列表（分页） */
+export const getProjectListApi = (params?: ProjectListParams) =>
+  apiClient.getPage<Project>(`${BASE}/list`, params as Record<string, unknown>);
 
 /** 获取项目详情 */
-export function getProjectDetailApi(id: number): Promise<Project> {
-  return apiClient.get<Project>(`${BASE_URL}/${id}`).then((res) => res.data);
-}
+export const getProjectDetailApi = (id: number): Promise<Project> =>
+  apiClient.get<Project>(`${BASE}/${id}`).then((res) => res.data);
+
+// ── 项目写入 ─────────────────────────────────────────────────
 
 /** 创建项目 */
-export function createProjectApi(data: Partial<Project>): Promise<Project> {
-  return apiClient.post<Project>(BASE_URL, data).then((res) => res.data);
-}
+export const createProjectApi = (data: Partial<Project>): Promise<Project> =>
+  apiClient.post<Project>(BASE, data).then((res) => res.data);
 
 /** 更新项目 */
-export function updateProjectApi(id: number, data: Partial<Project>): Promise<Project> {
-  return apiClient.put<Project>(`${BASE_URL}/${id}`, data).then((res) => res.data);
-}
+export const updateProjectApi = (id: number, data: Partial<Project>): Promise<Project> =>
+  apiClient.put<Project>(`${BASE}/${id}`, data).then((res) => res.data);
 
 /** 删除项目 */
-export function deleteProjectApi(id: number): Promise<void> {
-  return apiClient.delete(`${BASE_URL}/${id}`).then(() => undefined);
-}
+export const deleteProjectApi = (id: number): Promise<void> =>
+  apiClient.delete(`${BASE}/${id}`).then(() => undefined);
+
+// ── 成员管理 ─────────────────────────────────────────────────
 
 /** 获取项目成员列表 */
-export function getProjectMembersApi(projectId: number): Promise<ProjectMember[]> {
-  return apiClient
-    .get<ProjectMember[]>(`${BASE_URL}/${projectId}/members`)
+export const getProjectMembersApi = (projectId: number): Promise<ProjectMember[]> =>
+  apiClient
+    .get<ProjectMember[]>(`${BASE}/${projectId}/members`)
     .then((res) => res.data);
-}
 
 /** 更新项目成员 */
-export function updateProjectMembersApi(
+export const updateProjectMembersApi = (
   projectId: number,
   members: Omit<ProjectMember, 'joinedAt'>[]
-): Promise<void> {
-  return apiClient.put(`${BASE_URL}/${projectId}/members`, { members }).then(() => undefined);
-}
+): Promise<void> =>
+  apiClient.put(`${BASE}/${projectId}/members`, { members }).then(() => undefined);
+
+// ── 迭代管理 ─────────────────────────────────────────────────
 
 /** 获取迭代列表 */
-export function getIterationListApi(projectId: number) {
-  return apiClient.getPage<Iteration>(`${BASE_URL}/${projectId}/iteration`);
-}
+export const getIterationListApi = (projectId: number) =>
+  apiClient.getPage<Iteration>(`${BASE}/${projectId}/iteration`);
 
 /** 创建迭代 */
-export function createIterationApi(
+export const createIterationApi = (
   projectId: number,
   data: Omit<Iteration, 'id' | 'projectId' | 'taskCount' | 'completedTaskCount' | 'progress'>
-): Promise<Iteration> {
-  return apiClient.post<Iteration>(`${BASE_URL}/${projectId}/iteration`, data).then((res) => res.data);
-}
+): Promise<Iteration> =>
+  apiClient.post<Iteration>(`${BASE}/${projectId}/iteration`, data).then((res) => res.data);

@@ -1,7 +1,7 @@
 /** 项目看板页面（Kanban Board） */
 
 import { useState } from 'react';
-import { Card, Tag, Badge, Avatar, Space, Empty } from 'antd';
+import { Card, Tag, Badge, Empty } from 'antd';
 import PageHeader from '@/components/Common/PageHeader';
 import PriorityBadge from '@/components/Business/PriorityBadge';
 import UserAvatar from '@/components/Business/UserAvatar';

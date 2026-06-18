@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leap One 原型图</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+button {
+  border: none;
+  outline: none;
+}
+
+body {
+  font-family: 'Microsoft YaHei', -apple-system, sans-serif;
+  background: #f0f0f0;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* ========== 顶部标题栏 ========== */
+.proto-header {
+  background: #fff;
+  padding: 28px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 48px;
+}
+
+.proto-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.proto-logo {
+  width: 44px; height: 44px;
+  background: #333;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.proto-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.proto-main-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #222;
+  line-height: 1.3;
+}
+
+.proto-sub-title {
+  font-size: 13px;
+  color: #999;
+  margin-top: 2px;
+}
+
+.proto-header-right {
+  font-size: 14px;
+  color: #aaa;
+}
+
+/* ========== 页面容器 ========== */
+.page-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 60px;
+}
+
+.page-section {
+  margin-bottom: 64px;
+}
+
+.page-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+  padding-left: 14px;
+  border-left: 4px solid #ccc;
+}
+
+.screen-container {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.screen {
+  width: 100%;
+  min-height: 620px;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.screen-label {
+  position: absolute;
+  top: -26px;
+  left: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  background: #e8e8e8;
+  padding: 4px 14px;
+  border-radius: 4px 4px 0 0;
+}
+
+/* ========== 登录页原型 ========== */
+.login-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  min-height: 620px;
+}
+
+.login-box {
+  width: 340px;
+  padding: 44px 36px;
+  background: #fff;
+  text-align: center;
+}
+
+.login-logo-area {
+  width: 52px; height: 52px;
+  margin: 0 auto 18px;
+  background: #e0e0e0;
+  border-radius: 10px;
+}
+
+.login-title-text {
+  font-size: 22px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 4px;
+}
+
+.login-subtitle-text {
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 32px;
+}
+
+.wf-form-group {
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.wf-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.wf-input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0 12px;
+  font-size: 14px;
+  background: #fafafa;
+}
+
+.wf-input::placeholder { color: #ccc; }
+
+.wf-form-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  font-size: 12px;
+  color: #999;
+}
+
+.wf-checkbox {
+  width: 14px; height: 14px;
+  border: 1px solid #ccc;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 4px;
+  border-radius: 2px;
+}
+
+.wf-link {
+  color: #999;
+  cursor: pointer;
+}
+
+.wf-btn-primary {
+  width: 100%;
+  height: 42px;
+  background: #444;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 4px;
+}
+
+/* ========== 主布局原型 ========== */
+.main-layout-wireframe {
+  display: flex;
+  min-height: 620px;
+}
+
+.sidebar-wire {
+  width: 200px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 10px;
+}
+
+.sidebar-logo-icon {
+  width: 28px; height: 28px;
+  background: #ddd;
+  border-radius: 6px;
+}
+
+.sidebar-logo-txt {
+  font-size: 15px;
+  font-weight: 700;
+  color: #333;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 12px 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: #888;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background: #f0f0f0;
+  color: #333;
+  border-left-color: #999;
+}
+
+.nav-ico {
+  width: 16px; height: 16px;
+  background: #e5e5e5;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.nav-item.active .nav-ico {
+  background: #bbb;
+}
+
+.sidebar-user-bar {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 10px;
+}
+
+.user-avatar-circle {
+  width: 28px; height: 28px;
+  background: #ddd;
+  border-radius: 50%;
+}
+
+.user-name-txt {
+  font-size: 12px;
+  font-weight: 600;
+  color: #444;
+}
+
+.user-role-txt {
+  font-size: 11px;
+  color: #aaa;
+}
+
+/* ========== Header ========== */
+.header-wire {
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.header-page-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #333;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.wf-search {
+  width: 180px;
+  height: 32px;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 13px;
+  background: #fafafa;
+}
+
+.wf-header-btn {
+  width: 32px; height: 32px;
+  border: none;
+  border-radius: 4px;
+  background: #f5f5f5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wf-header-btn-inner {
+  width: 14px; height: 14px;
+  background: #bbb;
+  border-radius: 2px;
+}
+
+/* ========== 内容区 ========== */
+.content-wire {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background: #f5f5f5;
+}
+
+/* 统计卡片行 */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.stat-card-wire {
+  background: #fff;
+  padding: 18px;
+  border-radius: 4px;
+}
+
+.stat-num {
+  font-size: 30px;
+  font-weight: 800;
+  color: #111;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-lbl {
+  font-size: 12px;
+  color: #999;
+}
+
+.stat-trend {
+  font-size: 11px;
+  color: #888;
+  margin-top: 6px;
+}
+
+/* 区块 */
+.block-wire {
+  background: #fff;
+  border-radius: 4px;
+  padding: 18px;
+  margin-bottom: 18px;
+}
+
+.block-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.block-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+}
+
+.block-action {
+  font-size: 12px;
+  color: #aaa;
+  cursor: pointer;
+}
+
+/* 时间线 */
+.timeline-wire {
+  border-left: 1px solid #e5e5e5;
+  padding-left: 18px;
+  margin-left: 6px;
+}
+
+.tl-item {
+  position: relative;
+  padding-bottom: 18px;
+}
+
+.tl-dot {
+  position: absolute;
+  left: -23px;
+  top: 4px;
+  width: 7px; height: 7px;
+  background: #ccc;
+  border-radius: 50%;
+}
+
+.tl-body {
+  font-size: 13px;
+  color: #888;
+}
+
+.tl-bold {
+  font-weight: 600;
+  color: #444;
+}
+
+.tl-time {
+  font-size: 11px;
+  color: #bbb;
+  margin-top: 3px;
+}
+
+/* 快捷入口 */
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.quick-item {
+  background: #fafafa;
+  padding: 18px 12px;
+  text-align: center;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.quick-item:hover {
+  background: #f0f0f0;
+}
+
+.quick-ico {
+  width: 36px; height: 36px;
+  background: #eee;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+}
+
+.quick-lbl {
+  font-size: 13px;
+  color: #777;
+}
+
+/* ========== 表格原型 ========== */
+.table-wire {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table-wire th,
+.table-wire td {
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.table-wire th {
+  background: #f5f5f5;
+  font-weight: 600;
+  color: #555;
+  font-size: 12px;
+}
+
+.table-wire td {
+  color: #888;
+  background: #fff;
+}
+
+.table-wire tr:nth-child(even) td {
+  background: #fafafa;
+}
+
+.badge-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.tag-green { color: #666; background: #f5f5f5; }
+.tag-yellow { color: #666; background: #faf8f0; }
+.tag-red { color: #666; background: #faf0f0; }
+.tag-blue { color: #666; background: #f0f2f5; }
+
+.progress-track {
+  width: 100px;
+  height: 6px;
+  background: #eee;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #999;
+  border-radius: 3px;
+}
+
+.btn-wire {
+  padding: 5px 12px;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  color: #777;
+  cursor: pointer;
+  background: #f5f5f5;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.filter-btn {
+  padding: 5px 12px;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  color: #888;
+  cursor: pointer;
+  background: #fff;
+}
+
+.pagination-wire {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.pg-btn {
+  padding: 5px 11px;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  color: #888;
+  cursor: pointer;
+  background: #fff;
+}
+
+.pg-btn.active {
+  background: #888;
+  color: #fff;
+}
+
+.pg-info {
+  font-size: 12px;
+  color: #ccc;
+  margin-right: 8px;
+}
+
+/* ========== 看板原型 ========== */
+.kanban-wire {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.kb-col {
+  width: 240px;
+  flex-shrink: 0;
+  background: #f5f5f5;
+  border-radius: 4px;
+  padding: 12px;
+}
+
+.kb-col-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+}
+
+.kb-col-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+}
+
+.kb-col-count {
+  font-size: 11px;
+  color: #aaa;
+  background: #eee;
+  padding: 1px 8px;
+  border-radius: 10px;
+}
+
+.kb-card {
+  background: #fff;
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.kb-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+.kb-card-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kb-assignee {
+  width: 20px; height: 20px;
+  background: #e5e5e5;
+  border-radius: 50%;
+}
+
+.kb-priority {
+  font-size: 11px;
+  color: #bbb;
+}
+
+/* ========== BI大屏原型 ========== */
+.bi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.bi-card-wire {
+  background: #fff;
+  border-radius: 4px;
+  padding: 18px;
+}
+
+.bi-card-full { grid-column: span 3; }
+.bi-card-double { grid-column: span 2; }
+
+.bi-chart-placeholder {
+  height: 160px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ccc;
+  font-size: 12px;
+}
+
+.bi-ring-placeholder {
+  width: 90px; height: 90px;
+  background: #f5f5f5;
+  border-radius: 50%;
+  margin: 12px auto 0;
+}
+
+/* ========== Tab栏 ========== */
+.tabbar-wire {
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+}
+
+.tab-item-wire {
+  padding: 10px 20px;
+  font-size: 13px;
+  color: #aaa;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-item-wire.active {
+  color: #444;
+  border-bottom-color: #999;
+  font-weight: 600;
+}
+
+/* ========== 页脚标注 ========== */
+.footer-note {
+  text-align: center;
+  padding: 30px;
+  color: #ddd;
+  font-size: 12px;
+}
+
+@media (max-width: 1200px) {
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+  .bi-grid { grid-template-columns: repeat(2, 1fr); }
+  .bi-card-full { grid-column: span 2; }
+}
+
+@media (max-width: 768px) {
+  .stat-row { grid-template-columns: 1fr; }
+  .quick-grid { grid-template-columns: repeat(2, 1fr); }
+  .bi-grid { grid-template-columns: 1fr; }
+  .bi-card-full, .bi-card-double { grid-column: span 1; }
+  .sidebar-wire { width: 56px; }
+  .sidebar-logo-txt, .nav-item span:not(.nav-ico), .user-info { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- 顶部标题栏 -->
+<div class="proto-header">
+<div class="proto-header-left">
+<div class="proto-logo">L</div>
+<div class="proto-title-group">
+<div class="proto-main-title">Leap One 项目管理系统</div>
+<div class="proto-sub-title">黑白灰原型图</div>
+</div>
+</div>
+<div class="proto-header-right">产品原型设计</div>
+</div>
+
+<div class="page-wrapper">
+
+<!-- ==================== 1. 登录页 ==================== -->
+<div class="page-section">
+<div class="page-title">01 / 登录页 (Login)</div>
+<div class="screen-container">
+<div class="screen">
+<div class="screen-label">登录页</div>
+<div class="login-screen">
+<div class="login-box">
+<div class="login-logo-area"></div>
+<div class="login-title-text">Leap One</div>
+<div class="login-subtitle-text">项目管理系统</div>
+
+<div class="wf-form-group">
+<label class="wf-label">用户名</label>
+<input class="wf-input" type="text" placeholder="请输入用户名" readonly>
+</div>
+<div class="wf-form-group">
+<label class="wf-label">密码</label>
+<input class="wf-input" type="password" placeholder="请输入密码" readonly>
+</div>
+<div class="wf-form-row">
+<span><span class="wf-checkbox"></span> 记住我</span>
+<a class="wf-link">忘记密码?</a>
+</div>
+<button class="wf-btn-primary">登 录</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== 2. 工作台/Dashboard ==================== -->
+<div class="page-section">
+<div class="page-title">02 / 工作台 Dashboard</div>
+<div class="screen-container">
+<div class="screen">
+<div class="screen-label">工作台</div>
+<div class="main-layout-wireframe">
+<!-- 侧边栏 -->
+<div class="sidebar-wire">
+<div class="sidebar-header">
+<div class="sidebar-logo-icon"></div>
+<div class="sidebar-logo-txt">Leap One</div>
+</div>
+<div class="sidebar-nav">
+<div class="nav-item active"><div class="nav-ico"></div><span>工作台</span></div>
+<div class="nav-item"><div class="nav-ico"></div><span>项目管理</span></div>
+<div class="nav-item"><div class="nav-ico"></div><span>需求管理</span></div>
+<div class="nav-item"><div class="nav-ico"></div><span>任务管理</span></div>
+<div class="nav-item"><div class="nav-ico"></div><span>质量管理</span></div>
+<div class="nav-item"><div class="nav-ico"></div><span>工单管理</span></div>
+<div class="nav-item"><div class="nav-ico"></div><span>文档中心</span></div>
+<div class="nav-item"><div class="nav-ico"></div><span>数据概览</span></div>
+<div class="nav-item"><div class="nav-ico"></div><span>系统设置</span></div>
+</div>
+<div class="sidebar-user-bar">
+<div class="user-avatar-circle"></div>
+<div>
+<div class="user-name-txt">张三</div>
+<div class="user-role-txt">管理员</div>
+</div>
+</div>
+</div>
+<!-- 主内容 -->
+<div style="flex:1;display:flex;flex-direction:column;">
+<div class="header-wire">
+<div class="header-page-title">工作台</div>
+<div class="header-actions">
+<input class="wf-search" placeholder="搜索..." readonly>
+<button class="wf-header-btn"><div class="wf-header-btn-inner"></div></button>
+<button class="wf-header-btn"><div class="wf-header-btn-inner"></div></button>
+<button class="wf-header-btn"><div class="wf-header-btn-inner"></div></button>
+</div>
+</div>
+<div class="content-wire">
+<!-- 统计卡片 -->
+<div class="stat-row">
+<div class="stat-card-wire">
+<div class="stat-num">24</div>
+<div class="stat-lbl">我的任务</div>
+<div class="stat-trend">+3 本周</div>
+</div>
+<div class="stat-card-wire">
+<div class="stat-num">12</div>
+<div class="stat-lbl">待处理需求</div>
+<div class="stat-trend">-2 本周</div>
+</div>
+<div class="stat-card-wire">
+<div class="stat-num">8</div>
+<div class="stat-lbl">Bug数量</div>
+<div class="stat-trend">+1 本周</div>
+</div>
+<div class="stat-card-wire">
+<div class="stat-num">6</div>
+<div class="stat-lbl">待办工单</div>
+<div class="stat-trend">0 本周</div>
+</div>
+</div>
+<!-- 最近动态 -->
+<div class="block-wire">
+<div class="block-head">
+<div class="block-title">最近动态</div>
+<div class="block-action">查看全部 →</div>
+</div>
+<div class="timeline-wire">
+<div class="tl-item"><div class="tl-dot"></div>
+<div class="tl-body"><span class="tl-bold">李四</span> 完成了任务 <span class="tl-bold">用户模块开发</span><div class="tl-time">10分钟前</div></div></div>
+<div class="tl-item"><div class="tl-dot"></div>
+<div class="tl-body"><span class="tl-bold">王五</span> 创建了Bug <span class="tl-bold">登录页面样式问题</span><div class="tl-time">30分钟前</div></div></div>
+<div class="tl-item"><div class="tl-dot"></div>
+<div class="tl-body"><span class="tl-bold">赵六</span> 更新了需求 <span class="tl-bold">产品路线图优化</span><div class="tl-time">1小时前</div></div></div>
+<div class="tl-item"><div class="tl-dot"></div>
+<div class="tl-body"><span class="tl-bold">张三</span> 创建了迭代 <span class="tl-bold">Sprint 3</span><div class="tl-time">2小时前</div></div></div>
+</div>
+</div>
+<!-- 快捷入口 -->
+<div class="block-wire">
+<div class="block-head"><div class="block-title">快捷入口</div></div>
+<div class="quick-grid">
+<div class="quick-item"><div class="quick-ico"></div><div class="quick-lbl">创建项目</div></div>
+<div class="quick-item"><div class="quick-ico"></div><div class="quick-lbl">新建需求</div></div>
+<div class="quick-item"><div class="quick-ico"></div><div class="quick-lbl">提交Bug</div></div>
+<div class="quick-item"><div class="quick-ico"></div><div class="quick-lbl">新建文档</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== 3. 项目管理列表 ==================== -->
+<div class="page-section">
+<div class="page-title">03 / 项目管理 - 列表页</div>
+<div class="screen-container">
+<div class="screen">
+<div class="screen-label">项目管理</div>
+<div class="main-layout-wireframe">
+<div class="sidebar-wire">
+<div class="sidebar-header">
+<div class="sidebar-logo-icon"></div>
+<div class="sidebar-logo-txt">Leap One</div>
+</div>
+<div class="sidebar-nav">
+<div class="nav-item"><div class="nav-ico"></div><span>工作台</span></div>
+<div class="nav-item active"><div class="nav-ico"></div><span>项目管理</span></div>
+<div class="nav-item"><div class="nav-ico"></div><span>需求管理</span></div>
+<div class="nav-item"><div class="nav-ico"></div><span>任务管理</span></div>
+</div>
+<div class="sidebar-user-bar">
+<div class="user-avatar-circle"></div>
+<div><div class="user-name-txt">张三</div><div class="user-role-txt">管理员</div></div>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;">
+<div class="header-wire">
+<div class="header-page-title">项目管理</div>
+<div class="header-actions">
+<input class="wf-search" placeholder="搜索项目..." readonly>
+<button class="btn-wire" style="background:#888;color:#fff;">+ 新建项目</button>
+</div>
+</div>
+<div class="content-wire">
+<div class="block-wire">
+<div class="block-head">
+<div class="block-title">项目列表</div>
+<div class="filter-bar">
+<button class="filter-btn">全部</button>
+<button class="filter-btn">进行中</button>
+<button class="filter-btn">已完成</button>
+<button class="filter-btn">暂停</button>
+</div>
+</div>
+<table class="table-wire">
+<thead>
+<tr><th>项目名称</th><th>负责人</th><th>状态</th><th>进度</th><th>创建时间</th><th>操作</th></tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-weight:600;color:#444;">电商平台重构</td>
+<td>张三</td>
+<td><span class="badge-tag tag-green">进行中</span></td>
+<td><div class="progress-track"><div class="progress-fill" style="width:65%"></div></div></td>
+<td>2024-01-15</td>
+<td><button class="btn-wire">详情</button> <button class="btn-wire">看板</button></td>
+</tr>
+<tr>
+<td style="font-weight:600;color:#444;">CRM系统开发</td>
+<td>李四</td>
+<td><span class="badge-tag tag-green">进行中</span></td>
+<td><div class="progress-track"><div class="progress-fill" style="width:40%"></div></div></td>
+<td>2024-02-20</td>
+<td><button class="btn-wire">详情</button> <button class="btn-wire">看板</button></td>
+</tr>
+<tr>
+<td style="font-weight:600;color:#444;">移动端App</td>
+<td>王五</td>
+<td><span class="badge-tag tag-yellow">暂停</span></td>
+<td><div class="progress-track"><div class="progress-fill" style="width:30%"></div></div></td>
+<td>2024-01-05</td>
+<td><button class="btn-wire">详情</button> <button class="btn-wire">看板</button></td>
+</tr>
+<tr>
+<td style="font-weight:600;color:#444;">数据分析平台</td>
+<td>赵六</td>
+<td><span class="badge-tag tag-blue">已完成</span></td>
+<td><div class="progress-track"><div class="progress-fill" style="width:100%"></div></div></td>
+<td>2023-11-10</td>
+<td><button class="btn-wire">详情</button> <button class="btn-wire">看板</button></td>
+</tr>
+</tbody>
+</table>
+<div class="pagination-wire">
+<div class="pg-info">共 24 条</div>
+<button class="pg-btn">上一页</button>
+<button class="pg-btn active">1</button>
+<button class="pg-btn">2</button>
+<button class="pg-btn">3</button>
+<button class="pg-btn">下一页</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== 4. 看板视图 ==================== -->
+<div class="page-section">
+<div class="page-title">04 / 项目看板 Kanban Board</div>
+<div class="screen-container">
+<div class="screen">
+<div class="screen-label">看板视图</div>
+<div class="main-layout-wireframe">
+<div class="sidebar-wire">
+<div class="sidebar-header"><div class="sidebar-logo-icon"></div><div class="sidebar-logo-txt">Leap One</div></div>
+<div class="sidebar-nav">
+<div class="nav-item"><div class="nav-ico"></div><span>工作台</span></div>
+<div class="nav-item"><div class="nav-ico"></div><span>项目管理</span></div>
+<div class="nav-item active"><div class="nav-ico"></div><span>看板视图</span></div>
+</div>
+<div class="sidebar-user-bar">
+<div class="user-avatar-circle"></div>
+<div><div class="user-name-txt">张三</div><div class="user-role-txt">管理员</div></div>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;">
+<div class="header-wire">
+<div class="header-page-title">项目看板 — 电商平台重构</div>
+<div class="header-actions">
+<button class="btn-wire">+ 添加任务</button>
+<button class="btn-wire">筛选</button>
+<button class="btn-wire">视图切换</button>
+</div>
+</div>
+<div class="content-wire" style="padding:16px;">
+<div class="kanban-wire">
+<!-- 待处理 -->
+<div class="kb-col">
+<div class="kb-col-head"><div class="kb-col-title">待处理</div><div class="kb-col-count">5</div></div>
+<div class="kb-card"><div class="kb-card-title">首页轮播组件开发</div><div class="kb-card-foot"><div class="kb-assignee"></div><div class="kb-priority">高优先级</div></div></div>
+<div class="kb-card"><div class="kb-card-title">用户登录接口对接</div><div class="kb-card-foot"><div class="kb-assignee"></div><div class="kb-priority">中优先级</div></div></div>
+<div class="kb-card"><div class="kb-card-title">商品列表页设计</div><div class="kb-card-foot"><div class="kb-assignee"></div><div class="kb-priority">低优先级</div></div></div>
+</div>
+<!-- 进行中 -->
+<div class="kb-col">
+<div class="kb-col-head"><div class="kb-col-title">进行中</div><div class="kb-col-count">3</div></div>
+<div class="kb-card"><div class="kb-card-title">购物车功能开发</div><div class="kb-card-foot"><div class="kb-assignee"></div><div class="kb-priority">高优先级</div></div></div>
+<div class="kb-card"><div class="kb-card-title">订单管理模块</div><div class="kb-card-foot"><div class="kb-assignee"></div><div class="kb-priority">高优先级</div></div></div>
+</div>
+<!-- 待审核 -->
+<div class="kb-col">
+<div class="kb-col-head"><div class="kb-col-title">待审核</div><div class="kb-col-count">2</div></div>
+<div class="kb-card"><div class="kb-card-title">用户注册功能</div><div class="kb-card-foot"><div class="kb-assignee"></div><div class="kb-priority">中优先级</div></div></div>
+</div>
+<!-- 已完成 -->
+<div class="kb-col">
+<div class="kb-col-head"><div class="kb-col-title">已完成</div><div class="kb-col-count">8</div></div>
+<div class="kb-card"><div class="kb-card-title">项目初始化配置</div><div class="kb-card-foot"><div class="kb-assignee"></div><div class="kb-priority">中优先级</div></div></div>
+<div class="kb-card"><div class="kb-card-title">数据库设计</div><div class="kb-card-foot"><div class="kb-assignee"></div><div class="kb-priority">高优先级</div></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== 5. 需求管理 ==================== -->
+<div class="page-section">
+<div class="page-title">05 / 需求管理 Requirement</div>
+<div class="screen-container">
+<div class="screen">
+<div class="screen-label">需求管理</div>
+<div class="main-layout-wireframe">
+<div class="sidebar-wire">
+<div class="sidebar-header"><div class="sidebar-logo-icon"></div><div class="sidebar-logo-txt">Leap One</div></div>
+<div class="sidebar-nav">
+<div class="nav-item"><div class="nav-ico"></div><span>工作台</span></div>
+<div class="nav-item"><div class="nav-ico"></div><span>项目管理</span></div>
+<div class="nav-item active"><div class="nav-ico"></div><span>需求管理</span></div>
+</div>
+<div class="sidebar-user-bar">
+<div class="user-avatar-circle"></div>
+<div><div class="user-name-txt">张三</div><div class="user-role-txt">管理员</div></div>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;">
+<div class="header-wire">
+<div class="header-page-title">需求管理</div>
+<div class="header-actions">
+<input class="wf-search" placeholder="搜索需求..." readonly>
+<button class="btn-wire" style="background:#888;color:#fff;">+ 新建需求</button>
+</div>
+</div>
+<div class="content-wire">
+<div class="block-wire">
+<div class="block-head">
+<div class="block-title">需求列表</div>
+<div class="filter-bar">
+<button class="filter-btn">全部</button>
+<button class="filter-btn">待评审</button>
+<button class="filter-btn">已通过</button>
+<button class="filter-btn">已拒绝</button>
+</div>
+</div>
+<table class="table-wire">
+<thead>
+<tr><th>编号</th><th>需求名称</th><th>优先级</th><th>状态</th><th>关联项目</th><th>创建人</th><th>操作</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>REQ-001</td>
+<td style="font-weight:600;color:#444;">用户实名认证功能</td>
+<td><span class="badge-tag tag-red">高</span></td>
+<td><span class="badge-tag tag-green">已通过</span></td>
+<td>电商平台重构</td>
+<td>李四</td>
+<td><button class="btn-wire">详情</button></td>
+</tr>
+<tr>
+<td>REQ-002</td>
+<td style="font-weight:600;color:#444;">移动端适配优化</td>
+<td><span class="badge-tag tag-yellow">中</span></td>
+<td><span class="badge-tag tag-blue">待评审</span></td>
+<td>电商平台重构</td>
+<td>王五</td>
+<td><button class="btn-wire">详情</button></td>
+</tr>
+<tr>
+<td>REQ-003</td>
+<td style="font-weight:600;color:#444;">数据导出功能</td>
+<td><span class="badge-tag tag-blue">低</span></td>
+<td><span class="badge-tag tag-blue">待评审</span></td>
+<td>CRM系统开发</td>
+<td>赵六</td>
+<td><button class="btn-wire">详情</button></td>
+</tr>
+<tr>
+<td>REQ-004</td>
+<td style="font-weight:600;color:#444;">消息推送模块</td>
+<td><span class="badge-tag tag-red">高</span></td>
+<td><span class="badge-tag tag-green">已通过</span></td>
+<td>移动端App</td>
+<td>张三</td>
+<td><button class="btn-wire">详情</button></td>
+</tr>
+</tbody>
+</table>
+<div class="pagination-wire">
+<div class="pg-info">共 18 条</div>
+<button class="pg-btn">上一页</button>
+<button class="pg-btn active">1</button>
+<button class="pg-btn">2</button>
+<button class="pg-btn">下一页</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== 6. 任务管理 ==================== -->
+<div class="page-section">
+<div class="page-title">06 / 任务管理 Task</div>
+<div class="screen-container">
+<div class="screen">
+<div class="screen-label">任务管理</div>
+<div class="main-layout-wireframe">
+<div class="sidebar-wire">
+<div class="sidebar-header"><div class="sidebar-logo-icon"></div><div class="sidebar-logo-txt">Leap One</div></div>
+<div class="sidebar-nav">
+<div class="nav-item"><div class="nav-ico"></div><span>工作台</span></div>
+<div class="nav-item"><div class="nav-ico"></div><span>项目管理</span></div>
+<div class="nav-item active"><div class="nav-ico"></div><span>任务管理</span></div>
+</div>
+<div class="sidebar-user-bar">
+<div class="user-avatar-circle"></div>
+<div><div class="user-name-txt">张三</div><div class="user-role-txt">管理员</div></div>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;">
+<div class="header-wire">
+<div class="header-page-title">任务管理</div>
+<div class="header-actions">
+<input class="wf-search" placeholder="搜索任务..." readonly>
+<button class="btn-wire" style="background:#888;color:#fff;">+ 新建任务</button>
+</div>
+</div>
+<div class="content-wire">
+<div class="block-wire">
+<div class="block-head">
+<div class="block-title">任务列表</div>
+<div class="filter-bar">
+<button class="filter-btn">全部</button>
+<button class="filter-btn">待领取</button>
+<button class="filter-btn">进行中</button>
+<button class="filter-btn">已完成</button>
+</div>
+</div>
+<table class="table-wire">
+<thead>
+<tr><th>编号</th><th>任务名称</th><th>优先级</th><th>指派人</th><th>状态</th><th>截止日期</th><th>操作</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>TASK-001</td>
+<td style="font-weight:600;color:#444;">首页轮播组件开发</td>
+<td><span class="badge-tag tag-red">高</span></td>
+<td>张三</td>
+<td><span class="badge-tag tag-green">进行中</span></td>
+<td>2024-03-10</td>
+<td><button class="btn-wire">详情</button></td>
+</tr>
+<tr>
+<td>TASK-002</td>
+<td style="font-weight:600;color:#444;">用户登录页面</td>
+<td><span class="badge-tag tag-yellow">中</span></td>
+<td>李四</td>
+<td><span class="badge-tag tag-green">进行中</span></td>
+<td>2024-03-15</td>
+<td><button class="btn-wire">详情</button></td>
+</tr>
+<tr>
+<td>TASK-003</td>
+<td style="font-weight:600;color:#444;">商品详情页</td>
+<td><span class="badge-tag tag-blue">低</span></td>
+<td>王五</td>
+<td><span class="badge-tag tag-blue">待领取</span></td>
+<td>2024-03-20</td>
+<td><button class="btn-wire">详情</button></td>
+</tr>
+<tr>
+<td>TASK-004</td>
+<td style="font-weight:600;color:#444;">数据库优化</td>
+<td><span class="badge-tag tag-red">高</span></td>
+<td>赵六</td>
+<td><span class="badge-tag tag-blue">已完成</span></td>
+<td>2024-03-05</td>
+<td><button class="btn-wire">详情</button></td>
+</tr>
+</tbody>
+</table>
+<div class="pagination-wire">
+<div class="pg-info">共 32 条</div>
+<button class="pg-btn">上一页</button>
+<button class="pg-btn active">1</button>
+<button class="pg-btn">2</button>
+<button class="pg-btn">3</button>
+<button class="pg-btn">下一页</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== 7. 质量管理 ==================== -->
+<div class="page-section">
+<div class="page-title">07 / 质量管理 Quality</div>
+<div class="screen-container">
+<div class="screen">
+<div class="screen-label">质量管理</div>
+<div class="main-layout-wireframe">
+<div class="sidebar-wire">
+<div class="sidebar-header"><div class="sidebar-logo-icon"></div><div class="sidebar-logo-txt">Leap One</div></div>
+<div class="sidebar-nav">
+<div class="nav-item"><div class="nav-ico"></div><span>工作台</span></div>
+<div class="nav-item"><div class="nav-ico"></div><span>项目管理</span></div>
+<div class="nav-item active"><div class="nav-ico"></div><span>质量管理</span></div>
+</div>
+<div class="sidebar-user-bar">
+<div class="user-avatar-circle"></div>
+<div><div class="user-name-txt">张三</div><div class="user-role-txt">管理员</div></div>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;">
+<div class="header-wire">
+<div class="header-page-title">质量管理</div>
+<div class="header-actions">
+<button class="btn-wire" style="background:#888;color:#fff;">+ 提交Bug</button>
+</div>
+</div>
+<div class="content-wire">
+<div class="tabbar-wire">
+<div class="tab-item-wire active">Bug列表</div>
+<div class="tab-item-wire">测试用例</div>
+<div class="tab-item-wire">测试计划</div>
+</div>
+<div class="block-wire">
+<div class="block-head">
+<div class="block-title">Bug列表</div>
+<div class="filter-bar">
+<button class="filter-btn">全部</button>
+<button class="filter-btn">严重</button>
+<button class="filter-btn">一般</button>
+<button class="filter-btn">轻微</button>
+</div>
+</div>
+<table class="table-wire">
+<thead>
+<tr><th>Bug编号</th><th>标题</th><th>严重程度</th><th>状态</th><th>所属模块</th><th>报告人</th><th>操作</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>BUG-001</td>
+<td style="font-weight:600;color:#444;">登录页面样式错乱</td>
+<td><span class="badge-tag tag-red">严重</span></td>
+<td><span class="badge-tag tag-green">修复中</span></td>
+<td>用户模块</td>
+<td>王五</td>
+<td><button class="btn-wire">详情</button></td>
+</tr>
+<tr>
+<td>BUG-002</td>
+<td style="font-weight:600;color:#444;">数据展示不完整</td>
+<td><span class="badge-tag tag-yellow">一般</span></td>
+<td><span class="badge-tag tag-blue">待确认</span></td>
+<td>报表模块</td>
+<td>赵六</td>
+<td><button class="btn-wire">详情</button></td>
+</tr>
+<tr>
+<td>BUG-003</td>
+<td style="font-weight:600;color:#444;">按钮点击无响应</td>
+<td><span class="badge-tag tag-red">严重</span></td>
+<td><span class="badge-tag tag-green">已修复</span></td>
+<td>订单模块</td>
+<td>张三</td>
+<td><button class="btn-wire">详情</button></td>
+</tr>
+<tr>
+<td>BUG-004</td>
+<td style="font-weight:600;color:#444;">页面加载缓慢</td>
+<td><span class="badge-tag tag-blue">轻微</span></td>
+<td><span class="badge-tag tag-blue">待确认</span></td>
+<td>首页</td>
+<td>李四</td>
+<td><button class="btn-wire">详情</button></td>
+</tr>
+</tbody>
+</table>
+<div class="pagination-wire">
+<div class="pg-info">共 15 条</div>
+<button class="pg-btn">上一页</button>
+<button class="pg-btn active">1</button>
+<button class="pg-btn">下一页</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== 8. BI数据概览 ==================== -->
+<div class="page-section">
+<div class="page-title">08 / BI 数据概览 Dashboard</div>
+<div class="screen-container">
+<div class="screen">
+<div class="screen-label">BI数据概览</div>
+<div class="main-layout-wireframe">
+<div class="sidebar-wire">
+<div class="sidebar-header"><div class="sidebar-logo-icon"></div><div class="sidebar-logo-txt">Leap One</div></div>
+<div class="sidebar-nav">
+<div class="nav-item"><div class="nav-ico"></div><span>工作台</span></div>
+<div class="nav-item"><div class="nav-ico"></div><span>项目管理</span></div>
+<div class="nav-item active"><div class="nav-ico"></div><span>数据概览</span></div>
+</div>
+<div class="sidebar-user-bar">
+<div class="user-avatar-circle"></div>
+<div><div class="user-name-txt">张三</div><div class="user-role-txt">管理员</div></div>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;">
+<div class="header-wire">
+<div class="header-page-title">数据概览</div>
+<div class="header-actions">
+<select class="wf-search" style="width:130px;" disabled><option>本周</option></select>
+</div>
+</div>
+<div class="content-wire">
+<div class="bi-grid">
+<div class="bi-card-wire">
+<div class="block-title">项目总数</div>
+<div class="stat-num" style="font-size:36px;margin-top:10px;">24</div>
+<div class="stat-lbl">个项目</div>
+</div>
+<div class="bi-card-wire">
+<div class="block-title">任务完成率</div>
+<div class="stat-num" style="font-size:36px;margin-top:10px;">78%</div>
+<div class="stat-lbl">本周完成</div>
+</div>
+<div class="bi-card-wire">
+<div class="block-title">Bug数量</div>
+<div class="stat-num" style="font-size:36px;margin-top:10px;">45</div>
+<div class="stat-lbl">待处理</div>
+</div>
+<div class="bi-card-wire bi-card-double">
+<div class="block-title">任务完成趋势</div>
+<div class="bi-chart-placeholder">[ 折线图 / 柱状图占位 ]</div>
+</div>
+<div class="bi-card-wire">
+<div class="block-title">项目状态分布</div>
+<div class="bi-ring-placeholder"></div>
+</div>
+<div class="bi-card-wire bi-card-full">
+<div class="block-title">团队效能排行</div>
+<div class="bi-chart-placeholder">[ 条形图占位 ]</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="footer-note">
+  Leap One — 共 8 个核心页面 | 黑白灰原型 | 网页端
+</div>
+
+</div><!-- end page-wrapper -->
+
+</body>
+</html>

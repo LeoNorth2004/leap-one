@@ -6,8 +6,8 @@ const BASE_URL = '/kanban';
 
 /** 获取看板数据（含列和卡片） */
 export function getKanbanDataApi(projectId?: number) {
-  const params = projectId ? { projectId } : {};
-  return apiClient.get(`${BASE_URL}/data`, params);
+  const params = projectId ? { projectId } : undefined;
+  return apiClient.get(`${BASE_URL}/data`, { params });
 }
 
 /** 移动看板卡片（拖拽排序） */

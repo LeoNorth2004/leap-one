@@ -1,77 +1,70 @@
 /**
- * 认证相关 Hook
+ * 认证 Hook
  *
- * 从 authStore 获取状态和方法，封装登录/登出逻辑并自动处理路由跳转
+ * 封装登录/登出逻辑，自动处理路由跳转
  */
 
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
-import type { LoginParams } from '@/types/auth';
+import type { LoginParams, UserInfo } from '@/types/auth';
+
+// ── 类型定义 ─────────────────────────────────────────────────
 
 interface UseAuthReturn {
   /** 当前用户信息 */
-  user: ReturnType<typeof useAuthStore>['user'];
+  user: UserInfo | null;
   /** 访问令牌 */
-  token: ReturnType<typeof useAuthStore>['token'];
+  token: string | null;
   /** 是否已认证 */
-  isAuthenticated: ReturnType<typeof useAuthStore>['isAuthenticated'];
+  isAuthenticated: boolean;
   /** 加载中状态 */
-  isLoading: ReturnType<typeof useAuthStore>['isLoading'];
+  isLoading: boolean;
   /** 执行登录（成功后自动跳转到工作台） */
   login: (params: LoginParams) => Promise<void>;
   /** 执行登出（成功后自动跳转到登录页） */
   logout: () => Promise<void>;
   /** 刷新访问令牌 */
-  refreshToken: ReturnType<typeof useAuthStore>['refreshAccessToken'];
+  refreshToken: () => Promise<void>;
   /** 设置用户信息 */
-  setUser: ReturnType<typeof useAuthStore>['setUser'];
+  setUser: (user: UserInfo) => void;
   /** 手动设置 Tokens */
-  setTokens: ReturnType<typeof useAuthStore>['setTokens'];
+  setTokens: (access: string, refresh: string) => void;
   /** 获取当前用户信息 */
-  fetchUserProfile: ReturnType<typeof useAuthStore>['fetchUserProfile'];
+  fetchUserProfile: () => Promise<void>;
 }
 
-export function useAuth(): UseAuthReturn {
-  const navigate = useNavigate();
-  const {
-    user,
-    token,
-    isAuthenticated,
-    isLoading,
-    login: storeLogin,
-    logout: storeLogout,
-    refreshAccessToken,
-    setUser,
-    setTokens,
-    fetchUserProfile,
-  } = useAuthStore();
+// ── Hook 实现 ────────────────────────────────────────────────
 
-  /** 执行登录并跳转到工作台 */
-  const login = useCallback(
-    async (params: LoginParams) => {
-      await storeLogin(params);
+const useAuth = (): UseAuthReturn => {
+  const navigate = useNavigate();
+  const store = useAuthStore();
+
+  const loginHandler = useCallback(
+    async (params: LoginParams): Promise<void> => {
+      await store.login(params);
       navigate('/', { replace: true });
     },
-    [storeLogin, navigate]
+    [store.login, navigate]
   );
 
-  /** 执行登出并跳转到登录页 */
-  const logout = useCallback(async () => {
-    await storeLogout();
+  const logoutHandler = useCallback(async (): Promise<void> => {
+    await store.logout();
     navigate('/login', { replace: true });
-  }, [storeLogout, navigate]);
+  }, [store.logout, navigate]);
 
   return {
-    user,
-    token,
-    isAuthenticated,
-    isLoading,
-    login,
-    logout,
-    refreshToken: refreshAccessToken,
-    setUser,
-    setTokens,
-    fetchUserProfile,
+    user: store.user,
+    token: store.token,
+    isAuthenticated: store.isAuthenticated,
+    isLoading: store.isLoading,
+    login: loginHandler,
+    logout: logoutHandler,
+    refreshToken: store.refreshAccessToken,
+    setUser: store.setUser,
+    setTokens: store.setTokens,
+    fetchUserProfile: store.fetchUserProfile,
   };
-}
+};
+
+export default useAuth;

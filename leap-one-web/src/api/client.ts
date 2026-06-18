@@ -216,7 +216,23 @@ export function del<T = unknown>(
     .then((res) => res.data);
 }
 
+/**
+ * 分页 GET 请求
+ */
+export function getPage<T = unknown>(
+  url: string,
+  params?: Record<string, unknown>,
+  config?: RequestConfig
+): Promise<ApiResponse<T>> {
+  const controller = config?.abortable !== false ? new AbortController() : undefined;
+  return client
+    .get<ApiResponse<T>>(url, { params, ...config, signal: controller?.signal })
+    .then((res) => res.data);
+}
+
 // ─── 导出 ─────────────────────────────────────────────────────────
 
-export { client as apiClient };
+const apiClient = Object.assign(client, { getPage });
+
+export { apiClient };
 export default client;

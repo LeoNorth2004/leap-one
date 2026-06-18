@@ -4,13 +4,8 @@
  * 设计：
  * - 居中卡片布局，左侧品牌展示区（Leap One logo + 标语），右侧登录表单
  * - 表单字段：用户名、密码、记住我
- * - Ant Design Form 表单验证
- * - 登录中 loading 状态，禁用提交按钮
- * - 登录成功自动跳转到 /
- * - 登录失败显示错误提示
- * - 响应式设计（移动端适配：隐藏左侧品牌区）
- * - 支持回车键提交表单
- * - CSS Module 样式隔离
+ * - Ant Design Form 表单验证 + 回车提交
+ * - 响应式设计（移动端隐藏左侧品牌区）
  */
 
 import { useCallback } from 'react';
@@ -19,12 +14,30 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useAuth } from '@/hooks/useAuth';
 import styles from './index.module.less';
 
-export default function LoginPage() {
+// ── 表单验证规则 ─────────────────────────────────────────────
+
+const USERNAME_RULES = [
+  { required: true, message: '请输入用户名' },
+  { min: 2, message: '用户名至少 2 个字符' },
+];
+
+const PASSWORD_RULES = [
+  { required: true, message: '请输入密码' },
+  { min: 6, message: '密码至少 6 个字符' },
+];
+
+// ── 粒子数量 ─────────────────────────────────────────────────
+
+const PARTICLE_COUNT = 8;
+
+// ── 页面组件 ─────────────────────────────────────────────────
+
+const LoginPage = () => {
   const { login, isLoading } = useAuth();
   const [form] = Form.useForm();
 
-  /** 提交登录 */
-  const handleLogin = useCallback(
+  // 提交登录
+  const handleSubmit = useCallback(
     async (values: { username: string; password: string; remember?: boolean }) => {
       try {
         await login({
@@ -33,13 +46,13 @@ export default function LoginPage() {
           remember: values.remember,
         });
       } catch {
-        // 错误已在 Axios 响应拦截器中统一处理并提示，此处无需额外操作
+        // 错误由 Axios 拦截器统一处理
       }
     },
     [login]
   );
 
-  /** 回车键提交 */
+  // 回车键提交
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (e.key === 'Enter') {
@@ -56,14 +69,14 @@ export default function LoginPage() {
 
       {/* 粒子效果 */}
       <div className={styles.loginParticles}>
-        {[...Array(8)].map((_, i) => (
-          <span key={i} className={styles.particle} />
+        {Array.from({ length: PARTICLE_COUNT }, (_, idx) => (
+          <span key={idx} className={styles.particle} />
         ))}
       </div>
 
       {/* 主卡片容器 */}
       <div className={styles.loginContainer}>
-        {/* ── 左侧品牌展示区 ──────────────────────────────── */}
+        {/* ═══ 左侧品牌区 ════════════════════════════════════ */}
         <div className={styles.brandArea}>
           <div className={styles.brandContent}>
             <span className={styles.brandIcon}>🚀</span>
@@ -75,27 +88,22 @@ export default function LoginPage() {
 
             {/* 特性列表 */}
             <div className={styles.featureList}>
-              <div className={styles.featureItem}>
-                <span className={styles.featureDot} />
-                <span>需求全生命周期管理</span>
-              </div>
-              <div className={styles.featureItem}>
-                <span className={styles.featureDot} />
-                <span>敏捷 / 看板双模式支持</span>
-              </div>
-              <div className={styles.featureItem}>
-                <span className={styles.featureDot} />
-                <span>自动化测试与质量追踪</span>
-              </div>
-              <div className={styles.featureItem}>
-                <span className={styles.featureDot} />
-                <span>BI 数据大屏与智能分析</span>
-              </div>
+              {[
+                '需求全生命周期管理',
+                '敏捷 / 看板双模式支持',
+                '自动化测试与质量追踪',
+                'BI 数据大屏与智能分析',
+              ].map((feature) => (
+                <div key={feature} className={styles.featureItem}>
+                  <span className={styles.featureDot} />
+                  <span>{feature}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* ── 右侧登录表单区 ──────────────────────────────── */}
+        {/* ═══ 右侧登录表单区 ══════════════════════════════ */}
         <Card className={styles.loginCard}>
           <div className={styles.formHeader}>
             <h2 className={styles.formTitle}>欢迎回来</h2>
@@ -104,33 +112,21 @@ export default function LoginPage() {
 
           <Form
             form={form}
-            onFinish={handleLogin}
+            onFinish={handleSubmit}
             size="large"
             autoComplete="off"
             initialValues={{ remember: true }}
             onKeyDown={handleKeyDown}
             requiredMark={false}
           >
-            <Form.Item
-              name="username"
-              rules={[
-                { required: true, message: '请输入用户名' },
-                { min: 2, message: '用户名至少 2 个字符' },
-              ]}
-            >
+            <Form.Item name="username" rules={USERNAME_RULES}>
               <Input
                 prefix={<UserOutlined className={styles.inputIcon} />}
                 placeholder="请输入用户名"
               />
             </Form.Item>
 
-            <Form.Item
-              name="password"
-              rules={[
-                { required: true, message: '请输入密码' },
-                { min: 6, message: '密码至少 6 个字符' },
-              ]}
-            >
+            <Form.Item name="password" rules={PASSWORD_RULES}>
               <Input.Password
                 prefix={<LockOutlined className={styles.inputIcon} />}
                 placeholder="请输入密码"
@@ -162,4 +158,6 @@ export default function LoginPage() {
       </div>
     </div>
   );
-}
+};
+
+export default LoginPage;

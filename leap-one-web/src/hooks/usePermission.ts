@@ -1,50 +1,73 @@
-/** 权限检查Hook */
+/**
+ * 权限检查 Hook
+ *
+ * 基于当前用户角色和权限列表提供权限判断能力
+ * 管理员默认拥有所有权限
+ */
 
 import { useMemo, useCallback } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { useUserStore } from '@/store/userStore';
-import { hasPermission, hasAnyPermission, hasAllPermissions, isAdmin } from '@/utils/permission';
+import { hasPermission as checkPerm, hasAnyPermission as checkAnyPerm, hasAllPermissions as checkAllPerm, isAdmin } from '@/utils/permission';
 
-export function usePermission() {
+// ── 类型定义 ─────────────────────────────────────────────────
+
+interface UsePermissionReturn {
+  /** 用户权限列表 */
+  permissions: string[];
+  /** 是否为管理员 */
+  isAdmin: boolean;
+  /** 检查单个权限 */
+  hasPermission: (permission: string) => boolean;
+  /** OR 逻辑：检查是否拥有任一权限 */
+  hasAnyPermission: (requiredPermissions: string[]) => boolean;
+  /** AND 逻辑：检查是否拥有全部权限 */
+  hasAllPermissions: (requiredPermissions: string[]) => boolean;
+}
+
+// ── Hook 实现 ────────────────────────────────────────────────
+
+const usePermission = (): UsePermissionReturn => {
   const { user } = useAuthStore();
   const { permissions } = useUserStore();
 
-  /** 检查单个权限 */
-  const checkPermission = useCallback(
+  // 单个权限检查
+  const hasPermission = useCallback(
     (permission: string): boolean => {
-      // 管理员拥有所有权限
       if (isAdmin(user)) return true;
-      return hasPermission(permissions, permission);
+      return checkPerm(permissions, permission);
     },
     [user, permissions]
   );
 
-  /** 检查是否拥有任一权限（OR） */
-  const checkAnyPermission = useCallback(
+  // OR 权限检查
+  const hasAnyPermission = useCallback(
     (requiredPermissions: string[]): boolean => {
       if (isAdmin(user)) return true;
-      return hasAnyPermission(permissions, requiredPermissions);
+      return checkAnyPerm(permissions, requiredPermissions);
     },
     [user, permissions]
   );
 
-  /** 检查是否拥有全部权限（AND） */
-  const checkAllPermissions = useCallback(
+  // AND 权限检查
+  const hasAllPermissions = useCallback(
     (requiredPermissions: string[]): boolean => {
       if (isAdmin(user)) return true;
-      return hasAllPermissions(permissions, requiredPermissions);
+      return checkAllPerm(permissions, requiredPermissions);
     },
     [user, permissions]
   );
 
-  /** 是否为管理员 */
-  const admin = useMemo(() => isAdmin(user), [user]);
+  // 管理员标识
+  const adminFlag = useMemo(() => isAdmin(user), [user]);
 
   return {
     permissions,
-    isAdmin: admin,
-    hasPermission: checkPermission,
-    hasAnyPermission: checkAnyPermission,
-    hasAllPermissions: checkAllPermissions,
+    isAdmin: adminFlag,
+    hasPermission,
+    hasAnyPermission,
+    hasAllPermissions,
   };
-}
+};
+
+export default usePermission;

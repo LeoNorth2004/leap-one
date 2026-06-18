@@ -1,54 +1,56 @@
-/** 格式化工具函数 */
+// 格式化工具集
 
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
-/**
- * 格式化日期
- * @param date - 日期字符串或Date对象
- * @param format - 格式模板，默认 YYYY-MM-DD HH:mm:ss
- */
-export function formatDate(date: string | Date, format = 'YYYY-MM-DD HH:mm:ss'): string {
-  if (!date) return '';
+dayjs.extend(relativeTime);
+
+const DEFAULT_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+const FILE_SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB'];
+const BASE_UNIT = 1024;
+
+/** 日期格式化 */
+export const formatDate = (date: string | Date, format: string = DEFAULT_DATE_FORMAT): string => {
+  if (!date) {
+    return '';
+  }
   return dayjs(date).format(format);
-}
+};
 
-/**
- * 格式化相对时间（如：3分钟前）
- */
-export function formatRelativeTime(date: string | Date): string {
-  if (!date) return '';
+/** 相对时间格式化（如：3分钟前） */
+export const formatRelativeTime = (date: string | Date): string => {
+  if (!date) {
+    return '';
+  }
   return dayjs(date).fromNow();
-}
+};
 
-/**
- * 格式化文件大小
- */
-export function formatFileSize(bytes: number): string {
-  if (bytes === 0) return '0 B';
-  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
-  const k = 1024;
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${units[i]}`;
-}
+/** 文件大小格式化 */
+export const formatFileSize = (bytes: number): string => {
+  if (bytes === 0) {
+    return '0 B';
+  }
 
-/**
- * 格式化数字（千分位）
- */
-export function formatNumber(num: number): string {
-  return num.toLocaleString('zh-CN');
-}
+  const unitIndex = Math.floor(Math.log(bytes) / Math.log(BASE_UNIT));
+  const size = parseFloat((bytes / Math.pow(BASE_UNIT, unitIndex)).toFixed(2));
+  const unit = FILE_SIZE_UNITS[unitIndex];
 
-/**
- * 格式化百分比
- */
-export function formatPercent(value: number, decimals = 1): string {
-  return `${(value * 100).toFixed(decimals)}%`;
-}
+  return `${size} ${unit}`;
+};
 
-/**
- * 截断文本
- */
-export function truncateText(text: string, maxLength: number): string {
-  if (!text || text.length <= maxLength) return text;
-  return text.slice(0, maxLength) + '...';
-}
+/** 数字千分位格式化 */
+export const formatNumber = (num: number): string => num.toLocaleString('zh-CN');
+
+/** 百分比格式化 */
+export const formatPercent = (value: number, decimals: number = 1): string => {
+  const percent = (value * 100).toFixed(decimals);
+  return `${percent}%`;
+};
+
+/** 文本截断（超出长度显示省略号） */
+export const truncateText = (text: string, maxLength: number): string => {
+  if (!text || text.length <= maxLength) {
+    return text;
+  }
+  return `${text.slice(0, maxLength)}...`;
+};
