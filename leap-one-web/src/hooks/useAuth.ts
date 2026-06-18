@@ -40,6 +40,7 @@ const useAuth = (): UseAuthReturn => {
   const navigate = useNavigate();
   const store = useAuthStore();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const loginHandler = useCallback(
     async (params: LoginParams): Promise<void> => {
       await store.login(params);
@@ -48,6 +49,7 @@ const useAuth = (): UseAuthReturn => {
     [store, navigate]
   );
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const logoutHandler = useCallback(async (): Promise<void> => {
     await store.logout();
     navigate('/login', { replace: true });
